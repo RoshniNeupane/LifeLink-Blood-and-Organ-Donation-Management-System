@@ -1,6 +1,9 @@
 package com.lifelink.controller;
 
 import java.util.List;
+import java.util.ArrayList;
+import com.lifelink.entity.BloodDonation;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,17 +26,12 @@ import com.lifelink.service.UserService;
 @Controller
 public class LoginController {
 
-    @Autowired
-    private UserService userService;
-@Autowired
-private BloodDonationService bloodDonationService;
-@Autowired
-private OrganDonationService organDonationService;
-@Autowired
-private BloodRequestService bloodRequestService;
-@Autowired
-private OrganRequestService organRequestService;
-    // ===== DASHBOARD =====
+    @Autowired private UserService userService;
+    @Autowired private BloodDonationService bloodDonationService;
+    @Autowired private OrganDonationService organDonationService;
+    @Autowired private BloodRequestService bloodRequestService;
+    @Autowired private OrganRequestService organRequestService;
+
     @GetMapping("/dashboard")
     public String dashboard(Model model, @AuthenticationPrincipal Object principal) {
         String username = "Guest";
@@ -43,10 +41,19 @@ private OrganRequestService organRequestService;
 
         if (principal instanceof UserDetails userDetails) {
             user = userService.findByEmail(userDetails.getUsername());
+            if (user != null) {
+                username = user.getFullName();
+                profilePicUrl = (user.getProfileImagePath() != null && !user.getProfileImagePath().isEmpty()
+                        && !user.getProfileImagePath().equals("/uploads/blank_profile.jpg"))
+                        ? user.getProfileImagePath()
+                        : "/uploads/blank_profile.jpg";
+                role = user.getRole() != null ? user.getRole() : Role.USER;
+            }
         } else if (principal instanceof OAuth2User oauthUser) {
             String email = oauthUser.getAttribute("email");
             String login = oauthUser.getAttribute("login");
             username = oauthUser.getAttribute("name");
+
             if (username == null) username = login;
             if (username == null) username = "OAuthUser";
 
@@ -55,28 +62,31 @@ private OrganRequestService organRequestService;
                         .toLowerCase() + "@oauthuser.com";
             }
 
-            profilePicUrl = oauthUser.getAttribute("picture");
-            if (profilePicUrl == null || profilePicUrl.isEmpty())
-                profilePicUrl = oauthUser.getAttribute("avatar_url");
-            if (profilePicUrl == null || profilePicUrl.isEmpty())
-                profilePicUrl = "/uploads/blank_profile.jpg";
+            String picture = oauthUser.getAttribute("picture");
+            String finalProfilePicUrl = "/uploads/blank_profile.jpg";
+
+            if (picture != null && !picture.isEmpty()) {
+                finalProfilePicUrl = picture.startsWith("http") ? picture : "https://lh3.googleusercontent.com" + picture;
+            }
 
             user = userService.findByEmail(email);
             if (user == null) {
                 user = new Users();
                 user.setEmail(email);
                 user.setFullName(username);
-                user.setProfileImagePath(profilePicUrl);
+                user.setProfileImagePath(finalProfilePicUrl);
                 user.setRole(Role.USER);
-                userService.registerOAuthUser(user); // save new OAuth user
+                userService.registerOAuthUser(user);
+            } else {
+                user.setProfileImagePath(finalProfilePicUrl);
+                userService.save(user);
             }
-        }
 
-        if (user != null) {
+            profilePicUrl = finalProfilePicUrl;
             username = user.getFullName();
-            profilePicUrl = user.getProfileImagePath();
             role = user.getRole() != null ? user.getRole() : Role.USER;
         }
+        // Regular user/admin stats
         int totalUsers = userService.countAllUsers();
         int totalBloodDonors = bloodDonationService.countAllDonors();
         int totalOrganDonors = organDonationService.countAllDonors();
@@ -86,40 +96,30 @@ private OrganRequestService organRequestService;
         model.addAttribute("totalBloodDonors", totalBloodDonors);
         model.addAttribute("totalOrganDonors", totalOrganDonors);
         model.addAttribute("totalRequests", totalRequests);
-
-       
         model.addAttribute("username", username);
         model.addAttribute("profilePicUrl", profilePicUrl);
         model.addAttribute("user", user);
         model.addAttribute("role", role);
         model.addAttribute("isAdmin", role == Role.ADMIN);
 
-        // Return template based on role
         return switch (role) {
             case ADMIN -> "adminDashboard";
-            case HOSPITAL -> "hospitalDashboard";
+            case HOSPITAL -> "redirect:/hospital/dashboard";
             default -> "dashboard";
         };
     }
 
-    // ===== POST LOGIN REDIRECT =====
     @GetMapping("/postLogin")
     public String postLoginRedirect(Authentication authentication) {
-        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            return "redirect:/dashboard";
-        } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_HOSPITAL"))) {
-            return "redirect:/dashboard";
-        } else {
-            return "redirect:/dashboard";
-        }
+        return "redirect:/dashboard";
     }
 
-    // ===== LOGIN PAGE =====
     @GetMapping("/login")
     public String loginPage(@RequestParam(value = "error", required = false) String error, Model model) {
         if (error != null) model.addAttribute("error", "Invalid email or password.");
         return "login";
     }
+
     @GetMapping("/adminDashboard")
     public String getAdminDashboard(Model model, @AuthenticationPrincipal Object principal) {
         Users admin = null;
@@ -134,18 +134,19 @@ private OrganRequestService organRequestService;
         model.addAttribute("profilePicUrl", admin != null ? admin.getProfileImagePath() : "/uploads/blank_profile.jpg");
 
         model.addAttribute("totalUsers", userService.countByRole(Role.USER));
-        model.addAttribute("activeDonors", userService.countByRole(Role.USER)); // adapt if needed
-        model.addAttribute("bloodUnits", 2000); // fetch real data
-        model.addAttribute("organRequests", 50); // fetch real data
-        model.addAttribute("recentUsers", userService.findAllByRole(Role.USER).subList(0,5));
+        model.addAttribute("activeDonors", userService.countByRole(Role.USER));
+        model.addAttribute("bloodUnits", 2000);
+        model.addAttribute("organRequests", 50);
+        model.addAttribute("recentUsers", userService.findAllByRole(Role.USER).subList(0, 5));
 
-        model.addAttribute("donationMonths", List.of("Jan","Feb","Mar","Apr","May"));
-        model.addAttribute("bloodUnitsPerMonth", List.of(10,20,15,25,30));
-        model.addAttribute("registrationMonths", List.of("Jan","Feb","Mar","Apr","May"));
-        model.addAttribute("newUsersPerMonth", List.of(5,15,10,20,25));
+        model.addAttribute("donationMonths", List.of("Jan", "Feb", "Mar", "Apr", "May"));
+        model.addAttribute("bloodUnitsPerMonth", List.of(10, 20, 15, 25, 30));
+        model.addAttribute("registrationMonths", List.of("Jan", "Feb", "Mar", "Apr", "May"));
+        model.addAttribute("newUsersPerMonth", List.of(5, 15, 10, 20, 25));
 
         return "adminDashboard";
     }
+
     @GetMapping("/")
     public String mainPage() {
         return "MainPage";

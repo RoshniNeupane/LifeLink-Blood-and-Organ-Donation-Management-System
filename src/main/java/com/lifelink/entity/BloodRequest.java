@@ -63,9 +63,9 @@ public class BloodRequest {
 		this.age = age;
 	}
 	@Enumerated(EnumType.STRING)
-   
     @ManyToOne
-    private Users user; 
+    @JoinColumn(name = "user_id")
+    private Users user;
     // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

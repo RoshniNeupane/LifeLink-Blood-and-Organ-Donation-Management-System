@@ -8,8 +8,7 @@ public interface OrganRequestRepository extends JpaRepository<OrganRequest, Long
     List<OrganRequest> findByHospital(Users hospital);
     List<OrganRequest> findByDonationTypeAndStatus(DonationType type, String status);
 
-    
-    
+
 
     int countByHospitalAndDonationTypeAndStatus(
         Users hospital, DonationType donationType, String status

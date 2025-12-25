@@ -1,46 +1,47 @@
 package com.lifelink.entity;
 
-import com.lifelink.entity.BloodDonation;
-import com.lifelink.entity.OrganDonation;
-import com.lifelink.entity.DonationType;
-
 public class DonorDTO {
     private Long id;
-    private String username;
-    private String bloodGroup;
-    private String organType;
-    private boolean freeDonor;
-    private String type; // "BLOOD" or "ORGAN"
+    private String name, contact, gender, type, bloodGroup, organType;
     private DonationType donationType;
 
-    public DonorDTO(BloodDonation b) {
-        this.id = b.getId();
-        this.username = b.getUser().getFullName();
-        this.bloodGroup = b.getBloodGroup();
-        this.organType = null;
+    public DonorDTO() {}
+
+    public DonorDTO(BloodDonation donation) {
+        this.id = donation.getId();
+        this.name = donation.getDonorName();
+        this.contact = donation.getDonorContact();
+        this.gender = donation.getGender();
         this.type = "BLOOD";
-        this.donationType = b.getDonationType();
+        this.donationType = donation.getDonationType();
+        this.bloodGroup = donation.getBloodGroup();
     }
 
-    public DonorDTO(OrganDonation o) {
-        this.id = o.getId();
-        this.username = o.getUser().getFullName();
-        this.bloodGroup = null;
-        this.organType = o.getOrganType();
+    public DonorDTO(OrganDonation donation) {
+        this.id = donation.getId();
+        this.name = donation.getDonorName();
+        this.contact = donation.getDonorContact();
+        this.gender = donation.getGender();
         this.type = "ORGAN";
-        this.donationType = o.getDonationType();
+        this.donationType = donation.getDonationType();
+        this.organType = donation.getOrganType();
     }
 
-    // getter
-    public DonationType getDonationType() { return donationType; }
-
-
-    // getters only (Thymeleaf needs them)
+    // All getters/setters
     public Long getId() { return id; }
-    public String getUsername() { return username; }
-    public String getBloodGroup() { return bloodGroup; }
-    public String getOrganType() { return organType; }
-    public boolean isFreeDonor() { return freeDonor; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getContact() { return contact; }
+    public void setContact(String contact) { this.contact = contact; }
+    public String getGender() { return gender; }
+    public void setGender(String gender) { this.gender = gender; }
     public String getType() { return type; }
-   
+    public void setType(String type) { this.type = type; }
+    public String getBloodGroup() { return bloodGroup; }
+    public void setBloodGroup(String bloodGroup) { this.bloodGroup = bloodGroup; }
+    public String getOrganType() { return organType; }
+    public void setOrganType(String organType) { this.organType = organType; }
+    public DonationType getDonationType() { return donationType; }
+    public void setDonationType(DonationType donationType) { this.donationType = donationType; }
 }

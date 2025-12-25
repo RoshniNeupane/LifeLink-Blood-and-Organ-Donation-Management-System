@@ -142,11 +142,13 @@ footer { text-align:center; padding:2rem; border-top: 2px solid rgba(233,69,96,0
       <ul class="navbar-nav ms-auto align-items-center">
         <!-- Main Actions removed from navbar as per your instruction -->
         <!-- Profile Dropdown -->
-        <li class="nav-item dropdown ms-3 text-center">
-          <a class="nav-link d-flex flex-column align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-            <img th:src="${profilePicUrl}" alt="Profile" class="profile-avatar mb-1" />
-            <span th:text="${username}" class="fw-medium">Username</span>
-          </a>
+          <li class="nav-item dropdown ms-3 text-center">
+              <a class="nav-link d-flex flex-column align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                  <img th:src="@{${profilePicUrl}}" alt="Profile" class="profile-avatar mb-1"
+                       onerror="this.src='/uploads/blank_profile.jpg'"
+                       style="object-fit: cover;"/>
+                  <span th:text="${username}" class="fw-medium">Username</span>
+              </a>
           <ul class="dropdown-menu dropdown-menu-end p-2" style="min-width:180px;">
             <li class="dropdown-item-text"><i class="fa-solid fa-user me-2"></i> <span th:text="${username}">Username</span></li>
             <li><a th:href="@{/profile}" class="dropdown-item"><i class="fa-solid fa-user me-2"></i>Profile</a></li>

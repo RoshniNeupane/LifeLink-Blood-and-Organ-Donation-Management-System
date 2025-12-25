@@ -22,14 +22,14 @@ public class BloodDonation {
 
     private String status; // PENDING, APPROVED, REJECTED
 
-   
 
     @ManyToOne
-    private Users user; // Donor (may be null if anonymous)
+    @JoinColumn(name = "user_id")
+    private Users user;
 
     @ManyToOne
-    private Users hospital; // Hospital where donation registered
-
+    @JoinColumn(name = "hospital_id")
+    private Users hospital;
     // Getters & setters
     // ... (generate for all fields)
     public Long getId() { return id; }

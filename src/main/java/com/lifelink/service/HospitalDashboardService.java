@@ -8,56 +8,50 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HospitalDashboardService {
 
-    @Autowired
-    private BloodDonationRepository bloodDonationRepository;
+    @Autowired private BloodDonationRepository bloodRepo;
+    @Autowired private OrganDonationRepository organRepo;
 
-    @Autowired
-    private OrganDonationRepository organDonationRepository;
-
-    /** Get combined list of all donors (blood + organ) */
-    public List<DonorDTO> getAllDonorsCombined(Users hospital) {
-        List<BloodDonation> blood = bloodDonationRepository.findByHospitalId(hospital.getId());
-        List<OrganDonation> organ = organDonationRepository.findByHospitalId(hospital.getId());
-
-        List<DonorDTO> combined = new ArrayList<>();
-        blood.forEach(b -> combined.add(new DonorDTO(b)));
-        organ.forEach(o -> combined.add(new DonorDTO(o)));
-
-        return combined;
+    // ✅ COUNTS (APPROVED ONLY)
+    public long getTotalBloodDonors(Long hospitalId) {
+        return bloodRepo.countByHospitalIdAndStatus(hospitalId, "APPROVED");
     }
 
-    /** Get pending FREE donors only */
+    public long getTotalOrganDonors(Long hospitalId) {
+        return organRepo.countByHospitalIdAndStatus(hospitalId, "APPROVED");
+    }
+
+    // ✅ PENDING DONORS
     public List<DonorDTO> getPendingFreeDonors(Users hospital) {
-        List<BloodDonation> blood = bloodDonationRepository
-                .findByHospitalIdAndDonationTypeAndStatus(hospital.getId(), DonationType.FREE, "PENDING");
-        List<OrganDonation> organ = organDonationRepository
-                .findByHospitalIdAndDonationTypeAndStatus(hospital.getId(), DonationType.FREE, "PENDING");
-
         List<DonorDTO> pending = new ArrayList<>();
-        blood.forEach(b -> pending.add(new DonorDTO(b)));
-        organ.forEach(o -> pending.add(new DonorDTO(o)));
-
+        bloodRepo.findByHospitalIdAndDonationTypeAndStatus(hospital.getId(), DonationType.FREE, "PENDING")
+                .forEach(b -> pending.add(new DonorDTO(b)));
+        organRepo.findByHospitalIdAndDonationTypeAndStatus(hospital.getId(), DonationType.FREE, "PENDING")
+                .forEach(o -> pending.add(new DonorDTO(o)));
         return pending;
     }
 
-    /** Get total donors (blood + organ) */
-    public long getTotalDonors(Users hospital) {
-        long totalBlood = bloodDonationRepository.findByHospitalId(hospital.getId()).size();
-        long totalOrgan = organDonationRepository.findByHospitalId(hospital.getId()).size();
-        return totalBlood + totalOrgan;
+    public List<DonorDTO> getPendingPaidDonors(Users hospital) {
+        List<DonorDTO> pending = new ArrayList<>();
+        bloodRepo.findByHospitalIdAndDonationTypeAndStatus(hospital.getId(), DonationType.PAID, "PENDING")
+                .forEach(b -> pending.add(new DonorDTO(b)));
+        organRepo.findByHospitalIdAndDonationTypeAndStatus(hospital.getId(), DonationType.PAID, "PENDING")
+                .forEach(o -> pending.add(new DonorDTO(o)));
+        return pending;
     }
 
-    /** Get total approved FREE donors (blood + organ) */
-    public long getTotalFreeDonorsApproved(Users hospital) {
-        long approvedBlood = bloodDonationRepository
-                .findByHospitalIdAndDonationTypeAndStatus(hospital.getId(), DonationType.FREE, "APPROVED").size();
-        long approvedOrgan = organDonationRepository
-                .findByHospitalIdAndDonationTypeAndStatus(hospital.getId(), DonationType.FREE, "APPROVED").size();
-        return approvedBlood + approvedOrgan;
+    // ✅ APPROVED DONORS (SEPARATE TABLES)
+    public List<DonorDTO> getApprovedBloodDonors(Users hospital) {
+        return bloodRepo.findByHospitalIdAndStatus(hospital.getId(), "APPROVED")
+                .stream().map(DonorDTO::new).collect(Collectors.toList());
     }
 
+    public List<DonorDTO> getApprovedOrganDonors(Users hospital) {
+        return organRepo.findByHospitalIdAndStatus(hospital.getId(), "APPROVED")
+                .stream().map(DonorDTO::new).collect(Collectors.toList());
+    }
 }
