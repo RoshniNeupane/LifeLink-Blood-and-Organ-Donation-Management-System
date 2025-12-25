@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | LifeLink</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-container {
+    background: rgba(22, 33, 62, 0.85);
+    border: 2px solid rgba(233, 69, 96, 0.3);
+    backdrop-filter: blur(25px);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 480px;
+}
+
+.logo-container { text-align: center; margin-bottom: 1.5rem; }
+
+.logo-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    background: linear-gradient(135deg, #e94560 0%, #533483 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-icon i { font-size: 2.5rem; color: white; }
+
+.login-title {
+    color: white;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.login-subtitle {
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 400;
+    font-size: 0.95rem;
+}
+
+.form-floating { margin-bottom: 1.2rem; position: relative; }
+
+.input-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #e94560;
+    font-size: 1.1rem;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.form-control {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(233,69,96,0.2);
+    border-radius: 14px;
+    padding: 1rem 1.2rem 1rem 3.2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    height: 56px;
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
+.form-control::placeholder { color: rgba(255,255,255,0.4); }
+
+.form-control:focus {
+    background: rgba(255,255,255,0.08);
+    border-color: #e94560;
+    box-shadow: 0 0 0 4px rgba(233,69,96,0.15);
+    outline: none;
+    color: white;
+}
+
+.form-floating > label {
+    color: rgba(255,255,255,0.6);
+    font-weight: 500;
+    font-size: 0.9rem;
+    left: 3.2rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #e94560 0%, #533483 100%);
+    border: none;
+    border-radius: 14px;
+    padding: 1rem 2rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    height: 56px;
+    color: white;
+    box-shadow: 0 8px 25px rgba(233,69,96,0.4);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #ff5571 0%, #6a3f90 100%);
+}
+
+.social-login {
+    margin-top: 1.5rem;
+}
+
+.social-btn {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(233,69,96,0.2);
+    border-radius: 14px;
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: white;
+}
+
+.social-btn i { font-size: 1.3rem; }
+
+.forgot-password {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    display: block;
+    margin-top: 1rem;
+    padding: 0.6rem;
+    border-radius: 10px;
+}
+
+.forgot-password:hover { color: #e94560; }
+
+.signup-link {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(233,69,96,0.2);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.95rem;
+}
+
+.signup-btn {
+    color: #e94560;
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 0.5rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 10px;
+    background: rgba(233,69,96,0.1);
+    border: 1px solid rgba(233,69,96,0.3);
+}
+
+.signup-btn:hover {
+    color: white;
+    background: rgba(233,69,96,0.2);
+}
+
+</style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="logo-container">
+        <div class="logo-icon">
+            <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <h2 class="login-title">LifeLink</h2>
+        <p class="login-subtitle">Connecting Lives, Saving Lives</p>
+    </div>
+
+    <!-- Spring Boot/Thymeleaf login form -->
+    <form th:action="@{/login}" method="post">
+        <div class="form-floating">
+            <i class="fa-solid fa-envelope input-icon"></i>
+            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+            <label for="email">Email address</label>
+        </div>
+        <div class="form-floating">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+            <label for="password">Password</label>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-right-to-bracket"></i> Login
+        </button>
+    </form>
+
+    <div class="divider"><span>or continue with</span></div>
+
+    <div class="social-login">
+        <a th:href="@{/oauth2/authorization/google}" class="social-btn google-btn">
+            <i class="fa-brands fa-google"></i> Continue with Google
+        </a>
+    </div>
+
+    <a th:href="@{/forgot-password}" class="forgot-password">
+        <i class="fa-solid fa-key"></i> Forgot your password?
+    </a>
+
+    <div class="signup-link">
+        <span>Don't have an account?</span>
+        <a th:href="@{/register}" class="signup-btn">Sign up <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+</div>
+
+</body>
+</html>

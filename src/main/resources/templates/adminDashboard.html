@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | LifeLink</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<!-- Google Font -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background: rgba(22, 33, 62, 0.85);
+    border-right: 2px solid rgba(233, 69, 96, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 2rem 1rem;
+    backdrop-filter: blur(20px);
+}
+
+.sidebar .brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #e94560;
+}
+
+.sidebar a {
+    display: block;
+    text-decoration: none;
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 0.8rem;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.sidebar a i {
+    margin-right: 10px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: rgba(233,69,96,0.15);
+    color: white;
+    border-left: 4px solid #e94560;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 260px;
+    padding: 2rem;
+}
+
+/* Navbar */
+.top-navbar {
+    background: rgba(22, 33, 62, 0.65);
+    border: 2px solid rgba(233, 69, 96, 0.25);
+    backdrop-filter: blur(20px);
+    border-radius: 14px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Dashboard Cards */
+.card-custom {
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(15px);
+    border-radius: 18px;
+    padding: 1.5rem;
+    color: white;
+    transition: 0.3s;
+}
+
+.card-custom:hover {
+    transform: translateY(-5px);
+    border-color: #e94560;
+}
+
+.card-custom h3 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.card-custom p {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="brand">
+        <i class="fa-solid fa-heart-pulse"></i> LifeLink
+    </div>
+
+    <a th:href="@{/admin/dashboard}" class="active"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+    <a th:href="@{/admin/users}"><i class="fa-solid fa-users"></i> Manage Users</a>
+    <a th:href="@{/admin/donors}"><i class="fa-solid fa-hand-holding-medical"></i> Donors</a>
+    <a th:href="@{/admin/requests}"><i class="fa-solid fa-circle-plus"></i> Requests</a>
+    <a th:href="@{/admin/logout}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+    <!-- Navbar -->
+    <div class="top-navbar">
+        <h2>Admin Dashboard</h2>
+        <div>
+            <span th:text="${adminName}"></span>
+            <i class="fa-solid fa-user-shield ms-2"></i>
+        </div>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card-custom">
+                <h3 th:text="${totalUsers}">0</h3>
+                <p>Total Users</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-custom">
+                <h3 th:text="${totalDonors}">0</h3>
+                <p>Active Donors</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-custom">
+                <h3 th:text="${pendingRequests}">0</h3>
+                <p>Pending Requests</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

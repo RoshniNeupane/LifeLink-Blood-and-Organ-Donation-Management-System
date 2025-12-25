@@ -1,0 +1,46 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Thank You!</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .thank-card {
+            background-color: #2c2c2c;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255,0,0,0.5);
+        }
+        .thank-card h1 {
+            font-size: 3rem;
+            color: #ff4d4d;
+            margin-bottom: 20px;
+        }
+        .thank-card p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+        }
+        .thank-card a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="thank-card">
+    <h1>Thank You!</h1>
+    <p>We really appreciate your generous donation. You are helping save lives!</p>
+    <a th:href="@{/dashboard}" class="btn btn-danger btn-lg">Go Back to Home</a>
+</div>
+
+</body>
+</html>

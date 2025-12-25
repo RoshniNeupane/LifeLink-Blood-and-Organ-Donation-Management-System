@@ -1,0 +1,85 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <title>Request Organ</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+
+<body class="bg-dark text-light">
+<div class="container py-5">
+
+  <h2 class="mb-4 text-success">Request Organ</h2>
+
+  <form th:action="@{/request-organ}" th:object="${organRequest}" method="post">
+
+    <div class="mb-3">
+      <label class="form-label">Your Name</label>
+      <input type="text" th:field="*{requesterName}" class="form-control" required/>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Contact</label>
+      <input type="text" th:field="*{requesterContact}" class="form-control" required/>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Age</label>
+      <input type="number" th:field="*{age}" class="form-control" required/>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Gender</label>
+      <select th:field="*{gender}" class="form-select" required>
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Address</label>
+      <input type="text" th:field="*{address}" class="form-control" required/>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Required Organ</label>
+      <select th:field="*{requiredOrgan}" class="form-select" required>
+        <option value="">Select Organ</option>
+        <option value="Kidney">Kidney</option>
+        <option value="Liver">Liver</option>
+        <option value="Heart">Heart</option>
+        <option value="Lungs">Lungs</option>
+        <option value="Bone Marrow">Bone Marrow</option>
+        <option value="Pancreas">Pancreas</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Blood Group</label>
+      <select th:field="*{requiredBloodGroup}" class="form-select" required>
+        <option value="">Select Blood Group</option>
+        <option value="A+">A+</option>
+        <option value="A-">A-</option>
+        <option value="B+">B+</option>
+        <option value="B-">B-</option>
+        <option value="O+">O+</option>
+        <option value="O-">O-</option>
+        <option value="AB+">AB+</option>
+        <option value="AB-">AB-</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Reason</label>
+      <textarea th:field="*{reason}" class="form-control" required></textarea>
+    </div>
+
+    <button class="btn btn-success w-100">Submit Organ Request</button>
+
+  </form>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organ Match Results | LifeLink</title>
+<link rel="icon" type="image/png" href="/uploads/favicon.png"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body { font-family: 'Poppins', sans-serif; background: #f4f6f9; color: #333; min-height: 100vh; }
+h2 { margin: 1rem 0; color: #1a1a2e; }
+.table th, .table td { vertical-align: middle; }
+.card { border-radius: 15px; border: 1px solid rgba(0,0,0,0.1); }
+.card-header { font-weight: 600; background: #1a1a2e; color: #fff; border-radius: 15px 15px 0 0; }
+.card-body { padding: 1rem; }
+</style>
+</head>
+<body>
+<div class="container my-4">
+
+    <h2>Best Organ Matches</h2>
+    <div class="card mb-4">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Donor Name</th>
+                        <th>Hospital Name</th>
+                        <th>Hospital Contact</th>
+                        <th>Hospital Address</th>
+                        <th>Donation Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="donor : ${organMatches}">
+                        <td th:text="${donor.donorName}">Donor Name</td>
+                        <td th:text="${donor.hospital.fullName}">Hospital Name</td>
+                        <td th:text="${donor.hospital.contact}">Hospital Contact</td>
+                        <td th:text="${donor.hospital.address}">Hospital Address</td>
+                        <td th:text="${donor.donationType}">FREE</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a href="/dashboard" class="btn btn-primary">Back to Dashboard</a>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
