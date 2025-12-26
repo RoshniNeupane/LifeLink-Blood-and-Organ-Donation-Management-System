@@ -20,7 +20,9 @@ public class OrganDonationService {
         if (donation.getStatus() == null) donation.setStatus("PENDING");
         return organDonationRepo.save(donation);
     }
-
+    public long countByHospitalAndStatus(Users hospital, String status) {
+        return organDonationRepo.countByHospitalAndStatus(hospital, status);
+    }
     public List<OrganDonation> findAll() {
         return organDonationRepo.findAll();
     }
@@ -33,13 +35,23 @@ public class OrganDonationService {
     public List<OrganDonation> findPendingFreeDonors(Users hospital) {
         return organDonationRepo.findByHospitalAndDonationTypeAndStatus(hospital, DonationType.FREE, "PENDING");
     }
+    public List<OrganDonation> findByHospitalAndStatus(Users hospital, String status) {
+        return organDonationRepo.findByHospitalAndStatus(hospital, status);
+    }
+
+    public long countAllDonors() {
+        return organDonationRepo.count();
+    }
+    public long countByStatus(String status) {
+        return organDonationRepo.countByStatus(status);
+    }
+
+    public List<OrganDonation> findByStatusAndDonationType(String status, DonationType type) {
+        return organDonationRepo.findByStatusAndDonationType(status, type);
+    }
 
     public int countApprovedFreeDonors(Users hospital) {
         return (int) organDonationRepo.findByHospitalAndDonationTypeAndStatus(hospital, DonationType.FREE, "APPROVED").size();
-    }
-
-    public int countAllDonors() {
-        return (int) organDonationRepo.count();
     }
 
     public int countAllDonorsByHospital(Users hospital) {

@@ -13,6 +13,9 @@ import com.lifelink.entity.Role;
 import com.lifelink.entity.Users;
 import com.lifelink.repository.UserRepository;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Service
 public class UserService implements UserDetailsService {
 
@@ -87,7 +90,31 @@ public class UserService implements UserDetailsService {
     public long countByRole(Role role) {
         return userRepository.countByRole(role);
     }
+    public List<Users> findByRole(Role role) {
+        return userRepository.findByRole(role);
+    }
 
+    public Users getUserByPasswordResetToken(String token) {
+        return userRepository.findByResetPasswordToken(token);
+    }
+
+    public String createPasswordResetTokenForUser(Users user) {
+        String token = UUID.randomUUID().toString();
+        user.setResetPasswordToken(token);
+        user.setResetPasswordTokenExpiry(LocalDateTime.now().plusHours(1));
+        userRepository.save(user);
+        return token;
+    }
+    public void clearPasswordResetToken(Users user) {
+        user.setResetPasswordToken(null);
+        user.setResetPasswordTokenExpiry(null);
+        userRepository.save(user);
+    }
+
+    public void changeUserPassword(Users user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
     // ========== Spring Security integration ==========
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

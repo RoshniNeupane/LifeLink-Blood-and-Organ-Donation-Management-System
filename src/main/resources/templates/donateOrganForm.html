@@ -1,111 +1,225 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <title>Donate Organ</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"/>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate Organ - LifeLink</title>
+    <link rel="icon" type="image/png" href="/uploads/favicon.png"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-<body class="bg-dark text-light">
-<div class="container py-5">
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
 
-  <h2 class="mb-4 text-warning">Donate Organ</h2>
+        .frosted-section {
+            background: rgba(22, 33, 62, 0.85);
+            border: 2px solid rgba(233, 69, 96, 0.3);
+            backdrop-filter: blur(25px);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            margin-bottom: 3rem;
+        }
 
-  <form th:action="@{/donate-organ}" th:object="${donationRequest}" method="post">
+        h1, h2, h3, h4, h5, h6 { color: #fff; }
+        p, label { color: rgba(255,255,255,0.85); }
 
-    <!-- Donor Name -->
-    <div class="mb-3">
-      <label class="form-label">Your Name</label>
-      <input type="text" th:field="*{donorName}" class="form-control" required/>
-    </div>
+        .navbar { 
+            background: rgba(22,33,62,0.95) !important; 
+            border-bottom: 1px solid rgba(233,69,96,0.3); 
+            padding: 1rem 0;
+        }
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        .nav-link {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #fff !important;
+        }
+        .nav-link:hover, .nav-link.active { color: #e94560 !important; }
 
-    <!-- Donor Contact -->
-    <div class="mb-3">
-      <label class="form-label">Contact Number</label>
-      <input type="text" th:field="*{donorContact}" class="form-control" required/>
-    </div>
+        .profile-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .nav-item .fw-medium {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 2px;
+        }
 
-    <!-- Organ Type -->
-    <div class="mb-3">
-      <label class="form-label">Organ Type</label>
-      <select th:field="*{organType}" class="form-select" required>
-        <option value="">Select Organ</option>
-        <option value="Kidney">Kidney</option>
-        <option value="Liver">Liver</option>
-        <option value="Heart">Heart</option>
-        <option value="Lung">Lung</option>
-        <option value="Cornea">Cornea</option>
-      </select>
-    </div>
-
-   
-    <!-- Blood Group -->
-    <div class="mb-3">
-      <label class="form-label">Blood Group</label>
-      <select th:field="*{bloodGroup}" class="form-select" required>
-        <option value=" ">Select Blood Group</option>
-        <option value=" A+">A+</option><option value="A- ">A-</option>
-        <option value=" B+">B+</option><option value=" B-">B-</option>
-        <option value=" O+">O+</option><option value=" O-"> O-</option>
-        <option value=" AB+">AB+</option><option value="AB-">AB-</option>
+        .navbar-toggler { border-color: rgba(233,69,96,0.5); }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28233,69,96,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
         
-      </select>
+        .form-control, .form-select {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: #e94560;
+            box-shadow: 0 0 0 0.25rem rgba(233, 69, 96, 0.25);
+            color: #fff;
+        }
+        .form-control::placeholder { color: rgba(255,255,255,0.5); }
+        
+        .btn-primary { 
+		    background: linear-gradient(135deg, #e94560 0%, #533483 100%); 
+		    border: none; 
+		    border-radius: 14px; 
+		}
+		.btn-primary:hover {
+		    background: linear-gradient(135deg, #ff5571 0%, #6a3f90 100%);
+		}
+
+        footer { text-align:center; padding:2rem; border-top: 2px solid rgba(233,69,96,0.3); color:rgba(255,255,255,0.7); }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo"/>
+      LifeLink
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <!-- Profile Dropdown -->
+          <li class="nav-item dropdown ms-3 text-center">
+              <a class="nav-link d-flex flex-column align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                  <img th:src="@{${profilePicUrl}}" alt="Profile" class="profile-avatar mb-1"
+                       onerror="this.src='/uploads/blank_profile.jpg'"
+                       style="object-fit: cover;"/>
+                  <span th:text="${username}" class="fw-medium">Username</span>
+              </a>
+          <ul class="dropdown-menu dropdown-menu-end p-2" style="min-width:180px;">
+            <li><a th:href="@{/dashboard}" class="dropdown-item"><i class="fa-solid fa-user me-2"></i>Dashboard</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form th:action="@{/logout}" method="post">
+                <button type="submit" class="dropdown-item"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
+  </div>
+</nav>
 
-    <!-- Age -->
-    <div class="mb-3">
-      <label class="form-label">Age</label>
-      <input type="number" th:field="*{age}" class="form-control" required/>
-    </div>
-
-    <!-- Gender -->
-    <div class="mb-3">
-      <label class="form-label">Gender</label>
-      <select th:field="*{gender}" class="form-select" required>
-        <option value="">Select Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-      </select>
-    </div>
-
-    <!-- Address -->
-    <div class="mb-3">
-      <label class="form-label">Address</label>
-      <input type="text" th:field="*{address}" class="form-control" required/>
-    </div>
-
-    <!-- Donation Type -->
-    <div class="mb-3">
-      <label class="form-label">Donation Type</label>
-      <select th:field="*{donationType}" class="form-select" required>
-          <option value="FREE">Free</option>
-          <option value="PAID">Paid</option>
-      </select>
-    </div>
-
-    <!-- Message -->
-    <div class="mb-3">
-      <label class="form-label">Message (optional)</label>
-      <textarea th:field="*{message}" class="form-control"></textarea>
-    </div>
-
-    <!-- Hospital -->
-    <div class="mb-3">
-      <label class="form-label">Choose Hospital</label>
-      <select th:field="*{hospital.id}" class="form-select" required>
-        <option value="">Select Hospital</option>
-        <option th:each="h : ${hospitals}"
-                th:value="${h.id}"
-                th:text="${h.hospitalDetails.hospitalName}">
-        </option>
-      </select>
-    </div>
-
-    <button class="btn btn-warning w-100">Submit Organ Donation</button>
-
-  </form>
-
+<div class="container py-5">
+    <section class="frosted-section">
+        <h2 class="mb-4 text-center">Donate Organ</h2>
+        <form th:action="@{/donate-organ}" th:object="${donationRequest}" method="post">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" th:field="*{donorName}" class="form-control" required/>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Contact Number</label>
+                    <input type="text" th:field="*{donorContact}" class="form-control" required/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Organ Type</label>
+                    <select th:field="*{organType}" class="form-select" required>
+                        <option value="">Select Organ</option>
+                        <option value="Kidney">Kidney</option>
+                        <option value="Liver">Liver</option>
+                        <option value="Heart">Heart</option>
+                        <option value="Lung">Lung</option>
+                        <option value="Cornea">Cornea</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Blood Group</label>
+                    <select th:field="*{bloodGroup}" class="form-select" required>
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+</option><option value="A-">A-</option>
+                        <option value="B+">B+</option><option value="B-">B-</option>
+                        <option value="O+">O+</option><option value="O-">O-</option>
+                        <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Age</label>
+                    <input type="number" th:field="*{age}" class="form-control" required/>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Gender</label>
+                    <select th:field="*{gender}" class="form-select" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Address</label>
+                    <input type="text" th:field="*{address}" class="form-control" required/>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Donation Type</label>
+                    <select th:field="*{donationType}" class="form-select" required>
+                        <option value="FREE">Free</option>
+                        <option value="PAID">Paid</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Choose Hospital</label>
+                <select th:field="*{hospital.id}" class="form-select" required>
+                    <option value="">Select Hospital</option>
+                    <option th:each="h : ${hospitals}"
+                            th:value="${h.id}"
+                            th:text="${h.hospitalDetails.hospitalName}">
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Message (optional)</label>
+                <textarea th:field="*{message}" class="form-control"></textarea>
+            </div>
+            <button class="btn btn-primary w-100 mt-3">Submit Organ Donation</button>
+        </form>
+    </section>
 </div>
+
+<!-- Footer -->
+<footer>
+    <p>© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> LifeLink. All rights reserved.</p>
+    <p>Contact: info@lifelink.com | +977 9800000000</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

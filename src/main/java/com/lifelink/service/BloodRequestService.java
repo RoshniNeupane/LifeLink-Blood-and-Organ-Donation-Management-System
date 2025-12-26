@@ -24,4 +24,9 @@ public class BloodRequestService {
     public List<BloodRequest> getAllRequests() {
         return repository.findAll();
     }
+
+    public long countByStatus(String status) {
+        return repository.countByStatus(status);  // bloodRequestRepo or organRequestRepo
+    }
+
 }

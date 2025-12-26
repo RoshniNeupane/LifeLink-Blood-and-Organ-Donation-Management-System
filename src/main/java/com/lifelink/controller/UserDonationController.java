@@ -2,6 +2,7 @@ package com.lifelink.controller;
 
 import java.util.List;
 
+import com.lifelink.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,13 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;  // ✅ ADDED
 
-import com.lifelink.entity.BloodDonation;
-import com.lifelink.entity.BloodRequest;
-import com.lifelink.entity.DonationType;
-import com.lifelink.entity.OrganDonation;
-import com.lifelink.entity.OrganRequest;
-import com.lifelink.entity.Role;
-import com.lifelink.entity.Users;
 import com.lifelink.service.BestMatchService;
 import com.lifelink.service.BloodDonationService;
 import com.lifelink.service.BloodRequestService;
@@ -157,7 +151,6 @@ public class UserDonationController {
         model.addAttribute("bloodRequest", new BloodRequest());
         return "requestBloodForm";
     }
-
     @PostMapping("/request-blood")
     public String submitBloodRequest(@ModelAttribute BloodRequest req,
                                      @AuthenticationPrincipal Object principal,
@@ -172,16 +165,17 @@ public class UserDonationController {
         req.setUser(user);
         bloodRequestService.save(req);
 
-        List<BloodDonation> bloodMatches = bestMatchService.getBestBloodMatches(req.getRequiredBloodGroup());
-        model.addAttribute("bloodMatches", bloodMatches);
-        return "bloodMatchResult";
-    }
+        // ✅ ONLY APPROVED DONORS FROM ANY HOSPITAL
+        List<DonorMatchDTO> bloodMatches = bestMatchService.getBestBloodMatchesGlobal(
+                req.getRequiredBloodGroup());
 
-    // --- Request Organ ---
-    @GetMapping("/request-organ")
-    public String showOrganRequestForm(Model model, @AuthenticationPrincipal Object principal) {
-        model.addAttribute("organRequest", new OrganRequest());
-        return "requestOrganForm";
+        model.addAttribute("bloodMatches", bloodMatches);
+        model.addAttribute("requiredBloodGroup", req.getRequiredBloodGroup());
+        model.addAttribute("message", bloodMatches.isEmpty() ?
+                "❌ No APPROVED matching donors found yet." :
+                "✅ Found " + bloodMatches.size() + " APPROVED donors across all hospitals!");
+
+        return "bloodMatchResult";
     }
 
     @PostMapping("/request-organ")
@@ -198,8 +192,25 @@ public class UserDonationController {
         req.setUser(user);
         organRequestService.save(req);
 
-        List<OrganDonation> organMatches = bestMatchService.getBestOrganMatches(req.getOrganType());
+        // ✅ ONLY APPROVED DONORS FROM ANY HOSPITAL
+        List<DonorMatchDTO> organMatches = bestMatchService.getBestOrganMatchesGlobal(
+                req.getOrganType());
+
         model.addAttribute("organMatches", organMatches);
+        model.addAttribute("requiredOrgan", req.getOrganType());
+        model.addAttribute("message", organMatches.isEmpty() ?
+                "❌ No APPROVED organ donors found yet." :
+                "✅ Found " + organMatches.size() + " APPROVED organ donors across all hospitals!");
+
         return "organMatchResult";
     }
+
+
+    // --- Request Organ ---
+    @GetMapping("/request-organ")
+    public String showOrganRequestForm(Model model, @AuthenticationPrincipal Object principal) {
+        model.addAttribute("organRequest", new OrganRequest());
+        return "requestOrganForm";
+    }
+
 }

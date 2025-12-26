@@ -2,7 +2,9 @@ package com.lifelink.controller;
 
 import java.util.List;
 import java.util.ArrayList;
-import com.lifelink.entity.BloodDonation;
+
+import com.lifelink.entity.*;
+
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.lifelink.entity.Role;
-import com.lifelink.entity.Users;
 import com.lifelink.service.BloodDonationService;
 import com.lifelink.service.BloodRequestService;
 import com.lifelink.service.OrganDonationService;
@@ -86,16 +86,28 @@ public class LoginController {
             username = user.getFullName();
             role = user.getRole() != null ? user.getRole() : Role.USER;
         }
-        // Regular user/admin stats
-        int totalUsers = userService.countAllUsers();
-        int totalBloodDonors = bloodDonationService.countAllDonors();
-        int totalOrganDonors = organDonationService.countAllDonors();
-        int totalRequests = bloodRequestService.countAllRequests() + organRequestService.countAllRequests();
 
-        model.addAttribute("totalUsers", totalUsers);
-        model.addAttribute("totalBloodDonors", totalBloodDonors);
-        model.addAttribute("totalOrganDonors", totalOrganDonors);
-        model.addAttribute("totalRequests", totalRequests);
+        List<Users> hospitals = userService.findByRole(Role.HOSPITAL);
+        int totalDonors = userService.countAllUsers();  // All registered users
+        long totalBloodUnits = bloodDonationService.countByStatus("APPROVED");  // Only approved blood donations
+        long totalOrgansDonated = organDonationService.countByStatus("APPROVED");  // Only approved organ donations
+        long totalBloodRequests = bloodRequestService.countByStatus("PENDING");  // Pending blood requests
+        long totalOrganRequests = organRequestService.countByStatus("PENDING");  // Pending organ requests
+
+        List<BloodDonation> freeBloodDonors = bloodDonationService.findByStatusAndDonationType("APPROVED", DonationType.FREE);
+        List<OrganDonation> freeOrganDonors = organDonationService.findByStatusAndDonationType("APPROVED", DonationType.FREE);
+        model.addAttribute("hospitals", hospitals);
+        model.addAttribute("totalHospitals", hospitals.size());
+        model.addAttribute("totalBloodDonors", bloodDonationService.countAllDonors());
+        model.addAttribute("totalOrganDonors", organDonationService.countAllDonors());
+        model.addAttribute("totalDonors", totalDonors);
+        model.addAttribute("totalBloodUnits", totalBloodUnits);  // ✅ REAL DATA
+        model.addAttribute("totalOrgansDonated", totalOrgansDonated);  // ✅ REAL DATA
+        model.addAttribute("totalBloodRequests", totalBloodRequests);
+        model.addAttribute("totalOrganRequests", totalOrganRequests);
+        model.addAttribute("freeBloodDonors", freeBloodDonors);  // ✅ For cards
+        model.addAttribute("freeOrganDonors", freeOrganDonors);  // ✅ For cards
+
         model.addAttribute("username", username);
         model.addAttribute("profilePicUrl", profilePicUrl);
         model.addAttribute("user", user);

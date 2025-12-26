@@ -61,5 +61,7 @@ public class OrganRequestService {
                 hospital, DonationType.FREE, "APPROVED"
         );
     }
-
+    public long countByStatus(String status) {
+        return organRequestRepo.countByStatus(status);  // bloodRequestRepo or organRequestRepo
+    }
 }

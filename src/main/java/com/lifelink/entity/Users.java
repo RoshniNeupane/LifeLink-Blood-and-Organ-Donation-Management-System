@@ -42,7 +42,7 @@ public class Users {
     @Pattern(regexp = ".*[a-z].*", message = "Password must contain at least one lowercase letter")
     @Pattern(regexp = ".*\\d.*", message = "Password must contain at least one digit")
     private String password;
-  
+
     private String gender;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private HospitalDetails hospitalDetails;
@@ -60,6 +60,12 @@ public class Users {
 
     @Column(name = "fraud_flag")
     private boolean fraudFlag = false; // New field
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
+    @Column(name = "reset_password_token_expiry")
+    private java.time.LocalDateTime resetPasswordTokenExpiry;
 
     // ========== Getters & Setters ==========
     public Long getId() { return id; }
@@ -88,4 +94,13 @@ public class Users {
 
     public boolean isFraudFlag() { return fraudFlag; }
     public void setFraudFlag(boolean fraudFlag) { this.fraudFlag = fraudFlag; }
+    
+    public String getResetPasswordToken() { return resetPasswordToken; }
+    public void setResetPasswordToken(String resetPasswordToken) { this.resetPasswordToken = resetPasswordToken; }
+
+    public java.time.LocalDateTime getResetPasswordTokenExpiry() { return resetPasswordTokenExpiry; }
+    public void setResetPasswordTokenExpiry(java.time.LocalDateTime resetPasswordTokenExpiry) { this.resetPasswordTokenExpiry = resetPasswordTokenExpiry; }
+
+
+
 }

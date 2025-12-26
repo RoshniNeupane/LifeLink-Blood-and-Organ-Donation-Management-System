@@ -88,6 +88,13 @@ public class RegistrationController {
             user.setRole(Role.USER);
         }
 
+        // Password complexity validation
+        if (!user.getPassword().matches(".*[A-Z].*") || !user.getPassword().matches(".*[a-z].*") || !user.getPassword().matches(".*\\d.*") || !user.getPassword().matches(".*[!@#$%^&*(),.?\":{}|<>].*") || user.getPassword().length() < 8) {
+            model.addAttribute("error", "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.");
+            model.addAttribute("user", user);
+            return "register";
+        }
+
         // Save user (hospital details will be saved automatically because of cascade)
         userService.registerUser(user);
        

@@ -21,12 +21,19 @@ public interface OrganDonationRepository extends JpaRepository<OrganDonation, Lo
     // Get donations by organ type, type, and status
     List<OrganDonation> findByOrganTypeAndDonationTypeAndStatus(String organType, DonationType donationType, String status);
     // ✅ These methods MUST exist
-
+    long countByStatus(String status);
     List<OrganDonation> findByHospitalIdAndStatusAndDonationType(Long hospitalId, String status, DonationType donationType);
-
+    long countByHospitalAndStatus(Users hospital, String status);
+    long count();
     // Count donations per hospital
     long countByHospital(Users hospital);
 
     // Count donations per hospital of a certain type (FREE/PAID)
     long countByHospitalAndDonationType(Users hospital, DonationType donationType);
+
+    List<OrganDonation> findByHospitalAndStatus(Users hospital, String status);
+
+    List<OrganDonation> findByStatusAndDonationType(String status, DonationType type);
+
+    List<OrganDonation> findByStatus(String status);
 }

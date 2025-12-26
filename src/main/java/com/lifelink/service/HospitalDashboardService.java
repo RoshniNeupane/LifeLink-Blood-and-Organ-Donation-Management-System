@@ -2,20 +2,32 @@ package com.lifelink.service;
 
 import com.lifelink.entity.*;
 import com.lifelink.repository.BloodDonationRepository;
+import com.lifelink.repository.HospitalDetailsRepository;
 import com.lifelink.repository.OrganDonationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class HospitalDashboardService {
-
+    @Autowired private HospitalDetailsRepository hospitalDetailsRepository;
     @Autowired private BloodDonationRepository bloodRepo;
     @Autowired private OrganDonationRepository organRepo;
+    public List<HospitalDetails> findAll() {
+        return hospitalDetailsRepository.findAll();
+    }
 
+    public Optional<HospitalDetails> findById(Long id) {
+        return hospitalDetailsRepository.findById(id);
+    }
+
+    public HospitalDetails getById(Long id) {
+        return hospitalDetailsRepository.findById(id).orElse(null);
+    }
     // ✅ COUNTS (APPROVED ONLY)
     public long getTotalBloodDonors(Long hospitalId) {
         return bloodRepo.countByHospitalIdAndStatus(hospitalId, "APPROVED");

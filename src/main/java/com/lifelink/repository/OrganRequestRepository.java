@@ -17,4 +17,6 @@ public interface OrganRequestRepository extends JpaRepository<OrganRequest, Long
     long countByHospital(Users hospital);
     long countByHospitalAndDonationType(Users hospital, DonationType donationType);
     List<OrganRequest> findByHospitalAndDonationTypeAndStatus(Users hospital, DonationType donationType, String status);
+
+    long countByStatus(String status);
 }

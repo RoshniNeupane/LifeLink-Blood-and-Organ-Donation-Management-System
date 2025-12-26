@@ -5,11 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BloodDonationRepository extends JpaRepository<BloodDonation, Long> {
-    // ✅ These methods MUST exist
 
     List<BloodDonation> findByHospitalIdAndStatusAndDonationType(Long hospitalId, String status, DonationType donationType);
-
-    
+    long countByStatus(String status);
+    long countByHospitalAndStatus(Users hospital, String status);
+    long count();
     List<BloodDonation> findByHospitalId(Long hospitalId);
     List<BloodDonation> findByHospitalIdAndDonationTypeAndStatus(Long hospitalId, DonationType type, String status);
     // Get donations by blood group and status
@@ -27,6 +27,10 @@ public interface BloodDonationRepository extends JpaRepository<BloodDonation, Lo
     // Count donations per hospital
     long countByHospital(Users hospital);
 
+    List<BloodDonation> findByStatusAndDonationType(String status, DonationType type);
+
     // Count donations per hospital of a certain type (FREE/PAID)
     long countByHospitalAndDonationType(Users hospital, DonationType donationType);
+
+    List<BloodDonation> findByHospitalAndStatus(Users hospital, String status);
 }

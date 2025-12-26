@@ -1,169 +1,468 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard | LifeLink</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - LifeLink</title>
+    <link rel="icon" type="image/png" href="/uploads/favicon.png"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --danger-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            --dark-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
 
-<!-- Google Font -->
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-gradient);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-body {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
-    min-height: 100vh;
-    font-family: 'Poppins', sans-serif;
-    color: white;
-}
+        /* Navbar */
+        .navbar {
+            background: rgba(22,33,62,0.98) !important;
+            border-bottom: 2px solid transparent;
+            background-clip: padding-box;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .navbar-brand:hover { transform: scale(1.05); }
+        .navbar-brand img { height: 55px; margin-right: 12px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); }
 
-/* Sidebar */
-.sidebar {
-    width: 260px;
-    height: 100vh;
-    background: rgba(22, 33, 62, 0.85);
-    border-right: 2px solid rgba(233, 69, 96, 0.3);
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding: 2rem 1rem;
-    backdrop-filter: blur(20px);
-}
+        .nav-link {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.9) !important;
+            padding: 0.75rem 1.5rem !important;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: var(--primary-gradient);
+            opacity: 0.2;
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+        .nav-link:hover::before { left: 0; }
+        .nav-link:hover, .nav-link.active {
+            color: #fff !important;
+            background: var(--primary-gradient);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
 
-.sidebar .brand {
-    font-size: 1.8rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #e94560;
-}
+        .profile-avatar {
+            width: 50px; height: 50px;
+            border: 3px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        .profile-avatar:hover { transform: scale(1.1); border-color: #e94560; }
 
-.sidebar a {
-    display: block;
-    text-decoration: none;
-    padding: 0.9rem 1rem;
-    font-size: 1rem;
-    color: rgba(255,255,255,0.75);
-    margin-bottom: 0.8rem;
-    border-radius: 12px;
-    font-weight: 500;
-}
+        /* Main Content */
+        .hero-section {
+            background: rgba(22, 33, 62, 0.9);
+            border: 2px solid rgba(233, 69, 96, 0.4);
+            backdrop-filter: blur(30px);
+            border-radius: 30px;
+            padding: 3.5rem 3rem;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(233,69,96,0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(180deg); } }
 
-.sidebar a i {
-    margin-right: 10px;
-}
+        /* Stat Cards */
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            right: 0; bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        .stat-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+        .stat-card:hover::before { opacity: 0.15; }
+        .stat-card i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.8; }
+        .stat-card h3 { font-size: 2.5rem; font-weight: 800; margin: 0; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stat-card p { font-size: 1rem; opacity: 0.8; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
 
-.sidebar a:hover,
-.sidebar a.active {
-    background: rgba(233,69,96,0.15);
-    color: white;
-    border-left: 4px solid #e94560;
-}
+        /* Hospital Cards */
+        .hospital-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hospital-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px; height: 100%;
+            background: var(--success-gradient);
+            transition: all 0.3s ease;
+            transform: scaleY(0);
+        }
+        .hospital-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-color: rgba(79, 172, 254, 0.5);
+        }
+        .hospital-card:hover::before { transform: scaleY(1); }
+        .hospital-card i { font-size: 2.5rem; color: #4facfe; margin-right: 1.5rem; }
 
-/* Main Content */
-.main-content {
-    margin-left: 260px;
-    padding: 2rem;
-}
+        /* Selected Hospital */
+        .selected-hospital {
+            background: rgba(79, 172, 254, 0.15);
+            border: 2px solid rgba(79, 172, 254, 0.4);
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(79, 172, 254, 0.2);
+        }
 
-/* Navbar */
-.top-navbar {
-    background: rgba(22, 33, 62, 0.65);
-    border: 2px solid rgba(233, 69, 96, 0.25);
-    backdrop-filter: blur(20px);
-    border-radius: 14px;
-    padding: 1rem 1.5rem;
-    margin-bottom: 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        /* Status Badges */
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .bg-approved { background: rgba(34, 197, 94, 0.2); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .bg-pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .bg-rejected { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
 
-/* Dashboard Cards */
-.card-custom {
-    background: rgba(255,255,255,0.08);
-    border: 2px solid rgba(255,255,255,0.12);
-    backdrop-filter: blur(15px);
-    border-radius: 18px;
-    padding: 1.5rem;
-    color: white;
-    transition: 0.3s;
-}
+        /* Table */
+        .table { background: rgba(255,255,255,0.05); border-radius: 15px; overflow: hidden; }
+        .table th { background: rgba(233, 69, 96, 0.3); font-weight: 600; border: none; }
+        .table td { border-color: rgba(255,255,255,0.1); vertical-align: middle; }
 
-.card-custom:hover {
-    transform: translateY(-5px);
-    border-color: #e94560;
-}
+        /* Footer */
+        footer {
+            background: rgba(22,33,62,0.8);
+            backdrop-filter: blur(20px);
+            border-top: 2px solid rgba(233,69,96,0.4);
+            border-radius: 25px 25px 0 0;
+            margin-top: 4rem;
+        }
 
-.card-custom h3 {
-    font-size: 2rem;
-    font-weight: 700;
-}
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section { padding: 2rem 1.5rem; margin-bottom: 2rem; }
+            .stat-card h3 { font-size: 2rem; }
+            .hospital-card { min-width: 100%; margin-bottom: 1rem; }
+        }
 
-.card-custom p {
-    margin: 0;
-    font-size: 0.95rem;
-    opacity: 0.85;
-}
-
-</style>
+        /* Animations */
+        .fade-in-up { animation: fadeInUp 0.8s ease forwards; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
-
-<!-- Sidebar -->
-<div class="sidebar">
-    <div class="brand">
-        <i class="fa-solid fa-heart-pulse"></i> LifeLink
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg py-3">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo"/>
+            LifeLink Admin
+        </a>
+        <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/dashboard">
+                        <i class="fas fa-chart-line me-1"></i>Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin/stats">
+                        <i class="fas fa-chart-bar me-1"></i>Stats
+                    </a>
+                </li>
+                <li class="nav-item dropdown ms-4">
+                    <a class="nav-link d-flex flex-column align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                        <img th:src="@{${profilePicUrl} ?: '/uploads/blank_profile.jpg'}"
+                             src="/uploads/blank_profile.jpg"
+                             alt="Profile" class="profile-avatar mb-2"/>
+                        <span th:text="${username ?: 'Admin'}" class="fw-semibold">Admin</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg p-0" style="min-width:200px; background: rgba(22,33,62,0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1);">
+                        <li>
+                            <form th:action="@{/logout}" method="post" class="p-0">
+                                <button type="submit" class="dropdown-item border-0 p-3 w-100 text-start">
+                                    <i class="fa-solid fa-right-from-bracket me-3 text-danger"></i>
+                                    <span class="fw-medium text-white">Logout</span>
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
+</nav>
 
-    <a th:href="@{/admin/dashboard}" class="active"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-    <a th:href="@{/admin/users}"><i class="fa-solid fa-users"></i> Manage Users</a>
-    <a th:href="@{/admin/donors}"><i class="fa-solid fa-hand-holding-medical"></i> Donors</a>
-    <a th:href="@{/admin/requests}"><i class="fa-solid fa-circle-plus"></i> Requests</a>
-    <a th:href="@{/admin/logout}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+<div class="container-fluid mt-5 px-4">
+    <section class="hero-section fade-in-up">
+        <!-- SYSTEM STATS -->
+        <div class="row g-4 mb-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="stat-card h-100">
+                    <i class="fas fa-hospital"></i>
+                    <h3 th:text="${totalHospitals}">0</h3>
+                    <p>Total Hospitals</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="stat-card h-100">
+                    <i class="fas fa-tint"></i>
+                    <h3 th:text="${totalBloodDonors}">0</h3>
+                    <p>Blood Donors</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="stat-card h-100">
+                    <i class="fas fa-lungs"></i>
+                    <h3 th:text="${totalOrganDonors}">0</h3>
+                    <p>Organ Donors</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- HOSPITALS LIST -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header bg-transparent border-0 py-4">
+                        <h4 class="mb-0 fw-bold">
+                            <i class="fas fa-building me-2"></i>
+                            All Hospitals
+                            <span class="badge bg-primary rounded-pill ms-2" th:text="${totalHospitals}">0</span>
+                        </h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <div th:if="${#lists.isEmpty(hospitals)}" class="text-center py-5 my-5">
+                            <i class="fas fa-hospital fa-4x mb-4 opacity-50"></i>
+                            <h5 class="fw-semibold mb-3">No Hospitals Registered Yet</h5>
+                            <p class="text-muted">Hospitals will appear here once they register.</p>
+                        </div>
+                        <div class="row g-4 p-4" th:unless="${#lists.isEmpty(hospitals)}">
+                            <div class="col-xl-4 col-lg-6 col-md-6" th:each="hospital : ${hospitals}">
+                                <form th:action="@{/admin/hospital-details}" method="post" style="display: contents;">
+                                    <button type="submit" name="hospitalId" th:value="${hospital.id}"
+                                            class="hospital-card w-100 text-start border-0 bg-transparent p-0 h-100">
+                                        <div class="d-flex align-items-center w-100">
+                                            <i class="fas fa-hospital"></i>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h6 class="fw-bold mb-1" th:text="${hospital.fullName}">Hospital Name</h6>
+                                                <p class="mb-1 text-muted" th:text="${hospital.email}">hospital@email.com</p>
+                                                <small class="text-success fw-semibold">
+                                                    <i class="fas fa-check-circle me-1"></i>Verified
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SELECTED HOSPITAL -->
+        <div th:if="${selectedHospital}" class="row mt-5">
+            <div class="col-12">
+                <div class="card selected-hospital border-0 shadow-xl">
+                    <div class="card-header bg-transparent border-0 py-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-hospital fa-2x me-3 text-info"></i>
+                            <div>
+                                <h4 class="mb-1 fw-bold" th:text="${selectedHospital.fullName}">Hospital Name</h4>
+                                <p class="mb-0 opacity-75" th:text="${selectedHospital.email}">hospital@email.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <!-- STATUS COUNTS -->
+                        <div class="row g-4 mb-5 text-center">
+                            <div class="col-xl-2 col-lg-4 col-md-6">
+                                <div class="stat-card">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    <h3 th:text="${bloodApproved}">0</h3>
+                                    <p>Blood Approved</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-4 col-md-6">
+                                <div class="stat-card">
+                                    <i class="fas fa-clock text-warning"></i>
+                                    <h3 th:text="${bloodPending}">0</h3>
+                                    <p>Blood Pending</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-4 col-md-6">
+                                <div class="stat-card">
+                                    <i class="fas fa-times-circle text-danger"></i>
+                                    <h3 th:text="${bloodRejected}">0</h3>
+                                    <p>Blood Rejected</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-4 col-md-6">
+                                <div class="stat-card">
+                                    <i class="fas fa-heartbeat text-success"></i>
+                                    <h3 th:text="${organApproved}">0</h3>
+                                    <p>Organ Approved</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-4 col-md-6">
+                                <div class="stat-card">
+                                    <i class="fas fa-hourglass-half text-warning"></i>
+                                    <h3 th:text="${organPending}">0</h3>
+                                    <p>Organ Pending</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-4 col-md-6">
+                                <div class="stat-card">
+                                    <i class="fas fa-exclamation-triangle text-danger"></i>
+                                    <h3 th:text="${organRejected}">0</h3>
+                                    <p>Organ Rejected</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- APPROVED BLOOD DONORS -->
+                        <div th:if="${bloodDonorsApproved}" class="mt-5">
+                            <h5 class="fw-bold mb-4">
+                                <i class="fas fa-tint me-2 text-info"></i>
+                                Approved Blood Donors
+                                <span class="badge bg-info rounded-pill" th:text="${#lists.size(bloodDonorsApproved)}">0</span>
+                            </h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover" th:if="${!#lists.isEmpty(bloodDonorsApproved)}">
+                                    <thead>
+                                    <tr>
+                                        <th><i class="fas fa-user me-2"></i>Name</th>
+                                        <th><i class="fas fa-phone me-2"></i>Contact</th>
+                                        <th><i class="fas fa-tint me-2"></i>Blood Group</th>
+                                        <th><i class="fas fa-birthday-cake me-2"></i>Age</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="donor : ${bloodDonorsApproved}" class="animate__animated animate__fadeIn">
+                                        <td>
+                                            <strong th:text="${donor.donorName}">John Doe</strong>
+                                        </td>
+                                        <td><i class="fas fa-phone me-2 text-success"></i><span th:text="${donor.donorContact}">+977XXXXXXXXX</span></td>
+                                        <td><span class="badge bg-approved status-badge" th:text="${donor.bloodGroup}">O+</span></td>
+                                        <td><span class="badge bg-light text-dark rounded-pill px-3 py-2" th:text="${donor.age}">25</span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div th:if="${#lists.isEmpty(bloodDonorsApproved)}" class="text-center py-5 text-muted">
+                                <i class="fas fa-tint fa-3x mb-3 opacity-50"></i>
+                                <p class="fs-5">No approved blood donors yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 
-<!-- Main Content -->
-<div class="main-content">
-
-    <!-- Navbar -->
-    <div class="top-navbar">
-        <h2>Admin Dashboard</h2>
-        <div>
-            <span th:text="${adminName}"></span>
-            <i class="fa-solid fa-user-shield ms-2"></i>
-        </div>
+<!-- Footer -->
+<footer class="text-center py-5 mt-5">
+    <div class="container">
+        <p class="mb-2 fs-5 fw-semibold">
+            © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> LifeLink
+            <i class="fas fa-heart text-danger ms-2"></i>
+        </p>
+        <p class="mb-0 opacity-75">
+            <i class="fas fa-envelope me-2"></i>
+            <a href="mailto:info@lifelink.com" class="text-white text-decoration-none">info@lifelink.com</a> |
+            <i class="fas fa-phone me-2 ms-3"></i>+977 9800000000
+        </p>
     </div>
+</footer>
 
-    <!-- Dashboard Cards -->
-    <div class="row g-4">
-
-        <div class="col-md-4">
-            <div class="card-custom">
-                <h3 th:text="${totalUsers}">0</h3>
-                <p>Total Users</p>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card-custom">
-                <h3 th:text="${totalDonors}">0</h3>
-                <p>Active Donors</p>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card-custom">
-                <h3 th:text="${pendingRequests}">0</h3>
-                <p>Pending Requests</p>
-            </div>
-        </div>
-
-    </div>
-
-</div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Smooth hover animations
+    document.querySelectorAll('.hospital-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.02)';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+</script>
 </body>
 </html>

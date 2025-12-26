@@ -20,6 +20,9 @@ public class BloodDonationService {
         if (donation.getStatus() == null) donation.setStatus("PENDING");
         return bloodDonationRepo.save(donation);
     }
+    public long countByHospitalAndStatus(Users hospital, String status) {
+        return bloodDonationRepo.countByHospitalAndStatus(hospital, status);
+    }
 
     public List<BloodDonation> findAll() {
         return bloodDonationRepo.findAll();
@@ -52,10 +55,10 @@ public class BloodDonationService {
         return (int) bloodDonationRepo.findByHospitalAndDonationTypeAndStatus(hospital, DonationType.FREE, "APPROVED").size();
     }
 
-    public int countAllDonors() {
-        return (int) bloodDonationRepo.count();
-    }
 
+    public long countAllDonors() {
+        return bloodDonationRepo.count();
+    }
     public int countAllDonorsByHospital(Users hospital) {
         return (int) bloodDonationRepo.countByHospital(hospital);
     }
@@ -69,7 +72,22 @@ public class BloodDonationService {
         return bloodDonationRepo.findById(id);
     }
 
+
+
+    public List<BloodDonation> findByHospitalAndStatus(Users hospital, String status) {
+        return bloodDonationRepo.findByHospitalAndStatus(hospital, status);
+    }
+
+
     public void deleteById(Long id) {
         bloodDonationRepo.deleteById(id);
     }
+    public long countByStatus(String status) {
+        return bloodDonationRepo.countByStatus(status);
+    }
+
+    public List<BloodDonation> findByStatusAndDonationType(String status, DonationType type) {
+        return bloodDonationRepo.findByStatusAndDonationType(status, type);
+    }
+
 }

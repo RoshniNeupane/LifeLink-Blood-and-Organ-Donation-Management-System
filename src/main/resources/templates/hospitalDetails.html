@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blood Match Results - LifeLink</title>
+    <title th:text="${hospital.fullName} + ' - Hospital Details'">Hospital Details</title>
     <link rel="icon" type="image/png" href="/uploads/favicon.png"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -71,12 +71,10 @@
         .card {
             background: rgba(22, 33, 62, 0.8) !important;
             border: 1px solid rgba(233, 69, 96, 0.2) !important;
-            color: #fff;
         }
         .card-header {
             background: rgba(233, 69, 96, 0.2) !important;
         }
-        
         .table {
         	--bs-table-color: #fff;
         	--bs-table-striped-color: #fff;
@@ -108,7 +106,7 @@
                   <span th:text="${username}" class="fw-medium">Username</span>
               </a>
           <ul class="dropdown-menu dropdown-menu-end p-2" style="min-width:180px;">
-            <li><a th:href="@{/dashboard}" class="dropdown-item"><i class="fa-solid fa-user me-2"></i>Dashboard</a></li>
+            <li><a th:href="@{/admin/stats}" class="dropdown-item"><i class="fa-solid fa-arrow-left me-2"></i>Back to Hospitals</a></li>
             <li><hr class="dropdown-divider"></li>
             <li>
               <form th:action="@{/logout}" method="post">
@@ -122,71 +120,94 @@
   </div>
 </nav>
 
-<div class="container mt-5">
+<div class="container py-5">
     <section class="frosted-section">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card shadow-lg">
-                    <div class="card-header text-center">
-                        <h3><i class="fas fa-search-plus me-2"></i>Blood Match Results</h3>
-                        <p class="mb-0"><strong>Requested:</strong> <span class="badge bg-light text-danger fs-5" th:text="${requiredBloodGroup}"></span></p>
-                        <p class="mb-0"><small class="opacity-75">Showing only APPROVED donors</small></p>
+        <div class="text-center mb-5">
+            <h1 class="display-3 fw-bold mb-2" th:text="${hospital.fullName}">Hospital</h1>
+            <p class="lead mb-4" th:text="'ID: ' + ${hospital.id}">ID: 1</p>
+        </div>
+        <div class="row g-4 text-center mb-5">
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="display-4 fw-bold" th:text="${bloodApproved + organApproved}">0</div>
+                        <h5>✅ Approved</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="display-4 fw-bold" th:text="${bloodPending + organPending}">0</div>
+                        <h5>⏳ Pending</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="display-4 fw-bold" th:text="${bloodRejected + organRejected}">0</div>
+                        <h5>❌ Rejected</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="display-4 fw-bold"
+                             th:text="${(bloodApproved + organApproved + bloodPending + organPending + bloodRejected + organRejected) > 0 ? ((bloodApproved + organApproved) * 100 / (bloodApproved + organApproved + bloodPending + organPending + bloodRejected + organRejected)) + '%' : '0%'}">
+                            0%
+                        </div>
+                        <h5>✅ Rate</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-tint me-2"></i>🩸 BLOOD BREAKDOWN</h5>
                     </div>
                     <div class="card-body">
-                        <div class="alert alert-success border-0" th:text="${message}" th:if="${message}"></div>
-
-                        <div th:if="${#lists.isEmpty(bloodMatches)}" class="text-center py-5">
-                            <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
-                            <h4>No APPROVED matching donors</h4>
-                            <p>Only hospital-approved donors are shown. We'll notify you when new approved donors match!</p>
-                        </div>
-
-                        <div th:if="${!#lists.isEmpty(bloodMatches)}">
-                            <h5 class="mb-4">
-                                <i class="fas fa-list-check me-2"></i>
-                                APPROVED Donors Available (<span class="badge bg-success" th:text="${#lists.size(bloodMatches)}"></span>)
-                            </h5>
-
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead class="table-dark">
-                                    <tr>
-                                        <th>Donor</th>
-                                        <th>Hospital</th>
-                                        <th>Details</th>
-                                        <th>Contact</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="match : ${bloodMatches}">
-                                        <td>
-                                            <strong th:text="${match.donorName}"></strong><br>
-                                            <small th:text="${match.donorContact}"></small>
-                                        </td>
-                                        <td>
-                                            <strong th:text="${match.hospitalName}"></strong><br>
-                                            <small th:text="${match.hospitalContact}"></small>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-info fs-6 me-2" th:text="${match.bloodGroup}"></span>
-                                            <span class="badge bg-success" th:text="${match.donationType}"></span>
-                                        </td>
-                                        <td>
-                                            <a th:href="@{'/hospital/contact?id=' + ${match.hospitalId}}"
-                                               class="btn btn-success btn-sm w-100">
-                                                <i class="fas fa-phone me-1"></i>Contact
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="display-4 fw-bold" th:text="${bloodApproved}">0</div>
+                                <h6>✅ Approved</h6>
+                            </div>
+                            <div class="col-4">
+                                <div class="display-4 fw-bold" th:text="${bloodPending}">0</div>
+                                <h6>⏳ Pending</h6>
+                            </div>
+                            <div class="col-4">
+                                <div class="display-4 fw-bold" th:text="${bloodRejected}">0</div>
+                                <h6>❌ Rejected</h6>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer text-center">
-                        <a href="/dashboard" class="btn btn-outline-secondary">
-                            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
-                        </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-heart me-2"></i>🫀 ORGAN BREAKDOWN</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="display-4 fw-bold" th:text="${organApproved}">0</div>
+                                <h6>✅ Approved</h6>
+                            </div>
+                            <div class="col-4">
+                                <div class="display-4 fw-bold" th:text="${organPending}">0</div>
+                                <h6>⏳ Pending</h6>
+                            </div>
+                            <div class="col-4">
+                                <div class="display-4 fw-bold" th:text="${organRejected}">0</div>
+                                <h6>❌ Rejected</h6>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

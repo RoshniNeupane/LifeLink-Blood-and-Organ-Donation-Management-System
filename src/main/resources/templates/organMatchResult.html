@@ -1,51 +1,202 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Organ Match Results | LifeLink</title>
-<link rel="icon" type="image/png" href="/uploads/favicon.png"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-<style>
-body { font-family: 'Poppins', sans-serif; background: #f4f6f9; color: #333; min-height: 100vh; }
-h2 { margin: 1rem 0; color: #1a1a2e; }
-.table th, .table td { vertical-align: middle; }
-.card { border-radius: 15px; border: 1px solid rgba(0,0,0,0.1); }
-.card-header { font-weight: 600; background: #1a1a2e; color: #fff; border-radius: 15px 15px 0 0; }
-.card-body { padding: 1rem; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organ Match Results - LifeLink</title>
+    <link rel="icon" type="image/png" href="/uploads/favicon.png"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .frosted-section {
+            background: rgba(22, 33, 62, 0.85);
+            border: 2px solid rgba(233, 69, 96, 0.3);
+            backdrop-filter: blur(25px);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        h1, h2, h3, h4, h5, h6 { color: #fff; }
+        p, small, strong, .card-body, .card-header, .table { color: rgba(255,255,255,0.85); }
+
+        .navbar { 
+            background: rgba(22,33,62,0.95) !important; 
+            border-bottom: 1px solid rgba(233,69,96,0.3); 
+            padding: 1rem 0;
+        }
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        .nav-link {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #fff !important;
+        }
+        .nav-link:hover, .nav-link.active { color: #e94560 !important; }
+
+        .profile-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .nav-item .fw-medium {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .navbar-toggler { border-color: rgba(233,69,96,0.5); }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28233,69,96,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+        
+        .card {
+            background: rgba(22, 33, 62, 0.8) !important;
+            border: 1px solid rgba(233, 69, 96, 0.2) !important;
+            color: #fff;
+        }
+        .card-header {
+            background: rgba(233, 69, 96, 0.2) !important;
+        }
+        
+        .table {
+        	--bs-table-color: #fff;
+        	--bs-table-striped-color: #fff;
+        }
+
+        footer { text-align:center; padding:2rem; border-top: 2px solid rgba(233,69,96,0.3); color:rgba(255,255,255,0.7); }
+    </style>
 </head>
-<body>
-<div class="container my-4">
-
-    <h2>Best Organ Matches</h2>
-    <div class="card mb-4">
-        <div class="card-body">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Donor Name</th>
-                        <th>Hospital Name</th>
-                        <th>Hospital Contact</th>
-                        <th>Hospital Address</th>
-                        <th>Donation Type</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="donor : ${organMatches}">
-                        <td th:text="${donor.donorName}">Donor Name</td>
-                        <td th:text="${donor.hospital.fullName}">Hospital Name</td>
-                        <td th:text="${donor.hospital.contact}">Hospital Contact</td>
-                        <td th:text="${donor.hospital.address}">Hospital Address</td>
-                        <td th:text="${donor.donationType}">FREE</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<body class="bg-light">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo"/>
+      LifeLink
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <!-- Profile Dropdown -->
+          <li class="nav-item dropdown ms-3 text-center">
+              <a class="nav-link d-flex flex-column align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                  <img th:src="@{${profilePicUrl}}" alt="Profile" class="profile-avatar mb-1"
+                       onerror="this.src='/uploads/blank_profile.jpg'"
+                       style="object-fit: cover;"/>
+                  <span th:text="${username}" class="fw-medium">Username</span>
+              </a>
+          <ul class="dropdown-menu dropdown-menu-end p-2" style="min-width:180px;">
+            <li><a th:href="@{/dashboard}" class="dropdown-item"><i class="fa-solid fa-user me-2"></i>Dashboard</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form th:action="@{/logout}" method="post">
+                <button type="submit" class="dropdown-item"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
+  </div>
+</nav>
 
-    <a href="/dashboard" class="btn btn-primary">Back to Dashboard</a>
+<div class="container mt-5">
+    <section class="frosted-section">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg">
+                <div class="card-header bg-gradient-primary text-white text-center">
+                    <h3><i class="fas fa-search-plus me-2"></i>Organ Match Results</h3>
+                    <p class="mb-0"><strong>Requested:</strong> <span class="badge bg-light text-primary fs-5" th:text="${requiredOrgan}"></span></p>
+                    <p class="mb-0"><small class="opacity-75">Showing only APPROVED donors</small></p>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success border-0" th:text="${message}"></div>
+
+                    <div th:if="${#lists.isEmpty(organMatches)}" class="text-center py-5">
+                        <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                        <h4>No APPROVED organ donors</h4>
+                        <p class="text-muted">Only hospital-approved donors are shown. We'll notify you when new approved donors match!</p>
+                    </div>
+
+                    <div th:if="${!#lists.isEmpty(organMatches)}">
+                        <h5 class="mb-4">
+                            <i class="fas fa-list-check me-2"></i>
+                            APPROVED Donors Available (<span class="badge bg-success" th:text="${#lists.size(organMatches)}"></span>)
+                        </h5>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-primary">
+                                <tr>
+                                    <th>Donor</th>
+                                    <th>Hospital</th>
+                                    <th>Details</th>
+                                    <th>Contact</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="match : ${organMatches}">
+                                    <td>
+                                        <strong th:text="${match.donorName}"></strong><br>
+                                        <small class="text-muted" th:text="${match.donorContact}"></small>
+                                    </td>
+                                    <td>
+                                        <strong th:text="${match.hospitalName}"></strong><br>
+                                        <small th:text="${match.hospitalContact}"></small>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info fs-6 me-2" th:text="${match.organType}"></span>
+                                        <span class="badge bg-success" th:text="${match.donationType}"></span>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{'/hospital/contact?id=' + ${match.hospitalId}}"
+                                           class="btn btn-primary btn-sm w-100">
+                                            <i class="fas fa-phone me-1"></i>Contact
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="/dashboard" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
+<!-- Footer -->
+<footer>
+    <p>© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> LifeLink. All rights reserved.</p>
+    <p>Contact: info@lifelink.com | +977 9800000000</p>
+</footer>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
