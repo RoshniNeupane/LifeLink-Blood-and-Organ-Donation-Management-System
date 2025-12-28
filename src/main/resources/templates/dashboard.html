@@ -1,283 +1,297 @@
+<!-- MainPage.html (COMPLETE FIXED VERSION) -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title th:text="#{app.title}">LifeLink</title>
-<link rel="icon" type="image/png" href="/uploads/favicon.png"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{app.title}">LifeLink</title>
+    <link rel="icon" type="image/png" href="/uploads/favicon.png"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
-    color: #fff;
-    min-height: 100vh;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
 
-/* Frosted sections */
-.frosted-section {
-    background: rgba(22, 33, 62, 0.85);
-    border: 2px solid rgba(233, 69, 96, 0.3);
-    backdrop-filter: blur(25px);
-    border-radius: 24px;
-    padding: 3rem 2.5rem;
-    margin-bottom: 3rem;
-}
+        .frosted-section {
+            background: rgba(22, 33, 62, 0.85);
+            border: 2px solid rgba(233, 69, 96, 0.3);
+            backdrop-filter: blur(25px);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            margin-bottom: 3rem;
+        }
 
-/* Typography */
-h1, h2, h3, h4, h5 { color: #fff; }
-p { color: rgba(255,255,255,0.85); }
+        h1, h2, h3, h4, h5 { color: #fff; }
+        p { color: rgba(255,255,255,0.85); }
 
-/* Navbar */
-.navbar { 
-    background: rgba(22,33,62,0.95) !important; 
-    border-bottom: 1px solid rgba(233,69,96,0.3); 
-    padding: 1rem 0;
-}
-.navbar-brand {
-    font-size: 1.75rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-}
-.navbar-brand img {
-    height: 50px;
-    margin-right: 10px;
-}
-.nav-link {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: #fff !important;
-}
-.nav-link:hover, .nav-link.active { color: #e94560 !important; }
+        .navbar {
+            background: rgba(22,33,62,0.95) !important;
+            border-bottom: 1px solid rgba(233,69,96,0.3);
+            padding: 1rem 0;
+        }
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        .nav-link { font-size: 1.2rem; font-weight: 500; color: #fff !important; }
+        .nav-link:hover, .nav-link.active { color: #e94560 !important; }
 
-.btn-primary { 
-    background: linear-gradient(135deg, #e94560 0%, #533483 100%); 
-    border: none; 
-    border-radius: 14px; 
-}
-.btn-primary:hover {
-    background: linear-gradient(135deg, #ff5571 0%, #6a3f90 100%);
-}
-.btn-secondary {
-    background: rgba(255,255,255,0.05);
-    border: 2px solid rgba(233,69,96,0.2);
-    color: #fff;
-}
-.btn-secondary:hover { background: rgba(233,69,96,0.15); }
+        .btn-primary {
+            background: linear-gradient(135deg, #e94560 0%, #533483 100%);
+            border: none;
+            border-radius: 14px;
+        }
+        .btn-primary:hover { background: linear-gradient(135deg, #ff5571 0%, #6a3f90 100%); }
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(233,69,96,0.2);
+            color: #fff;
+        }
+        .btn-secondary:hover { background: rgba(233,69,96,0.15); }
 
-.hero { text-align:center; padding:5rem 1rem; }
-.hero h1 { font-size:3rem; font-weight:700; margin-bottom:1rem; }
-.hero h1 span { background: linear-gradient(to right,#e94560,#533483); -webkit-background-clip: text; color: transparent; }
-.hero p { font-size:1.2rem; max-width:600px; margin:0 auto 2rem; }
+        .hero { text-align:center; padding:5rem 1rem; }
+        .hero h1 { font-size:3rem; font-weight:700; margin-bottom:1rem; }
+        .hero h1 span { background: linear-gradient(to right,#e94560,#533483); -webkit-background-clip: text; color: transparent; }
+        .hero p { font-size:1.2rem; max-width:600px; margin:0 auto 2rem; }
+        .hero .btn { min-width: 180px; margin:0.5rem; }
 
-.hero .btn { min-width: 180px; margin:0.5rem; }
+        .stats, .donation-section, .testimonials { text-align:center; margin-bottom:2rem; }
+        .stats h3 { color:#e94560; font-weight:700; margin-bottom:0.5rem; }
+        .stats p { color: rgba(255,255,255,0.7); }
 
-/* Stats */
-.stats, .donation-section, .final-cta, .testimonials { text-align:center; margin-bottom:2rem; }
-.stats h3 { color:#e94560; font-weight:700; margin-bottom:0.5rem; }
-.stats p { color: rgba(255,255,255,0.7); }
+        .donation-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:2rem;
+            max-width:1200px;
+            margin:0 auto;
+        }
+        .donation-card {
+            background: rgba(22,33,62,0.8);
+            border:2px solid rgba(233,69,96,0.2);
+            border-radius:20px;
+            padding:2rem 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .donation-card:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(233,69,96,0.4); }
+        .icon-container {
+            font-size:3rem;
+            width:70px; height:70px;
+            margin:0 auto 1rem;
+            display:flex; align-items:center; justify-content:center;
+            background: rgba(233,69,96,0.2);
+            border-radius:50%;
+        }
+        .donation-card h3 { color:#e94560; margin-bottom:0.5rem; }
+        .donation-card p { color:#fff; }
 
-/* Donation/Free Donors */
-.donation-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
-.donation-card {
-    background: rgba(22,33,62,0.8);
-    border:2px solid rgba(233,69,96,0.2);
-    border-radius:20px;
-    padding:2rem 1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.donation-card:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(233,69,96,0.4); }
-.icon-container { font-size:3rem; width:70px; height:70px; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; background: rgba(233,69,96,0.2); border-radius:50%; }
-.donation-card h3 { color:#e94560; margin-bottom:0.5rem; }
-.donation-card p { color:#fff; }
+        .profile-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(233,69,96,0.3);
+        }
+        .nav-item .fw-medium {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 2px;
+        }
 
-/* Profile avatar */
-.profile-avatar {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-.nav-item .fw-medium {
-    font-size: 1rem;
-    font-weight: 500;
-    margin-top: 2px;
-}
+        .navbar-toggler { border-color: rgba(233,69,96,0.5); }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28233,69,96,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
 
-.navbar-toggler { border-color: rgba(233,69,96,0.5); }
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28233,69,96,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-}
+        .testimonials .card {
+            background: rgba(22,33,62,0.85);
+            border: 1px solid rgba(233,69,96,0.2);
+            border-radius:20px;
+            color:#fff;
+        }
 
-.testimonials .card { background: rgba(22,33,62,0.85); border: 1px solid rgba(233,69,96,0.2); border-radius:20px; color:#fff; }
-.final-cta h2 { font-size:2rem; margin-bottom:1rem; }
-.final-cta p { color: rgba(255,255,255,0.85); }
+        footer {
+            text-align:center;
+            padding:2rem;
+            border-top: 2px solid rgba(233,69,96,0.3);
+            color:rgba(255,255,255,0.7);
+        }
 
-footer { text-align:center; padding:2rem; border-top: 2px solid rgba(233,69,96,0.3); color:rgba(255,255,255,0.7); }
-
-@media (max-width: 768px) {
-    .hero h1 { font-size: 2rem; }
-    .hero p { font-size: 1rem; max-width: 90%; }
-    .hero .btn { width: 100%; margin-bottom: 0.5rem; }
-}
-</style>
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem; max-width: 90%; }
+            .hero .btn { width: 100%; margin-bottom: 0.5rem; }
+        }
+    </style>
 </head>
 <body>
 
-<!-- Navbar -->
+<!-- Navbar (FIXED - NO LOOP) -->
 <nav class="navbar navbar-expand-lg">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo"/>
-      LifeLink
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto align-items-center">
-        <!-- Main Actions removed from navbar as per your instruction -->
-        <!-- Profile Dropdown -->
-          <li class="nav-item dropdown ms-3 text-center">
-              <a class="nav-link d-flex flex-column align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-                  <img th:src="@{${profilePicUrl}}" alt="Profile" class="profile-avatar mb-1"
-                       onerror="this.src='/uploads/blank_profile.jpg'"
-                       style="object-fit: cover;"/>
-                  <span th:text="${username}" class="fw-medium">Username</span>
-              </a>
-          <ul class="dropdown-menu
-          dropdown-menu-end p-2" style="min-width:180px;">
-            <li class="dropdown-item-text"><i class="fa-solid fa-user me-2"></i> <span th:text="${username}">Username</span></li>
-            <li><a
-                    th:href="@{/profile}" class="dropdown-item"><i class="fa-solid fa-user me-2"></i>Profile</a></li>
-            <li><a th:href="@{/settings}" class="dropdown-item"><i class="fa-solid fa-gear me-2"></i>Settings</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <form th:action="@{/logout}" method="post">
-                <button type="submit" class="dropdown-item"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</button>
-              </form>
-            </li>
-          </ul>
-        </li>
-      </ul>
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo" onerror="this.style.display='none'"/>
+            LifeLink
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item dropdown ms-3 text-center">
+                    <a class="nav-link d-flex flex-column align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+
+                        <img th:src="@{${profilePicUrl} ?: '/uploads/blank_profile.jpg'}"
+                             th:alt="${username ?: 'Profile'}"
+                             class="profile-avatar mb-1"/>
+                        <span th:text="${username ?: 'Guest'}" class="fw-medium">Username</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end p-2" style="min-width:180px;">
+                        <li class="dropdown-item-text">
+                            <i class="fa-solid fa-user me-2"></i>
+                            <span th:text="${username ?: 'Guest'}">Username</span>
+                        </li>
+                        <li><a th:href="@{/profile}" class="dropdown-item"><i class="fa-solid fa-user me-2"></i>Profile</a></li>
+                        <li><a th:href="@{/settings}" class="dropdown-item"><i class="fa-solid fa-gear me-2"></i>Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post">
+                                <button type="submit" class="dropdown-item">
+                                    <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
 
-<!-- Hero / Main Actions -->
+<!-- Hero -->
 <section class="hero frosted-section">
-  <h1>Make a Difference & <span>Save Lives</span></h1>
-  <p>Choose an action below to donate or request blood/organs.</p>
-  <div class="d-flex justify-content-center gap-3 flex-wrap">
-    <a th:href="@{/donate-blood}" class="btn btn-primary">Donate Blood</a>
-    <a th:href="@{/donate-organ}" class="btn btn-primary">Donate Organ</a>
-    <a th:href="@{/request-blood}" class="btn btn-secondary">Request Blood</a>
-    <a th:href="@{/request-organ}" class="btn btn-secondary">Request Organ</a>
-  </div>
+    <h1>Make a Difference & <span>Save Lives</span></h1>
+    <p>Choose an action below to donate or request blood/organs.</p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a th:href="@{/donate-blood}" class="btn btn-primary">Donate Blood</a>
+        <a th:href="@{/donate-organ}" class="btn btn-primary">Donate Organ</a>
+        <a th:href="@{/request-blood}" class="btn btn-secondary">Request Blood</a>
+        <a th:href="@{/request-organ}" class="btn btn-secondary">Request Organ</a>
+    </div>
 </section>
 
 <!-- Stats -->
 <section class="stats frosted-section">
-  <div class="row">
-    <div class="col-md-4">
-      <h3 th:text="${(totalDonors != null ? totalDonors : 0)}">0</h3>
-      <p>Registered Donors</p>
+    <div class="row">
+        <div class="col-md-4">
+            <h3 th:text="${totalDonors ?: 0}">0</h3>
+            <p>Registered Donors</p>
+        </div>
+        <div class="col-md-4">
+            <h3 th:text="${totalBloodUnits ?: 0}">0</h3>
+            <p>Blood Units Collected</p>
+        </div>
+        <div class="col-md-4">
+            <h3 th:text="${totalOrgansDonated ?: 0}">0</h3>
+            <p>Organs Donated</p>
+        </div>
     </div>
-    <div class="col-md-4">
-      <h3 th:text="${totalBloodUnits != null ? totalBloodUnits : 0}">0</h3>
-      <p>Blood Units Collected</p>
-    </div>
-    <div class="col-md-4">
-      <h3 th:text="${(totalOrgansDonated != null ? totalOrgansDonated : 0)}">0</h3>
-      <p>Organs Donated</p>
-    </div>
-  </div>
 </section>
 
-<!-- Free Donors (Organ Only) -->
+<!-- Free Organ Donors -->
 <section class="donation-section frosted-section">
-  <h2>Free Organ Donors</h2>
-  <div class="donation-grid">
-    <div class="donation-card" th:each="donor : ${freeDonors}">
-      <div class="icon-container">🫀</div>
-      <h3 th:text="${donor.username}">Donor Name</h3>
-      <p th:text="${donor.organType}">Kidney</p>
-      <p class="text-success">Free Donor</p>
+    <h2>Free Organ Donors</h2>
+    <div class="donation-grid" th:if="${freeOrganDonors != null and !freeOrganDonors.isEmpty()}">
+        <div class="donation-card" th:each="donor : ${freeOrganDonors}">
+            <div class="icon-container">🫀</div>
+            <h3 th:text="${donor.donorName ?: 'Anonymous'}">Donor Name</h3>
+            <p th:text="${donor.organType ?: 'Organ'}">Kidney</p>
+            <p class="text-success">Free Donor</p>
+        </div>
     </div>
-  </div>
+    <p th:if="${freeOrganDonors == null or freeOrganDonors.isEmpty()}" class="text-muted">No free organ donors available</p>
 </section>
 
 <!-- Free Requests -->
 <section class="donation-section frosted-section">
-  <h2>Free Requests</h2>
-  <div class="donation-grid">
-    <div class="donation-card" th:each="request : ${freeRequests}">
-      <div class="icon-container">🙏</div>
-      <h3 th:text="${request.patientName}">Patient Name</h3>
-      <p th:text="${request.bloodGroup + (request.organType != null ? ' | ' + request.organType : '')}">B+ | Liver</p>
-      <p class="text-info">Free Request</p>
+    <h2>Free Requests</h2>
+    <div class="donation-grid" th:if="${freeBloodDonors != null and !freeBloodDonors.isEmpty()}">
+        <div class="donation-card" th:each="request : ${freeBloodDonors}">
+            <div class="icon-container">🙏</div>
+            <h3 th:text="${request.donorName ?: 'Patient'}">Patient Name</h3>
+            <p th:text="${request.bloodGroup ?: 'Blood Group'}">B+</p>
+            <p class="text-info">Free Request</p>
+        </div>
     </div>
-  </div>
+    <p th:if="${freeBloodDonors == null or freeBloodDonors.isEmpty()}" class="text-muted">No free requests available</p>
 </section>
 
 <!-- Testimonials -->
 <section class="testimonials frosted-section">
-  <h2>What Our Donors Say</h2>
-  <p>Stories from our amazing community</p>
-  <div class="row mt-4">
-    <div class="col-md-4 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <p class="mb-3">"Donating blood through LifeLink was incredibly easy. I received a notification about a matching request, and within hours, I was able to help save someone's life. This platform is truly amazing!"</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">R</div>
-            <div>
-              <strong>Rajesh Kumar</strong>
-              <p class="mb-0 small text-muted">15 donations</p>
+    <h2>What Our Donors Say</h2>
+    <p>Stories from our amazing community</p>
+    <div class="row mt-4">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p>"Donating blood through LifeLink was incredibly easy. I received a notification about a matching request, and within hours, I was able to help save someone's life."</p>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:40px;height:40px;font-weight:bold;">R</div>
+                        <div>
+                            <strong>Rajesh Kumar</strong>
+                            <p class="mb-0 small text-muted">15 donations</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <p class="mb-3">"As a doctor, I've seen firsthand how critical blood donations are. LifeLink makes it so convenient to connect donors with patients. It's a lifesaving service that every community needs."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">S</div>
-            <div>
-              <strong>Dr. Sita Sharma</strong>
-              <p class="mb-0 small text-muted">Medical Professional</p>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p>"As a doctor, I've seen firsthand how critical blood donations are. LifeLink makes it so convenient to connect donors with patients."</p>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:40px;height:40px;font-weight:bold;">S</div>
+                        <div>
+                            <strong>Dr. Sita Sharma</strong>
+                            <p class="mb-0 small text-muted">Medical Professional</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <p class="mb-3">"My father needed blood urgently, and thanks to LifeLink, we found a donor within 30 minutes. I'm forever grateful to this platform and the generous donors who make it possible."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">A</div>
-            <div>
-              <strong>Arun Thapa</strong>
-              <p class="mb-0 small text-muted">Family Member</p>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p>"My father needed blood urgently, and thanks to LifeLink, we found a donor within 30 minutes. I'm forever grateful."</p>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:40px;height:40px;font-weight:bold;">A</div>
+                        <div>
+                            <strong>Arun Thapa</strong>
+                            <p class="mb-0 small text-muted">Family Member</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>
 
 <!-- Footer -->
 <footer>
-  <p>© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> LifeLink. All rights reserved.</p>
-  <p>Contact: info@lifelink.com | +977 9800000000</p>
+    <p>© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> LifeLink. All rights reserved.</p>
+    <p>Contact: <a href="mailto:info@lifelink.com" style="color: #e94560;">info@lifelink.com</a> | +977 9800000000</p>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

@@ -2,10 +2,9 @@ package com.lifelink.controller;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.lifelink.entity.*;
-
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -62,11 +61,12 @@ public class LoginController {
                         .toLowerCase() + "@oauthuser.com";
             }
 
-            String picture = oauthUser.getAttribute("picture");
+            // ✅ FIXED: Proper OAuth picture extraction
+            String picture = extractOAuthPictureUrl(oauthUser);
             String finalProfilePicUrl = "/uploads/blank_profile.jpg";
 
             if (picture != null && !picture.isEmpty()) {
-                finalProfilePicUrl = picture.startsWith("http") ? picture : "https://lh3.googleusercontent.com" + picture;
+                finalProfilePicUrl = picture;
             }
 
             user = userService.findByEmail(email);
@@ -88,25 +88,26 @@ public class LoginController {
         }
 
         List<Users> hospitals = userService.findByRole(Role.HOSPITAL);
-        int totalDonors = userService.countAllUsers();  // All registered users
-        long totalBloodUnits = bloodDonationService.countByStatus("APPROVED");  // Only approved blood donations
-        long totalOrgansDonated = organDonationService.countByStatus("APPROVED");  // Only approved organ donations
-        long totalBloodRequests = bloodRequestService.countByStatus("PENDING");  // Pending blood requests
-        long totalOrganRequests = organRequestService.countByStatus("PENDING");  // Pending organ requests
+        int totalDonors = userService.countAllUsers();
+        long totalBloodUnits = bloodDonationService.countByStatus("APPROVED");
+        long totalOrgansDonated = organDonationService.countByStatus("APPROVED");
+        long totalBloodRequests = bloodRequestService.countByStatus("PENDING");
+        long totalOrganRequests = organRequestService.countByStatus("PENDING");
 
         List<BloodDonation> freeBloodDonors = bloodDonationService.findByStatusAndDonationType("APPROVED", DonationType.FREE);
         List<OrganDonation> freeOrganDonors = organDonationService.findByStatusAndDonationType("APPROVED", DonationType.FREE);
+
         model.addAttribute("hospitals", hospitals);
         model.addAttribute("totalHospitals", hospitals.size());
         model.addAttribute("totalBloodDonors", bloodDonationService.countAllDonors());
         model.addAttribute("totalOrganDonors", organDonationService.countAllDonors());
         model.addAttribute("totalDonors", totalDonors);
-        model.addAttribute("totalBloodUnits", totalBloodUnits);  // ✅ REAL DATA
-        model.addAttribute("totalOrgansDonated", totalOrgansDonated);  // ✅ REAL DATA
+        model.addAttribute("totalBloodUnits", totalBloodUnits);
+        model.addAttribute("totalOrgansDonated", totalOrgansDonated);
         model.addAttribute("totalBloodRequests", totalBloodRequests);
         model.addAttribute("totalOrganRequests", totalOrganRequests);
-        model.addAttribute("freeBloodDonors", freeBloodDonors);  // ✅ For cards
-        model.addAttribute("freeOrganDonors", freeOrganDonors);  // ✅ For cards
+        model.addAttribute("freeBloodDonors", freeBloodDonors);
+        model.addAttribute("freeOrganDonors", freeOrganDonors);
 
         model.addAttribute("username", username);
         model.addAttribute("profilePicUrl", profilePicUrl);
@@ -119,6 +120,42 @@ public class LoginController {
             case HOSPITAL -> "redirect:/hospital/dashboard";
             default -> "dashboard";
         };
+    }
+
+    // ✅ NEW: OAuth picture extractor
+    private String extractOAuthPictureUrl(OAuth2User oauthUser) {
+        try {
+            // Google: direct "picture"
+            String picture = oauthUser.getAttribute("picture");
+            if (picture != null && !picture.isEmpty()) {
+                return picture.startsWith("http") ? picture : "https://lh3.googleusercontent.com" + picture;
+            }
+
+            // Facebook: nested picture.data.url
+            Object pictureObj = oauthUser.getAttribute("picture");
+            if (pictureObj instanceof Map) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> pictureMap = (Map<String, Object>) pictureObj;
+                @SuppressWarnings("unchecked")
+                Map<String, Object> data = (Map<String, Object>) pictureMap.get("data");
+                if (data != null) {
+                    String url = (String) data.get("url");
+                    if (url != null && !url.isEmpty()) {
+                        return url;
+                    }
+                }
+            }
+
+            // GitHub: "avatar_url"
+            picture = oauthUser.getAttribute("avatar_url");
+            if (picture != null && !picture.isEmpty()) {
+                return picture;
+            }
+
+        } catch (Exception e) {
+            // Silent fail - use blank profile
+        }
+        return null;
     }
 
     @GetMapping("/postLogin")
