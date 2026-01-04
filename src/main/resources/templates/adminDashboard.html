@@ -4,295 +4,736 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - LifeLink</title>
-    <link rel="icon" type="image/png" href="/uploads/favicon.png"/>
+    <link rel="icon" type="image/ico" sizes="180x180" href="/uploads/favicon.ico">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            --danger-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            --dark-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-        }
+       /* =========================================================
+   LIFE LINK – LIGHT MEDICAL DASHBOARD THEME
+   Uses Design Tokens (Root Variables)
+   ========================================================= */
 
-        * { box-sizing: border-box; }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--dark-gradient);
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+/* ================= ROOT VARIABLES ================= */
 
-        /* Navbar */
-        .navbar {
-            background: rgba(22,33,62,0.98) !important;
-            border-bottom: 2px solid transparent;
-            background-clip: padding-box;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
-        .navbar-brand {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-        .navbar-brand:hover { transform: scale(1.05); }
-        .navbar-brand img { height: 55px; margin-right: 12px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Merriweather:wght@300;400;700;900&display=swap');
 
-        .nav-link {
-            font-size: 1.15rem;
-            font-weight: 500;
-            color: rgba(255,255,255,0.9) !important;
-            padding: 0.75rem 1.5rem !important;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: var(--primary-gradient);
-            opacity: 0.2;
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-        .nav-link:hover::before { left: 0; }
-        .nav-link:hover, .nav-link.active {
-            color: #fff !important;
-            background: var(--primary-gradient);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-            transform: translateY(-2px);
-        }
+/* =========================================================
+   LIFE LINK – ADMIN DASHBOARD (CLEAN MEDICAL THEME)
+========================================================= */
 
-        .profile-avatar {
-            width: 50px; height: 50px;
-            border: 3px solid rgba(255,255,255,0.2);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-        }
-        .profile-avatar:hover { transform: scale(1.1); border-color: #e94560; }
+/* ================= ROOT VARIABLES ================= */
 
-        /* Main Content */
-        .hero-section {
-            background: rgba(22, 33, 62, 0.9);
-            border: 2px solid rgba(233, 69, 96, 0.4);
-            backdrop-filter: blur(30px);
-            border-radius: 30px;
-            padding: 3.5rem 3rem;
-            margin-bottom: 4rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-        }
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(233,69,96,0.1) 0%, transparent 70%);
-            animation: float 20s ease-in-out infinite;
-        }
-        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(180deg); } }
+/* =========================================================
+   LIFE LINK – ADMIN DASHBOARD UI/UX STYLING
+   ========================================================= */
 
-        /* Stat Cards */
-        .stat-card {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            height: 100%;
-        }
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            right: 0; bottom: 0;
-            background: var(--primary-gradient);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
-        }
-        .stat-card:hover {
-            transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-        }
-        .stat-card:hover::before { opacity: 0.15; }
-        .stat-card i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.8; }
-        .stat-card h3 { font-size: 2.5rem; font-weight: 800; margin: 0; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .stat-card p { font-size: 1rem; opacity: 0.8; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+/* ================= ROOT VARIABLES ================= */
+:root {
+  /* Fonts */
+  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Poppins', serif;
 
-        /* Hospital Cards */
-        .hospital-card {
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            min-height: 120px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .hospital-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 4px; height: 100%;
-            background: var(--success-gradient);
-            transition: all 0.3s ease;
-            transform: scaleY(0);
-        }
-        .hospital-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            border-color: rgba(79, 172, 254, 0.5);
-        }
-        .hospital-card:hover::before { transform: scaleY(1); }
-        .hospital-card i { font-size: 2.5rem; color: #4facfe; margin-right: 1.5rem; }
 
-        /* Selected Hospital */
-        .selected-hospital {
-            background: rgba(79, 172, 254, 0.15);
-            border: 2px solid rgba(79, 172, 254, 0.4);
-            border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(79, 172, 254, 0.2);
-        }
+  /* Font Weights */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
 
-        /* Status Badges */
-        .status-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-        }
-        .bg-approved { background: rgba(34, 197, 94, 0.2); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); }
-        .bg-pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
-        .bg-rejected { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+  /* Font Sizes */
+  --fs-xs: 0.75rem;    /* 12px */
+  --fs-sm: 0.875rem;   /* 14px */
+  --fs-md: 1rem;       /* 16px */
+  --fs-lg: 1.125rem;   /* 18px */
+  --fs-xl: 1.25rem;    /* 20px */
+  --fs-2xl: 1.5rem;    /* 24px */
+  --fs-3xl: 1.875rem;  /* 30px */
+  --fs-4xl: 2.25rem;   /* 36px */
+  --fs-5xl: 3rem;      /* 48px */
 
-        /* Table */
-        .table { background: rgba(255,255,255,0.05); border-radius: 15px; overflow: hidden; }
-        .table th { background: rgba(233, 69, 96, 0.3); font-weight: 600; border: none; }
-        .table td { border-color: rgba(255,255,255,0.1); vertical-align: middle; }
+  /* Line Heights */
+  --lh-xs: 1;
+  --lh-sm: 1.25;
+  --lh-md: 1.5;
+  --lh-lg: 1.75;
+  --lh-xl: 2;
 
-        /* Footer */
-        footer {
-            background: rgba(22,33,62,0.8);
-            backdrop-filter: blur(20px);
-            border-top: 2px solid rgba(233,69,96,0.4);
-            border-radius: 25px 25px 0 0;
-            margin-top: 4rem;
-        }
+  /* Spacing */
+  --space-xs: 0.25rem;  /* 4px */
+  --space-sm: 0.5rem;   /* 8px */
+  --space-md: 1rem;     /* 16px */
+  --space-lg: 1.5rem;   /* 24px */
+  --space-xl: 2rem;     /* 32px */
+  --space-2xl: 3rem;    /* 48px */
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-section { padding: 2rem 1.5rem; margin-bottom: 2rem; }
-            .stat-card h3 { font-size: 2rem; }
-            .hospital-card { min-width: 100%; margin-bottom: 1rem; }
-        }
+  /* Colors */
+  --color-primary: #1E4E96;
+  --color-primary-dark: #163d78;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #D12020;
+  --color-white: #ffffff;
+  --color-text: #1A1A1A;
+  --color-muted: #717182;
+  --color-bg: #F4F6FA;
+  --color-card: #ffffff;
+  --color-border: #cfd6e4;
 
-        /* Animations */
-        .fade-in-up { animation: fadeInUp 0.8s ease forwards; }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+
+   /* ===== BORDER RADIUS ===== */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+
+    /* ===== SHADOW ===== */
+<!--    &#45;&#45;shadow-sm: 0 2px 6px rgba(0,0,0,0.05);-->
+<!--    &#45;&#45;shadow-md: 0 4px 12px rgba(0,0,0,0.1);-->
+}
+
+/* ================= GLOBAL RESET ================= */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: var(--fs-md);
+    line-height: var(--lh-md);
+}
+
+/* ================= CONTAINERS ================= */
+.container, .container-fluid {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+     align-items: stretch;
+
+}
+row g-4 mb-5{
+ display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: var(--space-xl);
+}
+
+.col {
+
+    flex: 1 1 1;
+    justify-content: space-between;
+    gap: var(--space-md);
+
+}
+
+/* ================= NAVBAR ================= */
+
+        /* Base navbar */
+.navbar {
+    background: #ffffff;
+    padding: 0.1rem 1rem;
+    border-bottom: 0.75px solid #e5e7eb;
+    border-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position:sticky-top;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #e11d48;
+}
+
+.navbar-brand img {
+    height: 34px;
+}
+
+/* Right-side user block */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item.dropdown {
+    display: flex;
+    align-items: center;
+}
+
+/* Avatar + username inline */
+.nav-link {
+    display: flex !important;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.25rem 0.75rem;
+}
+
+.profile-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e5e7eb;
+}
+
+.nav-item .fw-medium {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #111827;
+    white-space: nowrap;
+}
+
+/* ===============================
+   MOBILE FIX (IMPORTANT)
+=============================== */
+@media (max-width: 991px) {
+
+    /* Keep navbar one-line */
+    .navbar > .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* Disable center stacking */
+    .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        right: 1rem;
+        width: auto;
+        background: #ffffff;
+        padding: 0.75rem;
+        border-radius: 12px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    /* Dropdown avatar stays inline */
+    .navbar-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .nav-link {
+        flex-direction: row !important;
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .profile-avatar {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* ===============================
+   DROPDOWN MENU POLISH
+=============================== */
+.dropdown-menu {
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    border:none;
+    padding: 0.5rem;
+}
+
+.dropdown-item {
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.dropdown-item:hover {
+    background: #f1f5f9;
+}
+
+
+/* ===============================
+   MATERIAL UI STYLE DROPDOWN
+=============================== */
+
+.dropdown-menu {
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.12);
+    padding: 0.5rem;
+    background: #ffffff;
+}
+
+/* Username (top text) */
+.dropdown-item-text {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #111827;
+    padding: 0.75rem;
+}
+
+/* All dropdown items */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500; /* semi-bold */
+    font-size: 0.9rem;
+    color: #374151;
+    border-radius: 10px;
+    padding: 0.6rem 0.75rem;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+/* Material hover */
+.dropdown-item:hover {
+    background: #f3f4f6;
+    transform: translateX(2px);
+}
+
+/* ICON CIRCLE (Material style) */
+.dropdown-item i,
+.dropdown-item-text i {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    color: #374151;
+
+    /* IMPORTANT: no stroke / no border */
+    border: none;
+    box-shadow: none;
+}
+
+/* Accent colors per action */
+.dropdown-item i.fa-user {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.dropdown-item i.fa-gear {
+    background: #ede9fe;
+    color: black;
+}
+
+.dropdown-item i.fa-right-from-bracket {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+/* ================= STAT CARDS ================= */
+.dashboard-card {
+    background-color: var(--color-white);
+    text-align: center;
+     background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: inset 0 0 0 1px #cfd6e4;
+  transition: transform 0.2s ease;
+}
+
+.dashboard-card i {
+    font-size: 2.5rem;
+    color: var(--color-danger);
+    margin-bottom: 0.75rem;
+}
+
+.dashboard-card h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-primary-dark);
+}
+
+.dashboard-card p {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-muted);
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.hospital-card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    transition: transform 0.2s ease;
+    background: #fff;
+  padding: 32px;
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+.hospital-card i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.hospital-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.hospital-card p {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-muted);
+}
+
+.hospital-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1) border: 1px solid var(--color-border);
+}
+
+
+
+
+/* ================= TABLES ================= */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-card);
+    border-radius: var(--space-xs);
+    overflow: hidden;
+}
+
+.table th, .table td {
+    padding: var(--space-sm) var(--space-md);
+    text-align: left;
+}
+
+.table th {
+    white-space: nowrap; /* prevent text from wrapping */
+    background-color: var(--color-primary);
+    color: var(--color-white); /* now text is visible */
+    font-weight: 600;
+    font-size: var(--fs-md);
+    text-align: left;
+    padding: var(--space-sm) var(--space-md);
+}
+
+.table tr {
+    border-bottom: 1px solid #e0e0e0;
+
+}
+
+.table tr:hover {
+    background: #f1f5f9;
+}
+status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--color-white);
+    background-color: var(--color-success); /* or use var(--color-danger), etc */
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.status-badge.bg-approved { background-color: var(--color-success); color: var(--color-white); }
+.status-badge.bg-pending { background-color: var(--color-warning); color: var(--color-black); }
+.status-badge.bg-rejected { background-color: var(--color-danger); color: var(--color-white); }
+
+.status-badge:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+}
+@media (max-width: 1200px) {
+    .stat-card { flex: 1 1 calc(33% - var(--space-md)); }
+}
+@media (max-width: 768px) {
+    .stat-card { flex: 1 1 calc(50% - var(--space-md)); }
+}
+@media (max-width: 480px) {
+    .stat-card { flex: 1 1 100%; }
+    .table th, .table td { font-size: var(--fs-sm); padding: var(--space-xs) var(--space-sm); }
+}
+
+
+/* ================= BUTTONS ================= */
+/* ================= BUTTONS (GENERAL) ================= */
+.btn {
+    font-size: var(--fs-md);
+    font-weight: var(--fw-medium);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: 0.5rem;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary-dark);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+    color: var(--color-white);
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+<!--.btn-outline-primary:hover {-->
+<!--    background-color: var(&#45;&#45;color-primary);-->
+<!--    color: var(&#45;&#45;color-white);-->
+<!--}-->
+
+/* ================= FORMS ================= */
+input, select, textarea {
+    font-family: var(--font-body);
+    font-size: var(--fs-md);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--space-xs);
+    border: 1px solid #ccc;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(30,78,150,0.1);
+}
+
+/* ================= FOOTER ================= */
+footer {
+    background:#1e40af;
+    color: var(--color-white);
+    padding: var(--space-lg) 0;
+    text-align: center;
+}
+
+footer a {
+    color: var(--color-white);
+    text-decoration: none;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 991px) {
+    .row { flex-direction: column; gap: var(--space-md); }
+    .navbar-nav { flex-direction: column; gap: var(--space-sm); }
+}
+
+/* ================= ANIMATIONS ================= */
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ================= RESPONSIVE ================= */
+/* =====================================================
+   RESPONSIVE PROFILE DROPDOWN CONTROL (CSS ONLY)
+   ===================================================== */
+/* =====================================================
+   PRO RESPONSIVE ADMIN PROFILE (CSS ONLY)
+   ===================================================== */
+
+/* ===== DESKTOP & LARGE SCREENS ===== */
+@media (min-width: 992px) {
+
+  /* Disable ONLY the profile dropdown */
+  .nav-item.dropdown a[data-bs-toggle="dropdown"] {
+    pointer-events: none;
+    cursor: default;
+  }
+
+  /* Hide dropdown menu */
+  .nav-item.dropdown .dropdown-menu {
+    display: none !important;
+  }
+
+  /* Remove Bootstrap dropdown arrow (if any) */
+  .nav-item.dropdown a[data-bs-toggle="dropdown"]::after {
+    display: none !important;
+  }
+}
+
+/* ===== MOBILE & TABLET ===== */
+@media (max-width: 991px) {
+
+  /* Enable dropdown */
+  .nav-item.dropdown {
+    display: block !important;
+    pointer-events: auto;
+  }
+
+  /* Dropdown menu full width */
+  .nav-item.dropdown .dropdown-menu {
+    width: 100%;
+    margin-top: 12px;
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .nav-item.dropdown .dropdown-item {
+    text-align: center;
+  }
+}
+        /* Small screens */
+@media (max-width: 576px) {
+  html { font-size: 0.9375rem; } /* 15px */
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.75rem; }
+}
+
+/* Medium screens */
+@media (min-width: 577px) and (max-width: 992px) {
+  html { font-size: 1rem; } /* 16px */
+}
+
+/* Large screens */
+@media (min-width: 993px) {
+  html { font-size: 1.0625rem; } /* 17px */
+}
+
+</style>
 </head>
 <body>
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg py-3">
+<nav class="navbar py-3 sticky-top shadow-sm">
     <div class="container">
+
+        <!-- BRAND -->
         <a class="navbar-brand" href="/">
-            <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo"/>
+            <img src="/uploads/LifelineLogo.png" class="navbar-logo" alt="LifeLink Logo"/>
             LifeLink Admin
         </a>
-        <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+        <!-- ================= DESKTOP FLEX NAV ================= -->
+        <div class="d-none d-lg-flex align-items-right ms-auto gap-4">
+
+            <a class="nav-link" href="/admin/dashboard">
+                <i class="fas fa-chart-line me-1"></i>Dashboard
+            </a>
+
+            <a class="nav-link" href="/admin/stats">
+                <i class="fas fa-chart-bar me-1"></i>Stats
+            </a>
+
+            <div class="d-flex align-items-center gap-2 ms-3">
+                <img th:src="@{${profilePicUrl} ?: '/uploads/blank_profile.jpg'}"
+                     src="/uploads/blank_profile.jpg"
+                     class="profile-avatar" alt="Profile"/>
+                <span th:text="${username ?: 'Admin'}" class="fw-semibold">Admin</span>
+            </div>
+        </div>
+
+        <!-- TOGGLER (MOBILE ONLY) -->
+        <button class="navbar-toggler d-lg-none border-0 p-2"
+                type="button" data-bs-toggle="collapse"
+                data-bs-target="#mobileNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center">
+
+        <!-- ================= MOBILE COLLAPSE NAV ================= -->
+        <div class="collapse navbar-collapse d-lg-none" id="mobileNav">
+            <ul class="navbar-nav ms-auto align-items-center text-center">
+
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/dashboard">
                         <i class="fas fa-chart-line me-1"></i>Dashboard
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link active" href="/admin/stats">
+                    <a class="nav-link" href="/admin/stats">
                         <i class="fas fa-chart-bar me-1"></i>Stats
                     </a>
                 </li>
-                <li class="nav-item dropdown ms-4">
-                    <a class="nav-link d-flex flex-column align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+
+                <li class="nav-item dropdown mt-3">
+                    <a class="nav-link d-flex flex-column align-items-center"
+                       href="#" data-bs-toggle="dropdown">
                         <img th:src="@{${profilePicUrl} ?: '/uploads/blank_profile.jpg'}"
                              src="/uploads/blank_profile.jpg"
-                             alt="Profile" class="profile-avatar mb-2"/>
+                             class="profile-avatar mb-2" alt="Profile"/>
                         <span th:text="${username ?: 'Admin'}" class="fw-semibold">Admin</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg p-0" style="min-width:200px; background: rgba(22,33,62,0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1);">
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
                         <li>
-                            <form th:action="@{/logout}" method="post" class="p-0">
-                                <button type="submit" class="dropdown-item border-0 p-3 w-100 text-start">
-                                    <i class="fa-solid fa-right-from-bracket me-3 text-danger"></i>
-                                    <span class="fw-medium text-white">Logout</span>
+                            <form th:action="@{/logout}" method="post">
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
                                 </button>
                             </form>
                         </li>
                     </ul>
                 </li>
+
             </ul>
         </div>
+
     </div>
 </nav>
 
-<div class="container-fluid mt-5 px-4">
+
+<div class="container mt-5 px-0">
     <section class="hero-section fade-in-up">
         <!-- SYSTEM STATS -->
         <div class="row g-4 mb-5">
             <div class="col-lg-4 col-md-6">
-                <div class="stat-card h-100">
+                <div class="stat-card dashboard-card  h-100">
                     <i class="fas fa-hospital"></i>
                     <h3 th:text="${totalHospitals}">0</h3>
                     <p>Total Hospitals</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
-                <div class="stat-card h-100">
+                <div class="stat-card dashboard-card  h-100">
                     <i class="fas fa-tint"></i>
                     <h3 th:text="${totalBloodDonors}">0</h3>
                     <p>Blood Donors</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
-                <div class="stat-card h-100">
+                <div class="stat-card dashboard-card  h-100">
                     <i class="fas fa-lungs"></i>
                     <h3 th:text="${totalOrganDonors}">0</h3>
                     <p>Organ Donors</p>
                 </div>
             </div>
+        </div>
+    </section>
         </div>
 
         <!-- HOSPITALS LIST -->
@@ -301,9 +742,9 @@
                 <div class="card border-0 shadow-lg">
                     <div class="card-header bg-transparent border-0 py-4">
                         <h4 class="mb-0 fw-bold">
-                            <i class="fas fa-building me-2"></i>
+                            <i class="fas fa-building me-2 " style="color: #204B9B"></i>
                             All Hospitals
-                            <span class="badge bg-primary rounded-pill ms-2" th:text="${totalHospitals}">0</span>
+                            <span class="badge bg-primary-dark rounded-pill ms-2" th:text="${totalHospitals}" style="background-color: #204B9B">0</span>
                         </h4>
                     </div>
                     <div class="card-body p-0">
@@ -314,23 +755,38 @@
                         </div>
                         <div class="row g-4 p-4" th:unless="${#lists.isEmpty(hospitals)}">
                             <div class="col-xl-4 col-lg-6 col-md-6" th:each="hospital : ${hospitals}">
-                                <form th:action="@{/admin/hospital-details}" method="post" style="display: contents;">
+
+                                <form th:action="@{/admin/hospital-details}" method="post">
                                     <button type="submit" name="hospitalId" th:value="${hospital.id}"
-                                            class="hospital-card w-100 text-start border-0 bg-transparent p-0 h-100">
-                                        <div class="d-flex align-items-center w-100">
-                                            <i class="fas fa-hospital"></i>
-                                            <div class="flex-grow-1 ms-3">
-                                                <h6 class="fw-bold mb-1" th:text="${hospital.fullName}">Hospital Name</h6>
-                                                <p class="mb-1 text-muted" th:text="${hospital.email}">hospital@email.com</p>
-                                                <small class="text-success fw-semibold">
-                                                    <i class="fas fa-check-circle me-1"></i>Verified
+                                            class="hospital-card w-100 text-start border-0 bg-transparent h-100">
+
+                                        <div class="d-flex align-items-center w-100 px-3 py-4 gap-3">
+
+                                            <i class="fas fa-hospital fs-2 text-primary"></i>
+
+                                            <div class="flex-grow-1 ms-3 ps-3">
+                                                <h6 class="fw-bold mb-1" th:text="${hospital.fullName}">
+                                                    Hospital Name
+                                                </h6>
+
+                                                <p class="mb-1 text-muted" th:text="${hospital.email}">
+                                                    hospital@email.com
+                                                </p>
+
+                                                <small class="text-success fw-semibold d-flex align-items-center">
+                                                    <i class="fas fa-check-circle me-1 fs-4 text-"></i>
+                                                    <p class="mt-2 text-success">Verified</p>
                                                 </small>
                                             </div>
+
                                         </div>
+
                                     </button>
                                 </form>
+
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -342,53 +798,54 @@
                 <div class="card selected-hospital border-0 shadow-xl">
                     <div class="card-header bg-transparent border-0 py-4">
                         <div class="d-flex align-items-center">
-                            <i class="fas fa-hospital fa-2x me-3 text-info"></i>
+
+                            <i class="fas fa-hospital fa-2x me-3 text-info ms-3"></i>
                             <div>
                                 <h4 class="mb-1 fw-bold" th:text="${selectedHospital.fullName}">Hospital Name</h4>
                                 <p class="mb-0 opacity-75" th:text="${selectedHospital.email}">hospital@email.com</p>
-                            </div>
+
                         </div>
                     </div>
                     <div class="card-body p-4">
                         <!-- STATUS COUNTS -->
                         <div class="row g-4 mb-5 text-center">
                             <div class="col-xl-2 col-lg-4 col-md-6">
-                                <div class="stat-card">
+                                <div class="stat-card hospital-card">
                                     <i class="fas fa-check-circle text-success"></i>
                                     <h3 th:text="${bloodApproved}">0</h3>
                                     <p>Blood Approved</p>
                                 </div>
                             </div>
                             <div class="col-xl-2 col-lg-4 col-md-6">
-                                <div class="stat-card">
+                                <div class="stat-card hospital-card">
                                     <i class="fas fa-clock text-warning"></i>
                                     <h3 th:text="${bloodPending}">0</h3>
                                     <p>Blood Pending</p>
                                 </div>
                             </div>
                             <div class="col-xl-2 col-lg-4 col-md-6">
-                                <div class="stat-card">
+                                <div class="stat-card hospital-card">
                                     <i class="fas fa-times-circle text-danger"></i>
                                     <h3 th:text="${bloodRejected}">0</h3>
                                     <p>Blood Rejected</p>
                                 </div>
                             </div>
                             <div class="col-xl-2 col-lg-4 col-md-6">
-                                <div class="stat-card">
+                                <div class="stat-card hospital-card">
                                     <i class="fas fa-heartbeat text-success"></i>
                                     <h3 th:text="${organApproved}">0</h3>
                                     <p>Organ Approved</p>
                                 </div>
                             </div>
                             <div class="col-xl-2 col-lg-4 col-md-6">
-                                <div class="stat-card">
+                                <div class="stat-card hospital-card">
                                     <i class="fas fa-hourglass-half text-warning"></i>
                                     <h3 th:text="${organPending}">0</h3>
                                     <p>Organ Pending</p>
                                 </div>
                             </div>
                             <div class="col-xl-2 col-lg-4 col-md-6">
-                                <div class="stat-card">
+                                <div class="stat-card hospital-card">
                                     <i class="fas fa-exclamation-triangle text-danger"></i>
                                     <h3 th:text="${organRejected}">0</h3>
                                     <p>Organ Rejected</p>
@@ -406,7 +863,7 @@
                             <div class="table-responsive">
                                 <table class="table table-hover" th:if="${!#lists.isEmpty(bloodDonorsApproved)}">
                                     <thead>
-                                    <tr>
+                                    <tr class="">
                                         <th><i class="fas fa-user me-2"></i>Name</th>
                                         <th><i class="fas fa-phone me-2"></i>Contact</th>
                                         <th><i class="fas fa-tint me-2"></i>Blood Group</th>
@@ -434,15 +891,15 @@
                 </div>
             </div>
         </div>
-    </section>
+
 </div>
 
 <!-- Footer -->
-<footer class="text-center py-5 mt-5">
+<footer class="text-center  py-5 mt-5">
     <div class="container">
-        <p class="mb-2 fs-5 fw-semibold">
-            © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> LifeLink
-            <i class="fas fa-heart text-danger ms-2"></i>
+        <p class="mb-2 fs-5 fw-semibold ">
+            © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')} text-white">2025</span> LifeLink
+
         </p>
         <p class="mb-0 opacity-75">
             <i class="fas fa-envelope me-2"></i>

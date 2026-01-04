@@ -4,85 +4,384 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blood Match Results - LifeLink</title>
-    <link rel="icon" type="image/png" href="/uploads/favicon.png"/>
+    <link rel="icon" type="image/ico" sizes="180x180" href="/uploads/favicon.ico">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
-            color: #fff;
-            min-height: 100vh;
-        }
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-        .frosted-section {
-            background: rgba(22, 33, 62, 0.85);
-            border: 2px solid rgba(233, 69, 96, 0.3);
-            backdrop-filter: blur(25px);
-            border-radius: 24px;
-            padding: 3rem 2.5rem;
+:root {
+  --bg: #f6f8fb;
+  --card-bg: #ffffff;
+  --border-light: #e5e7eb;
+
+  --text-main: #111827;
+  --text-muted: #6b7280;
+
+  --primary: #2563eb;
+  --primary-soft: #eff6ff;
+  --color-primary-dark: #be123c;
+}
+
+
+ body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(
+    180deg,
+    var(--primary-soft) 0%,
+    var(--bg) 60%
+  );
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+
+
+
+
+        /* Base navbar */
+.navbar {
+    background: #ffffff;
+    padding: 0.1rem 1rem;
+    border-bottom: 0.75px solid #e5e7eb;
+    border-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #e11d48;
+}
+
+.navbar-brand img {
+    height: 34px;
+}
+
+/* Right-side user block */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item.dropdown {
+    display: flex;
+    align-items: center;
+}
+
+/* Avatar + username inline */
+.nav-link {
+    display: flex !important;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.25rem 0.75rem;
+}
+
+.profile-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e5e7eb;
+}
+
+.nav-item .fw-medium {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #111827;
+    white-space: nowrap;
+}
+
+/* ===============================
+   MOBILE FIX (IMPORTANT)
+=============================== */
+@media (max-width: 991px) {
+
+    /* Keep navbar one-line */
+    .navbar > .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* Disable center stacking */
+    .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        right: 1rem;
+        width: auto;
+        background: #ffffff;
+        padding: 0.75rem;
+        border-radius: 12px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    /* Dropdown avatar stays inline */
+    .navbar-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .nav-link {
+        flex-direction: row !important;
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .profile-avatar {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* ===============================
+   DROPDOWN MENU POLISH
+=============================== */
+.dropdown-menu {
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    border:none;
+    padding: 0.5rem;
+}
+
+.dropdown-item {
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.dropdown-item:hover {
+    background: #f1f5f9;
+}
+
+
+/* ===============================
+   MATERIAL UI STYLE DROPDOWN
+=============================== */
+
+.dropdown-menu {
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.12);
+    padding: 0.5rem;
+    background: #ffffff;
+}
+
+/* Username (top text) */
+.dropdown-item-text {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #111827;
+    padding: 0.75rem;
+}
+
+/* All dropdown items */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500; /* semi-bold */
+    font-size: 0.9rem;
+    color: #374151;
+    border-radius: 10px;
+    padding: 0.6rem 0.75rem;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+/* Material hover */
+.dropdown-item:hover {
+    background: #f3f4f6;
+    transform: translateX(2px);
+}
+
+/* ICON CIRCLE (Material style) */
+.dropdown-item i,
+.dropdown-item-text i {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    color: #374151;
+
+    /* IMPORTANT: no stroke / no border */
+    border: none;
+    box-shadow: none;
+}
+
+/* Accent colors per action */
+.dropdown-item i.fa-user {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.dropdown-item i.fa-gear {
+    background: #ede9fe;
+    color: black;
+}
+
+.dropdown-item i.fa-right-from-bracket {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+/* ===============================
+   ORGAN MATCH ICON (Material soft)
+=============================== */
+
+
+.blood-result-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.18); /* soft glass */
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.25),
+        0 6px 16px rgba(0,0,0,0.15);
+}
+
+.blood-result-icon i {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+   .frosted-section {
+          backdrop-filter: blur(25px);
             margin-bottom: 3rem;
+            background: transparent;
+            padding: 2.5rem 0;
         }
 
-        h1, h2, h3, h4, h5, h6 { color: #fff; }
+        h1, h2,  h4, h5, h6 { color: #515258; }
         p, small, strong, .card-body, .card-header, .table { color: rgba(255,255,255,0.85); }
 
-        .navbar { 
-            background: rgba(22,33,62,0.95) !important; 
-            border-bottom: 1px solid rgba(233,69,96,0.3); 
-            padding: 1rem 0;
-        }
-        .navbar-brand {
-            font-size: 1.75rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-        }
-        .navbar-brand img {
-            height: 50px;
-            margin-right: 10px;
-        }
-        .nav-link {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: #fff !important;
-        }
-        .nav-link:hover, .nav-link.active { color: #e94560 !important; }
-
-        .profile-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .nav-item .fw-medium {
-            font-size: 1rem;
-            font-weight: 500;
-            margin-top: 2px;
-        }
-
-        .navbar-toggler { border-color: rgba(233,69,96,0.5); }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28233,69,96,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-        }
-        
         .card {
-            background: rgba(22, 33, 62, 0.8) !important;
-            border: 1px solid rgba(233, 69, 96, 0.2) !important;
-            color: #fff;
-        }
-        .card-header {
-            background: rgba(233, 69, 96, 0.2) !important;
-        }
-        
-        .table {
-        	--bs-table-color: #fff;
-        	--bs-table-striped-color: #fff;
-        }
 
-        footer { text-align:center; padding:2rem; border-top: 2px solid rgba(233,69,96,0.3); color:rgba(255,255,255,0.7); }
+  border: 1px solid var(--border-light) !important;
+  border-radius: 16px;
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.06),
+    0 4px 10px rgba(0,0,0,0.04);
+  color: var(--text-main);
+        }
+ .card-header {
+    background: linear-gradient(135deg, #db0318, #740610) !important;
+  color: white;
+  border-radius: 16px 16px 0 0;
+  padding: 1.5rem;
+   }
+ .card-header h3 {
+  font-weight: 700;
+}
+
+.card-header p {
+  color: white;
+}
+.card-body {
+  color: var(--text-main);
+}
+
+.card-body p,
+.card-body small {
+  color: var(--text-muted);
+}
+.alert-success {
+  background: rgba(34, 197, 94, 0.1);
+  color: #15803d;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 12px;
+}
+
+
+
+
+.table th {
+ border: none;
+  background: #fae1e3;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: black;
+}
+
+.table td {
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background: var(--primary-soft);
+}
+.badge {
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.45rem 0.75rem;
+}
+
+.bg-success {
+  background: #22c55e !important;
+}
+
+.bg-info {
+  background: #0ea5e9 !important;
+}
+
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+
+
+
+    footer {
+    background:#1e40af;
+    color: var(--color-white);
+    padding: var(--space-lg) 0;
+    text-align: center;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile spacing */
+@media (max-width: 576px) {
+    footer {
+        padding: 2rem 1rem;
+    }
+
+    footer p {
+        font-size: 0.85rem;
+    }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 991px) {
+    .row { flex-direction: column; gap: var(--space-md); }
+    .navbar-nav { flex-direction: column; gap: var(--space-sm); }
+}
+
+
+
     </style>
 </head>
 <body>
@@ -128,9 +427,15 @@
             <div class="col-md-12">
                 <div class="card shadow-lg">
                     <div class="card-header text-center">
-                        <h3><i class="fas fa-search-plus me-2"></i>Blood Match Results</h3>
-                        <p class="mb-0"><strong>Requested:</strong> <span class="badge bg-light text-danger fs-5" th:text="${requiredBloodGroup}"></span></p>
-                        <p class="mb-0"><small class="opacity-75">Showing only APPROVED donors</small></p>
+
+                        <div class="blood-result-icon">
+                            <i class="fas fa-search-plus "></i>
+                        </div>
+
+                        <h3 class="mt-3">Blood Match Results</h3>
+
+                        <p class="mb-0 text-light"><strong>Requested:</strong> <span class="badge bg-light text-danger fs-5" th:text="${requiredBloodGroup}"></span><small class="text-light">Showing only APPROVED donors</small></p>
+
                     </div>
                     <div class="card-body">
                         <div class="alert alert-success border-0" th:text="${message}" th:if="${message}"></div>
@@ -195,9 +500,19 @@
 </div>
 
 <!-- Footer -->
-<footer>
-    <p>© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> LifeLink. All rights reserved.</p>
-    <p>Contact: info@lifelink.com | +977 9800000000</p>
+<!-- Footer -->
+<footer class="text-center  py-5 mt-5">
+    <div class="container">
+        <p class="mb-2 fs-5 fw-semibold text-white ">
+            © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')} text-white">2025</span> LifeLink
+
+        </p>
+        <p class="mb-0 text-light">
+            <i class="fas fa-envelope me-2"></i>
+            <a href="mailto:info@lifelink.com" class="text-white text-decoration-none">info@lifelink.com</a> |
+            <i class="fas fa-phone me-2 ms-3"></i>+977 9800000000
+        </p>
+    </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

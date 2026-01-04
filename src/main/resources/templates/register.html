@@ -4,421 +4,344 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Register | LifeLink</title>
+    <link rel="icon" type="image/ico" sizes="180x180" href="/uploads/favicon.ico">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    :root {
+    --font-xs: 0.75rem;   /* helper text */
+    --font-sm: 0.85rem;   /* labels */
+    --font-md: 0.95rem;   /* inputs */
+    --font-lg: 1.75rem;   /* page title */
+
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
 }
 
-body {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Poppins', sans-serif;
-    position: relative;
-    overflow-x: hidden;
-    padding: 2rem 1rem;
-}
-
-body::before {
-    content: '';
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(233, 69, 96, 0.15) 0%, transparent 70%);
-    border-radius: 50%;
-    top: -100px;
-    right: -100px;
-    animation: pulse 8s ease-in-out infinite;
-}
-
-body::after {
-    content: '';
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(83, 52, 131, 0.2) 0%, transparent 70%);
-    border-radius: 50%;
-    bottom: -80px;
-    left: -80px;
-    animation: pulse 6s ease-in-out infinite reverse;
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.1); opacity: 0.8; }
-}
-
-.register-container {
-    background: rgba(22, 33, 62, 0.85);
-    border: 2px solid rgba(233, 69, 96, 0.3);
-    backdrop-filter: blur(25px);
-    border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(233, 69, 96, 0.1) inset,
-                0 0 100px rgba(233, 69, 96, 0.15);
-    padding: 2.5rem 2rem;
-    width: 100%;
-    max-width: 550px;
-    position: relative;
-    z-index: 10;
-    animation: slideIn 0.6s ease-out;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    body {
+        background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 50%, #ffe4ea 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Poppins', sans-serif;
+        padding: 2rem 1rem;
+        color: #0f172a;
     }
-}
 
-.logo-container {
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
+    /* Decorative blobs */
+    body::before,
+    body::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        z-index: -1;
+    }
+    body::before {
+        width: 380px;
+        height: 380px;
+        background: rgba(30, 136, 229, 0.25);
+        top: -120px;
+        right: -120px;
+    }
+    body::after {
+        width: 320px;
+        height: 320px;
+        background: rgba(225, 29, 72, 0.25);
+        bottom: -100px;
+        left: -100px;
+    }
 
-.logo-icon {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 1rem;
-    background: linear-gradient(135deg, #e94560 0%, #533483 100%);
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
-    animation: float 3s ease-in-out infinite;
-}
+    /* Card */
+    .register-container {
+        background: #ffffff;
+        border-radius: 24px;
+        box-shadow: 0 30px 60px rgba(30, 136, 229, 0.2);
+        padding: 2.5rem 2rem;
+        width: 100%;
+        max-width: 550px;
+        animation: slideIn 0.5s ease-out;
+    }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-}
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-.logo-icon i {
-    font-size: 2rem;
-    color: white;
-}
+    /* Logo */
+    .logo-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 1rem;
+         width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+            border-radius: 100%;
 
-.register-title {
-    color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 25px rgba(30, 136, 229, 0.1115);
+    }
+    .logo-icon i {
+        font-size: 2rem;
+        color: #ffffff;
+    }
+
+ .logo-icon img {
+    height: 70%;
+    width: 70%;
+    object-fit: contain;
+}
+    .register-title {
+        text-align: center;
+
+        color: #1e3a8a;
+
+           font-size: var(--font-lg);
     font-weight: 700;
-    margin-bottom: 0.3rem;
-    text-align: center;
-    font-size: 1.8rem;
-    text-shadow: 0 2px 20px rgba(233, 69, 96, 0.5);
     letter-spacing: -0.5px;
+    margin-bottom: 0.25rem;
+    }
+    .register-subtitle {
+        text-align: center;
+        font-size: var(--font-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+    margin-bottom: 1.35rem;
 }
-
-.register-subtitle {
-    color: rgba(255, 255, 255, 0.7);
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-weight: 400;
-    font-size: 0.9rem;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-    position: relative;
-}
-
-.form-group label {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    display: block;
-}
-
-.form-group label .required {
-    color: #e94560;
-}
-
-.input-wrapper {
-    position: relative;
-}
-
-.input-icon {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #e94560;
-    font-size: 1rem;
-    z-index: 5;
-}
-
-.form-control, .form-select {
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(233, 69, 96, 0.2);
-    border-radius: 12px;
-    padding: 0.85rem 1rem 0.85rem 3rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-    height: 50px;
-    color: white;
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    width: 100%;
-}
-
-.form-control::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-}
-
-.form-control:focus, .form-select:focus {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: #e94560;
-    box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.15);
-    outline: none;
-    color: white;
-}
-
-.form-select {
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.form-select option {
-    background: #16213e;
-    color: white;
-}
-
-/* Password Strength Indicator */
-.password-strength {
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    margin-top: 0.5rem;
-    overflow: hidden;
-}
-
-.password-strength-bar {
-    height: 100%;
-    width: 0;
-    transition: all 0.3s ease;
-    border-radius: 2px;
-}
-
-.strength-weak { width: 33%; background: #e94560; }
-.strength-medium { width: 66%; background: #ffbb33; }
-.strength-strong { width: 100%; background: #2ecc71; }
-
 .password-hint {
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: var(--font-xs);
+    color: var(--text-secondary);
+    margin-top: 0.35rem;
+}
+#emailError {
+    font-size: var(--font-xs);
     margin-top: 0.3rem;
 }
 
-/* Photo Upload */
-.photo-upload {
-    border: 2px dashed rgba(233, 69, 96, 0.3);
-    border-radius: 12px;
-    padding: 1.5rem;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.03);
-    cursor: pointer;
-    transition: all 0.3s ease;
+
+    /* Labels */
+    .form-group label {
+        font-size: var(--font-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+    display: block;
+    }
+    .required { color: #e11d48; }
+
+    /* Inputs */
+    .input-wrapper { position: relative; }
+
+    .input-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #1e88e5;
+    }
+
+
+
+
+    .form-control,
+    .form-select {
+        background: #ffffff;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 12px;
+        padding: 0.75rem 1rem 0.75rem 2.8rem;
+         font-size: var(--font-md);
+    font-weight: 400;
+    color: var(--text-primary);
+
+         height: 50px;
+    line-height: 1.2;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #1e88e5;
+        box-shadow: 0 0 0 4px rgba(30,136,229,0.25);
+    }
+
+    /* Select arrow RED */
+    .form-select {
+        background-image:
+            linear-gradient(45deg, transparent 50%, #e11d48 50%),
+            linear-gradient(135deg, #e11d48 50%, transparent 50%);
+        background-position:
+            calc(100% - 20px) calc(1em + 2px),
+            calc(100% - 15px) calc(1em + 2px);
+        background-size: 5px 5px;
+        background-repeat: no-repeat;
+    }
+
+    /* Password strength */
+    .password-strength {
+        height: 4px;
+        background: #e5e7eb;
+        border-radius: 2px;
+        margin-top: 0.4rem;
+            overflow: hidden;
+    }
+    .strength-weak { background: #e11d48; width: 33%; }
+    .strength-medium { background: #f59e0b; width: 66%; }
+    .strength-strong { background: #22c55e; width: 100%; }
+    .password-strength-bar {
+    height: 100%;
+    transition: width 0.3s ease;
 }
 
-.photo-upload:hover {
-    border-color: #e94560;
-    background: rgba(233, 69, 96, 0.05);
-}
+    /* Upload */
+    .photo-upload {
+        border: 2px dashed #cbd5e1;
+        border-radius: 12px;
+        padding: 1.3rem;
+        text-align: center;
+        background: #f8fafc;
+    }
+    .photo-upload i {
+        font-size: 1.8rem;
+        color: #1e88e5;
+    }
 
-.photo-upload i {
-    font-size: 2rem;
-    color: #e94560;
-    margin-bottom: 0.5rem;
-}
-
-.photo-upload p {
-    color: rgba(255, 255, 255, 0.7);
+    /* Terms */
+    .terms-group {
+        display: flex;
+        gap: 0.75rem;
+        padding: 1rem;
+        border-radius: 12px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        align-items: flex-start;
+    }
+    .terms-group label {
     font-size: 0.85rem;
-    margin: 0;
+    line-height: 1.4;
 }
-
-#photoInput {
-    display: none;
-}
-
-.photo-preview {
-    margin-top: 1rem;
-    text-align: center;
-}
-
-.photo-preview img {
-    max-width: 120px;
-    max-height: 120px;
-    border-radius: 12px;
-    border: 2px solid #e94560;
-    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
-}
-
-/* Terms Checkbox */
-.terms-group {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.8rem;
-    margin: 1.5rem 0;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
-    border: 1px solid rgba(233, 69, 96, 0.2);
-}
-
-.terms-group input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    accent-color: #e94560;
-    margin-top: 2px;
-}
-
-.terms-group label {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.85rem;
-    cursor: pointer;
-    margin: 0;
-}
-
-.terms-group a {
-    color: #e94560;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.terms-group a:hover {
-    text-decoration: underline;
-}
-
-/* Submit Button */
-.btn-register {
-    background: linear-gradient(135deg, #e94560 0%, #533483 100%);
-    border: none;
-    border-radius: 12px;
-    padding: 0.95rem 2rem;
-    font-weight: 700;
-    font-size: 1rem;
-    width: 100%;
-    height: 52px;
-    color: white;
-    box-shadow: 0 8px 25px rgba(233, 69, 96, 0.4);
-    transition: all 0.3s ease;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-
-.btn-register:hover {
-    background: linear-gradient(135deg, #ff5571 0%, #6a3f90 100%);
-    box-shadow: 0 12px 35px rgba(233, 69, 96, 0.5);
-    transform: translateY(-2px);
-}
-
-.btn-register:active {
-    transform: translateY(0);
-}
-
-.btn-register:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Login Link */
-.login-link {
-    text-align: center;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(233, 69, 96, 0.2);
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.9rem;
-}
-
-.login-btn {
-    color: #e94560;
-    text-decoration: none;
-    font-weight: 700;
-    margin-left: 0.5rem;
-    padding: 0.4rem 1rem;
-    border-radius: 8px;
-    background: rgba(233, 69, 96, 0.1);
-    border: 1px solid rgba(233, 69, 96, 0.3);
-    transition: all 0.3s ease;
-    display: inline-block;
-}
-
-.login-btn:hover {
-    color: white;
-    background: rgba(233, 69, 96, 0.2);
-    border-color: #e94560;
-    transform: translateX(3px);
-}
-
-/* Alert Messages */
-.alert-msg {
-    padding: 1rem;
-    border-radius: 12px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 0.85rem;
-    margin-bottom: 1.5rem;
-    animation: slideDown 0.3s ease-out;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
+    .terms-group input {
+        accent-color: #e11d48;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .terms-group a {
+        color: #e11d48;
+        font-weight: 600;
     }
+
+    #emailError {
+    font-size: var(--font-xs);
+    margin-top: 0.3rem;
 }
 
-.alert-danger {
-    background: rgba(233, 69, 96, 0.15);
-    color: #ff6b81;
-    border: 1px solid rgba(233, 69, 96, 0.4);
-}
 
-.alert-success {
-    background: rgba(39, 174, 96, 0.15);
-    color: #2ecc71;
-    border: 1px solid rgba(39, 174, 96, 0.4);
-}
+    /* Submit */
+    .btn-register {
+        background: linear-gradient(135deg, #1e88e5 0%, #0d6efd 100%);;
+        border: none;
+        border-radius: 14px;
+        margin-top: 0.5rem;
+        padding: 0.9rem;
+        font-size: 0.95rem;
+    letter-spacing: 0.3px;
+        font-weight: 700;
+        color: white;
+        width: 100%;
+        box-shadow: 0 10px 25px rgba(30,136,229,0.35);
+    }
+    .btn-register:hover {
+        transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(30,136,229,0.4);
 
-/* Responsive */
-@media (max-width: 576px) {
-    .register-container {
-        padding: 2rem 1.5rem;
     }
-    
-    .register-title {
-        font-size: 1.6rem;
+
+    /* Login */
+    .login-link {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #475569;
     }
-    
-    .logo-icon {
-        width: 60px;
-        height: 60px;
+    .login-btn {
+        color: #1e88e5;
+        font-weight: 700;
+        margin-left: 0.4rem;
     }
-    
-    .logo-icon i {
-        font-size: 1.75rem;
+    a.login-btn-1  {
+        text-decoration: none;
+        font-weight: 700;
+        margin-left: 0.4rem;
     }
-}
+    a.login-btn-1:hover{
+        cursor: pointer;
+    }
+
+
+    .login-btn:hover {
+        color: white;
+        background: rgba(233, 69, 96, 0.2);
+        border-color: #e94560;
+        transform: translateX(3px);
+    }
+
+    /* Alert Messages */
+    .alert-msg {
+        padding: 1rem;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+        animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .alert-danger {
+        background: rgba(233, 69, 96, 0.15);
+        color: #ff6b81;
+        border: 1px solid rgba(233, 69, 96, 0.4);
+    }
+
+    .alert-success {
+        background: rgba(39, 174, 96, 0.15);
+        color: #2ecc71;
+        border: 1px solid rgba(39, 174, 96, 0.4);
+    }
+
+    /* Responsive */
+    @media (max-width: 576px) {
+        .register-container {
+            padding: 2rem 1.5rem;
+        }
+
+        .register-title {
+            font-size: 1.6rem;
+        }
+
+
+    }
 </style>
 </head>
 <body>
@@ -426,7 +349,7 @@ body::after {
 <div class="register-container">
     <div class="logo-container">
         <div class="logo-icon">
-            <i class="fa-solid fa-heart-pulse"></i>
+            <img src="/uploads/LifeLineLogo.png" alt="LifeLink Logo">
         </div>
         <h2 class="register-title">Join LifeLink</h2>
         <p class="register-subtitle">Create your account to save lives</p>
@@ -440,7 +363,7 @@ body::after {
         
         <!-- Full Name -->
         <div class="form-group">
-            <label><i class="fa-solid fa-user"></i> Full Name <span class="required">*</span></label>
+            <label> Full Name <span class="required">*</span></label>
             <div class="input-wrapper">
                 <i class="fa-solid fa-user input-icon"></i>
                 <input type="text" class="form-control" th:field="*{fullName}" placeholder="Enter your full name" required>
@@ -449,7 +372,7 @@ body::after {
 
         <!-- Email -->
         <div class="form-group">
-            <label><i class="fa-solid fa-envelope"></i> Email Address <span class="required">*</span></label>
+            <label> Email Address <span class="required">*</span></label>
             <div class="input-wrapper">
                 <i class="fa-solid fa-envelope input-icon"></i>
                 <input type="email" class="form-control" th:field="*{email}" id="emailInput" placeholder="your@email.com" required>
@@ -461,7 +384,7 @@ body::after {
 
         <!-- Phone Number -->
         <div class="form-group">
-            <label><i class="fa-solid fa-phone"></i> Phone Number <span class="required">*</span></label>
+            <label> Phone Number <span class="required">*</span></label>
             <div class="input-wrapper">
                 <i class="fa-solid fa-phone input-icon"></i>
                 <input type="tel" class="form-control" th:field="*{phoneNumber}" placeholder="98XXXXXXXX" pattern="^(97|98)\d{8}$" required>
@@ -470,7 +393,7 @@ body::after {
 
         <!-- Password -->
         <div class="form-group">
-            <label><i class="fa-solid fa-lock"></i> Password <span class="required">*</span></label>
+            <label> Password <span class="required">*</span></label>
             <div class="input-wrapper">
                 <i class="fa-solid fa-lock input-icon"></i>
                 <input type="password" class="form-control" th:field="*{password}" id="password" placeholder="Create strong password" required>
@@ -483,7 +406,7 @@ body::after {
 
         <!-- Gender -->
         <div class="form-group">
-            <label><i class="fa-solid fa-venus-mars"></i> Gender <span class="required">*</span></label>
+            <label> Gender <span class="required">*</span></label>
             <div class="input-wrapper">
                 <i class="fa-solid fa-venus-mars input-icon"></i>
                 <select class="form-select" th:field="*{gender}" required>
@@ -497,7 +420,7 @@ body::after {
 
         <!-- Role -->
         <div class="form-group">
-            <label><i class="fa-solid fa-user-tag"></i> Register As <span class="required">*</span></label>
+            <label> Register As <span class="required">*</span></label>
             <div class="input-wrapper">
                 <i class="fa-solid fa-user-tag input-icon"></i>
                 <select class="form-select" name="role" required>
@@ -510,13 +433,13 @@ body::after {
 
         <!-- Profile Photo -->
         <div class="form-group">
-            <label><i class="fa-solid fa-camera"></i> Profile Photo (Optional)</label>
+            <label> Profile Photo (Optional)</label>
             <div class="photo-upload" onclick="document.getElementById('photoInput').click()">
                 <i class="fa-solid fa-cloud-arrow-up"></i>
                 <p>Click to upload profile photo</p>
                 <p style="font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 0.3rem;">Max 5MB</p>
             </div>
-            <input type="file" name="image" accept="image/*" id="photoInput">
+            <input type="file" name="image" accept="image/*" class="mt-1" id="photoInput">
             <div class="photo-preview" id="photoPreview" style="display:none;">
                 <img id="previewImage" alt="Preview">
             </div>
@@ -549,7 +472,7 @@ body::after {
     <!-- Login Link -->
     <div class="login-link">
         <span>Already have an account?</span>
-        <a th:href="@{/login}" class="login-btn">Login <i class="fa-solid fa-arrow-right"></i></a>
+        <a th:href="@{/login}" class="login-btn-1">Login <i class="fa-solid fa-arrow-right"></i></a>
     </div>
 </div>
 

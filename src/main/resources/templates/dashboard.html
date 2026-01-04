@@ -5,141 +5,981 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{app.title}">LifeLink</title>
-    <link rel="icon" type="image/png" href="/uploads/favicon.png"/>
+    <link rel="icon" type="image/ico" sizes="180x180" href="/uploads/favicon.ico">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
+
+
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
-            color: #fff;
-            min-height: 100vh;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root {
+  /* Fonts */
+  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Poppins', serif;
 
-        .frosted-section {
-            background: rgba(22, 33, 62, 0.85);
-            border: 2px solid rgba(233, 69, 96, 0.3);
-            backdrop-filter: blur(25px);
-            border-radius: 24px;
-            padding: 3rem 2.5rem;
-            margin-bottom: 3rem;
-        }
+  /* Core Brand Colors (RED-FIRST) */
+  --color-primary: #e11d48;          /* LifeLink Red */
+  --color-primary-dark: #be123c;
+  --color-primary-soft: #fff1f2;
 
-        h1, h2, h3, h4, h5 { color: #fff; }
-        p { color: rgba(255,255,255,0.85); }
+  /* Support / Trust */
+  --color-secondary: #1e3a8a;        /* medical blue */
+  --color-secondary-soft: #eff6ff;
 
-        .navbar {
-            background: rgba(22,33,62,0.95) !important;
-            border-bottom: 1px solid rgba(233,69,96,0.3);
-            padding: 1rem 0;
-        }
-        .navbar-brand {
-            font-size: 1.75rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-        }
-        .navbar-brand img {
-            height: 50px;
-            margin-right: 10px;
-        }
-        .nav-link { font-size: 1.2rem; font-weight: 500; color: #fff !important; }
-        .nav-link:hover, .nav-link.active { color: #e94560 !important; }
+  /* Status */
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #dc2626;
 
-        .btn-primary {
-            background: linear-gradient(135deg, #e94560 0%, #533483 100%);
-            border: none;
-            border-radius: 14px;
-        }
-        .btn-primary:hover { background: linear-gradient(135deg, #ff5571 0%, #6a3f90 100%); }
-        .btn-secondary {
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(233,69,96,0.2);
-            color: #fff;
-        }
-        .btn-secondary:hover { background: rgba(233,69,96,0.15); }
+  /* Neutral */
+  --color-white: #ffffff;
+  --color-text: #111827;
+  --color-muted: #6b7280;
+  --color-bg: #f9fafb;
+  --color-card: #ffffff;
+  --color-border: #e5e7eb;
 
-        .hero { text-align:center; padding:5rem 1rem; }
-        .hero h1 { font-size:3rem; font-weight:700; margin-bottom:1rem; }
-        .hero h1 span { background: linear-gradient(to right,#e94560,#533483); -webkit-background-clip: text; color: transparent; }
-        .hero p { font-size:1.2rem; max-width:600px; margin:0 auto 2rem; }
-        .hero .btn { min-width: 180px; margin:0.5rem; }
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
 
-        .stats, .donation-section, .testimonials { text-align:center; margin-bottom:2rem; }
-        .stats h3 { color:#e94560; font-weight:700; margin-bottom:0.5rem; }
-        .stats p { color: rgba(255,255,255,0.7); }
 
-        .donation-grid {
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-            gap:2rem;
-            max-width:1200px;
-            margin:0 auto;
-        }
-        .donation-card {
-            background: rgba(22,33,62,0.8);
-            border:2px solid rgba(233,69,96,0.2);
-            border-radius:20px;
-            padding:2rem 1rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .donation-card:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(233,69,96,0.4); }
-        .icon-container {
-            font-size:3rem;
-            width:70px; height:70px;
-            margin:0 auto 1rem;
-            display:flex; align-items:center; justify-content:center;
-            background: rgba(233,69,96,0.2);
-            border-radius:50%;
-        }
-        .donation-card h3 { color:#e94560; margin-bottom:0.5rem; }
-        .donation-card p { color:#fff; }
+/* ================= GLOBAL RESET ================= */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-        .profile-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid rgba(233,69,96,0.3);
-        }
-        .nav-item .fw-medium {
-            font-size: 1rem;
-            font-weight: 500;
-            margin-top: 2px;
-        }
+body {
+  background: #ffffff;
+}
+body {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fff1f2 45%,
+    #ffffff 100%
+  );
+}
 
-        .navbar-toggler { border-color: rgba(233,69,96,0.5); }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28233,69,96,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-        }
 
-        .testimonials .card {
-            background: rgba(22,33,62,0.85);
-            border: 1px solid rgba(233,69,96,0.2);
-            border-radius:20px;
-            color:#fff;
-        }
+/* ================= CONTAINERS ================= */
+.container,
+.container-fluid {
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+  margin-left: auto;
+  margin-right: auto;
+}
 
-        footer {
-            text-align:center;
-            padding:2rem;
-            border-top: 2px solid rgba(233,69,96,0.3);
-            color:rgba(255,255,255,0.7);
-        }
+/* ================= GRID FIX ================= */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .hero p { font-size: 1rem; max-width: 90%; }
-            .hero .btn { width: 100%; margin-bottom: 0.5rem; }
-        }
+.row.g-4.mb-5 {
+  align-items: center;
+  padding: var(--space-xl);
+}
+
+.col {
+  flex: 1 1 0;
+}
+
+/* ================= NAVBAR ================= */
+./* ================= NAVBAR FIX (CLEAN & PROFESSIONAL) ================= */
+
+
+/* =========================
+   GLOBAL POLISH
+========================= */
+body {
+    background: #ffffff;
+    color: #111827;
+}
+
+/* ===============================
+   NAVBAR — FINAL RESPONSIVE FIX
+=============================== */
+
+        /* Base navbar */
+.navbar {
+    background: #ffffff;
+    padding: 0.1rem 1rem;
+    border-bottom: 0.75px solid #e5e7eb;
+    border-shadow: 0 2px 4px rgba(0,0,0,0.05);
+   position: sticky;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #e11d48;
+}
+
+.navbar-brand img {
+    height: 34px;
+}
+
+/* Right-side user block */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item.dropdown {
+    display: flex;
+    align-items: center;
+}
+
+/* Avatar + username inline */
+.nav-link {
+    display: flex !important;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.25rem 0.75rem;
+}
+
+.profile-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e5e7eb;
+}
+
+.nav-item .fw-medium {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #111827;
+    white-space: nowrap;
+}
+
+/* ===============================
+   MOBILE FIX (IMPORTANT)
+=============================== */
+@media (max-width: 991px) {
+
+    /* Keep navbar one-line */
+    .navbar > .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* Disable center stacking */
+    .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        right: 1rem;
+        width: auto;
+        background: #ffffff;
+        padding: 0.75rem;
+        border-radius: 12px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    /* Dropdown avatar stays inline */
+    .navbar-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .nav-link {
+        flex-direction: row !important;
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .profile-avatar {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* ===============================
+   DROPDOWN MENU POLISH
+=============================== */
+.dropdown-menu {
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    border:none;
+    padding: 0.5rem;
+}
+
+.dropdown-item {
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.dropdown-item:hover {
+    background: #f1f5f9;
+}
+
+
+/* ===============================
+   MATERIAL UI STYLE DROPDOWN
+=============================== */
+
+.dropdown-menu {
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.12);
+    padding: 0.5rem;
+    background: #ffffff;
+}
+
+/* Username (top text) */
+.dropdown-item-text {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #111827;
+    padding: 0.75rem;
+}
+
+/* All dropdown items */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500; /* semi-bold */
+    font-size: 0.9rem;
+    color: #374151;
+    border-radius: 10px;
+    padding: 0.6rem 0.75rem;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+/* Material hover */
+.dropdown-item:hover {
+    background: #f3f4f6;
+    transform: translateX(2px);
+}
+
+/* ICON CIRCLE (Material style) */
+.dropdown-item i,
+.dropdown-item-text i {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    color: #374151;
+
+    /* IMPORTANT: no stroke / no border */
+    border: none;
+    box-shadow: none;
+}
+
+/* Accent colors per action */
+.dropdown-item i.fa-user {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.dropdown-item i.fa-gear {
+    background: #ede9fe;
+    color: black;
+}
+
+.dropdown-item i.fa-right-from-bracket {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+
+
+.frosted-section {
+    background: transparent;
+    backdrop-filter: none;
+    padding: 4rem 0;
+    border-radius: 0;
+}
+
+//* ============================
+   HERO SECTION (FINAL)
+============================ */
+/* =========================
+   HERO — MEDICIA STYLE
+========================= */
+.hero {
+    padding: 6rem 0;
+    background: #ffffff;
+}
+
+.hero h1 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #111827;
+}
+
+.hero h1 .fw-500 {
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+.hero p {
+    margin-top: 1rem;
+    font-size: 1.05rem;
+    color: #6b7280;
+    max-width: 520px;
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+}
+
+
+/* BUTTONS */
+.hero .btn {
+    min-width: 190px;
+    padding: 0.85rem 1.6rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+.hero .btn-secondary {
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+}
+
+.hero .btn-secondary:hover {
+    background: var(--color-primary-dark);
+}
+
+.hero .btn-primary {
+    background: #eef2ff;
+    color: #1e3a8a;
+}
+
+.hero .btn-primary:hover {
+    background: #e0e7ff;
+}
+
+
+//floating card
+/* =========================
+   FLOATING DASHBOARD CARDS
+========================= */
+.floating-card {
+    position: absolute;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 60px 0;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    border: 1px solid #e5e7eb;
+    font-size: 0.85rem;
+}
+
+.floating-card h6 {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.floating-card p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.8rem;
+}
+
+/* ============================
+   IMAGE STACK (RIGHT SIDE)
+============================ */
+.hero-image-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.image-stack {
+    position: relative;
+    width: 460px;
+    height: 380px;
+}
+
+.image-stack img {
+    position: absolute;
+    width: 75%;
+    border-radius: 18px;
+    object-fit: cover;
+    background: #fff;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+}
+
+.img-back {
+    top: 0;
+    left: 0;
+}
+
+.img-front {
+    bottom: 0;
+    right: 0;
+}
+
+/* ============================
+   RESPONSIVE FIXES
+============================ */
+@media (max-width: 992px) {
+    .hero {
+        padding: 3rem 1rem;
+        text-align: center;
+    }
+
+    .hero p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero .btn {
+        width: 100%;
+        max-width: 220px;
+    }
+
+    .image-stack {
+        width: 280px;
+        height: 280px;
+        margin-top: 3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .image-stack {
+        width: 230px;
+        height: 230px;
+    }
+}
+
+/* =========================
+   IMPACT STATS
+========================= */
+.stats {
+    text-align: center;
+}
+
+.stats h1 {
+   font-size: calc(1.325rem + .9vw);
+    font-weight: 700;
+    margin-bottom: 3rem;
+     color: var(--color-primary);
+}
+
+.stats h3 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--color-primary);
+}
+
+.stats p {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+
+/* =========================
+   DONATION CARDS
+========================= */
+.frosted-section {
+    padding: 60px 0;
+    background: #ffffff;
+}
+
+/* Card */
+.custom-card {
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+    background: #ffffff;
+}
+
+
+/* List Item */
+.donation-card {
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    transition: all 0.25s ease;
+}
+
+.donation-card:hover {
+    background: #f9fafb;
+    transform: translateX(4px);
+}
+<!--typography and vixibility-->
+h1, h2, h3, h4, h5 {
+       font-size: calc(1.325rem + .9vw);
+
+}
+h6 {
+font-size: 1.25rem;
+  }
+
+p, span, li {
+    font-family: var(--font-body);
+    line-height: 1.6;
+}
+
+.donation-section{
+background-color: #f9fafb;
+}
+
+.donation-section h1 {
+   font-size: calc(1.325rem + .9vw);
+    font-weight: 700;
+
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #1e40af;
+
+}
+
+.donation-card:not(:last-child) {
+    margin-bottom: 12px;
+}
+
+.donation-card:hover {
+    background-color: #f9fafb;
+}
+
+/* Icons */
+.icon-container {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-container.organ {
+   background: var(--color-secondary-soft);
+}
+
+.icon-container.blood {
+   background: var(--color-primary-soft);
+}
+
+.icon-container .material-icons {
+    font-size: 22px;
+}
+
+.icon-container.organ .material-icons {
+    color: #0ea5e9;
+}
+
+.icon-container.blood .material-icons {
+    color: #dc2626;
+}
+
+/* Badges */
+.donor-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #ecfeff;
+    color: #0284c7;
+    font-weight: 500;
+}
+
+.request-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-weight: 500;
+}
+
+
+/* =========================
+   TESTIMONIALS
+========================= */
+.testimonial-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem 1.8rem 2rem;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(38,74,168,0.18);
+}
+
+.testimonial-avatar-img {
+  width: 72px;
+  height: 72px;
+  margin: -80px auto 1rem;
+  border-radius: 50%;
+  background: #f6f6fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.testimonial-avatar-img span {
+  color: #0d6efd;;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.testimonial-name {
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: #111827;
+}
+
+.testimonial-role {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.testimonial-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #374151;
+  margin-bottom: 1.2rem;
+}
+
+.testimonial-rating {
+  color: #f59e0b;
+  font-size: 0.9rem;
+}
+
+/* =========================
+   FOOTER – FINAL
+========================= */
+/* ================= FOOTER ================= */
+footer {
+    background:#1e40af;
+    color: var(--color-white);
+    padding: var(--space-lg) 0;
+    text-align: center;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+/* =========================
+   RESPONSIVE FIXES
+========================= */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .image-stack {
+        margin-top: 3rem;
+    }
+}
+        /* ==============================
+   GLOBAL RESPONSIVE SAFETY
+============================== */
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+
+
+
+
+/* ==============================
+   IMAGE STACK RESPONSIVE
+============================== */
+@media (max-width: 768px) {
+    .image-stack {
+        max-width: 300px;
+        margin: 3rem auto 0;
+    }
+
+    .img-back {
+        transform: translate(-10px, -10px);
+    }
+
+    .img-front {
+        transform: translate(10px, 10px);
+    }
+}
+
+@media (max-width: 480px) {
+    .image-stack {
+        max-width: 240px;
+    }
+}
+
+
+/* ==============================
+   STATS RESPONSIVE
+============================== */
+@media (max-width: 768px) {
+    .stats .row {
+        gap: 2rem;
+    }
+
+    .stats h3 {
+        font-size: 2rem;
+    }
+}
+
+/* ==============================
+   DONATION GRID RESPONSIVE
+============================== */
+@media (max-width: 992px) {
+    .donation-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .donation-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .donation-card {
+        padding: 1.75rem 1.25rem;
+    }
+
+}
+
+/* ==============================
+   TESTIMONIALS RESPONSIVE
+============================== */
+@media (max-width: 768px) {
+    .testimonials h2 {
+        font-size: 1.75rem;
+    }
+
+    .testimonials p {
+        font-size: 0.95rem;
+        color: #fff;
+    }
+
+    .testimonials .card {
+        text-align: left;
+    }
+}
+
+/* ==============================
+   FOOTER RESPONSIVE
+============================== */
+@media (max-width: 576px) {
+    footer {
+        font-size: 0.9rem;
+        padding: 1.5rem 1rem;
+    }
+}
+
+        /* ==============================
+   AWWWARDS-STYLE MICRO ANIMATIONS
+============================== */
+
+/* Global easing */
+:root {
+    --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- PAGE LOAD FADE ---------- */
+body {
+    animation: pageFade 0.8s var(--ease-smooth) both;
+}
+
+@keyframes pageFade {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- HERO TEXT ENTRANCE ---------- */
+.hero h1,
+.hero p {
+    opacity: 0;
+    animation: heroText 0.9s var(--ease-smooth) forwards;
+}
+
+.hero p {
+    animation-delay: 0.15s;
+}
+
+@keyframes heroText {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- BUTTON STAGGER ---------- */
+.hero .btn {
+    opacity: 0;
+    animation: btnUp 0.8s var(--ease-smooth) forwards;
+}
+
+.hero .btn:nth-child(1) { animation-delay: 0.25s; }
+.hero .btn:nth-child(2) { animation-delay: 0.35s; }
+.hero .btn:nth-child(3) { animation-delay: 0.45s; }
+.hero .btn:nth-child(4) { animation-delay: 0.55s; }
+
+@keyframes btnUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover micro interaction */
+.hero .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: all 0.35s var(--ease-smooth);
+}
+
+/* ---------- IMAGE FLOAT PARALLAX ---------- */
+.image-stack img {
+    animation: floatImg 6s ease-in-out infinite;
+}
+
+.img-front {
+    animation-delay: 1s;
+}
+
+@keyframes floatImg {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ---------- CARD HOVER (DONATION + TESTIMONIALS) ---------- */
+.custom-card,
+.testimonials .card {
+    transition: transform 0.5s var(--ease-smooth),
+                box-shadow 0.5s var(--ease-smooth);
+}
+
+.custom-card:hover,
+.testimonials .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+}
+
+/* ---------- LIST ITEM MICRO LIFT ---------- */
+.donation-card {
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.donation-card:hover {
+    transform: translateX(6px);
+}
+
+/* ---------- STATS COUNT FADE ---------- */
+.stats h3 {
+    opacity: 0;
+    animation: statsUp 0.8s var(--ease-smooth) forwards;
+}
+
+.stats .col-md-4:nth-child(1) h3 { animation-delay: 0.2s; }
+.stats .col-md-4:nth-child(2) h3 { animation-delay: 0.35s; }
+.stats .col-md-4:nth-child(3) h3 { animation-delay: 0.5s; }
+
+@keyframes statsUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ===============================
+   WORD SPLIT ANIMATION (GSAP-LIKE)
+=============================== */
+
+.word-split {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.word-split span {
+    display: inline-block;
+    margin-right: 0.35rem;
+    opacity: 0;
+    transform: translateY(1.2em);
+    animation: wordReveal 0.8s var(--ease-smooth) forwards;
+}
+
+@keyframes wordReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+
     </style>
 </head>
 <body>
 
 <!-- Navbar (FIXED - NO LOOP) -->
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg sticky-top" >
     <div class="container">
         <a class="navbar-brand" href="/">
             <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo" onerror="this.style.display='none'"/>
@@ -163,7 +1003,7 @@
                             <i class="fa-solid fa-user me-2"></i>
                             <span th:text="${username ?: 'Guest'}">Username</span>
                         </li>
-                        <li><a th:href="@{/profile}" class="dropdown-item"><i class="fa-solid fa-user me-2"></i>Profile</a></li>
+                        <li><a th:href="@{/profile}" class="dropdown-item"><i class="fa-solid fa-user me-2 fw-medium"></i>Profile</a></li>
                         <li><a th:href="@{/settings}" class="dropdown-item"><i class="fa-solid fa-gear me-2"></i>Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
@@ -181,21 +1021,46 @@
 </nav>
 
 <!-- Hero -->
-<section class="hero frosted-section">
-    <h1>Make a Difference & <span>Save Lives</span></h1>
-    <p>Choose an action below to donate or request blood/organs.</p>
-    <div class="d-flex justify-content-center gap-3 flex-wrap">
-        <a th:href="@{/donate-blood}" class="btn btn-primary">Donate Blood</a>
-        <a th:href="@{/donate-organ}" class="btn btn-primary">Donate Organ</a>
-        <a th:href="@{/request-blood}" class="btn btn-secondary">Request Blood</a>
-        <a th:href="@{/request-organ}" class="btn btn-secondary">Request Organ</a>
+<!-- Hero -->
+<section class="hero frosted-section bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+
+
+
+            <!-- Left Content -->
+            <div class="col-lg-6 text-lg-start text-center mb-4 mb-lg-0">
+                <h1 class="reveal">Make a Difference & <div class="fw-500">Save Lives</div></h1>
+                <p class="reveal delay-1">Choose an action below to donate or request blood/organs.</p>
+
+                <div class="d-flex flex-wrap justify-content-center gap-2 reveal delay-2">
+                    <a th:href="@{/donate-blood}" class="btn btn-secondary" style="flex: 0 0 48%;">Donate Blood</a>
+                    <a th:href="@{/donate-organ}" class="btn btn-primary" style="flex: 0 0 48%;">Donate Organ</a>
+                    <a th:href="@{/request-blood}" class="btn btn-secondary" style="flex: 0 0 48%;">Request Blood</a>
+                    <a th:href="@{/request-organ}" class="btn btn-primary" style="flex: 0 0 48%;">Request Organ</a>
+                </div>
+            </div>
+
+            <!-- Right Image -->
+            <div class="col-lg-6 text-center">
+                <div class="hero-image-wrapper">
+                    <div class="image-stack">
+                        <img src="/uploads/dashboard-hero2.png" alt="Medical Procedure" class="img-back">
+                        <img src="/uploads/dashboard-hero.png" alt="Surgery Team" class="img-front">
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </section>
 
+
 <!-- Stats -->
 <section class="stats frosted-section">
+    <h1 class="text-center mb-3 fw-semibold reveal ">Our Impact</h1>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 ">
             <h3 th:text="${totalDonors ?: 0}">0</h3>
             <p>Registered Donors</p>
         </div>
@@ -211,89 +1076,296 @@
 </section>
 
 <!-- Free Organ Donors -->
-<section class="donation-section frosted-section">
-    <h2>Free Organ Donors</h2>
-    <div class="donation-grid" th:if="${freeOrganDonors != null and !freeOrganDonors.isEmpty()}">
-        <div class="donation-card" th:each="donor : ${freeOrganDonors}">
-            <div class="icon-container">🫀</div>
-            <h3 th:text="${donor.donorName ?: 'Anonymous'}">Donor Name</h3>
-            <p th:text="${donor.organType ?: 'Organ'}">Kidney</p>
-            <p class="text-success">Free Donor</p>
-        </div>
-    </div>
-    <p th:if="${freeOrganDonors == null or freeOrganDonors.isEmpty()}" class="text-muted">No free organ donors available</p>
-</section>
+
+
+
+
+
 
 <!-- Free Requests -->
 <section class="donation-section frosted-section">
-    <h2>Free Requests</h2>
-    <div class="donation-grid" th:if="${freeBloodDonors != null and !freeBloodDonors.isEmpty()}">
-        <div class="donation-card" th:each="request : ${freeBloodDonors}">
-            <div class="icon-container">🙏</div>
-            <h3 th:text="${request.donorName ?: 'Patient'}">Patient Name</h3>
-            <p th:text="${request.bloodGroup ?: 'Blood Group'}">B+</p>
-            <p class="text-info">Free Request</p>
+    <h1 class="text-center mb-4 fw-semibold">How can we help?</h1>
+
+    <div class="container">
+        <div class="row">
+
+            <!-- ================= FREE ORGAN DONORS CARD ================= -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 custom-card">
+                    <div class="card-body">
+
+                        <div class="donation-grid"
+                             th:if="${freeOrganDonors != null and !freeOrganDonors.isEmpty()}">
+
+                            <div class="donation-card d-flex align-items-center"
+                                 th:each="donor : ${freeOrganDonors}">
+
+                                <div class="icon-container organ me-3">
+                                    <span class="material-icons">favorite</span>
+                                </div>
+
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1 fw-semibold"
+                                        th:text="${donor.donorName ?: 'Anonymous'}">
+                                        Donor Name
+                                    </h6>
+
+                                    <p class="mb-0 text-muted small"
+                                       th:text="${donor.organType ?: 'Organ'}">
+                                        Kidney
+                                    </p>
+
+                                    <span class="badge donor-badge mt-1">Free Donor</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p th:if="${freeOrganDonors == null or freeOrganDonors.isEmpty()}"
+                           class="text-muted text-right px-4 mb-0">
+                            No free organ donors available
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= FREE REQUESTS CARD ================= -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 custom-card">
+                    <div class="card-body">
+
+                        <div class="donation-grid"
+                             th:if="${freeBloodDonors != null and !freeBloodDonors.isEmpty()}">
+
+                            <div class="donation-card d-flex align-items-center"
+                                 th:each="request : ${freeBloodDonors}">
+
+                                <div class="icon-container blood me-3">
+                                    <span class="material-icons">bloodtype</span>
+                                </div>
+
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1 fw-semibold"
+                                        th:text="${request.donorName ?: 'Patient'}">
+                                        Patient Name
+                                    </h6>
+
+                                    <p class="mb-0 text-muted small"
+                                       th:text="${request.bloodGroup ?: 'Blood Group'}">
+                                        B+
+                                    </p>
+
+                                    <span class="badge request-badge mt-1">Free Request</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p th:if="${freeBloodDonors == null or freeBloodDonors.isEmpty()}"
+                           class="text-muted text-right px-4 mb-0">
+                            No free requests available
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-    <p th:if="${freeBloodDonors == null or freeBloodDonors.isEmpty()}" class="text-muted">No free requests available</p>
 </section>
+
+
 
 <!-- Testimonials -->
 <section class="testimonials frosted-section">
-    <h2>What Our Donors Say</h2>
-    <p>Stories from our amazing community</p>
-    <div class="row mt-4">
-        <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <p>"Donating blood through LifeLink was incredibly easy. I received a notification about a matching request, and within hours, I was able to help save someone's life."</p>
-                    <div class="d-flex align-items-center">
-                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:40px;height:40px;font-weight:bold;">R</div>
-                        <div>
-                            <strong>Rajesh Kumar</strong>
-                            <p class="mb-0 small text-muted">15 donations</p>
-                        </div>
-                    </div>
+    <div class="section-header mb-5">
+        <h2 class="text-center mb-2" style="color:#264aa8;">What Our Donors Say</h2>
+        <p class="text-center text-muted mb-4">Stories from our amazing community</p>
+    </div>
+
+
+    <div class="row justify-content-center g-4">
+
+        <!-- Testimonial 1 -->
+        <div class="col-md-4">
+            <div class="testimonial-card">
+                <div class="testimonial-avatar-img">
+                    <span>R</span>
+                </div>
+
+                <h5 class="testimonial-name">Rajesh Kumar</h5>
+                <p class="testimonial-role">15 Donations</p>
+
+                <p class="testimonial-text">
+                    “Donating blood through LifeLink was incredibly easy. I received a match notification and helped save a life within hours.”
+                </p>
+
+                <div class="testimonial-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <p>"As a doctor, I've seen firsthand how critical blood donations are. LifeLink makes it so convenient to connect donors with patients."</p>
-                    <div class="d-flex align-items-center">
-                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:40px;height:40px;font-weight:bold;">S</div>
-                        <div>
-                            <strong>Dr. Sita Sharma</strong>
-                            <p class="mb-0 small text-muted">Medical Professional</p>
-                        </div>
-                    </div>
+
+        <!-- Testimonial 2 -->
+        <div class="col-md-4">
+            <div class="testimonial-card">
+                <div class="testimonial-avatar-img">
+                    <span>S</span>
+                </div>
+
+                <h5 class="testimonial-name">Dr. Sita Sharma</h5>
+                <p class="testimonial-role">Medical Professional</p>
+
+                <p class="testimonial-text">
+                    “LifeLink makes it extremely simple to connect donors with patients. A reliable and life-saving platform.”
+                </p>
+
+                <div class="testimonial-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <p>"My father needed blood urgently, and thanks to LifeLink, we found a donor within 30 minutes. I'm forever grateful."</p>
-                    <div class="d-flex align-items-center">
-                        <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:40px;height:40px;font-weight:bold;">A</div>
-                        <div>
-                            <strong>Arun Thapa</strong>
-                            <p class="mb-0 small text-muted">Family Member</p>
-                        </div>
-                    </div>
+
+        <!-- Testimonial 3 -->
+        <div class="col-md-4">
+            <div class="testimonial-card">
+                <div class="testimonial-avatar-img">
+                    <span>A</span>
+                </div>
+
+                <h5 class="testimonial-name">Arun Thapa</h5>
+                <p class="testimonial-role">Family Member</p>
+
+                <p class="testimonial-text">
+                    “My father needed blood urgently, and LifeLink helped us find a donor in under 30 minutes. Forever grateful.”
+                </p>
+
+                <div class="testimonial-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
                 </div>
             </div>
         </div>
+
     </div>
 </section>
 
 <!-- Footer -->
-<footer>
-    <p>© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> LifeLink. All rights reserved.</p>
-    <p>Contact: <a href="mailto:info@lifelink.com" style="color: #e94560;">info@lifelink.com</a> | +977 9800000000</p>
+<footer class="text-center  py-5 mt-5">
+    <div class="container">
+        <p class="mb-2 fs-5 fw-semibold ">
+            © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')} text-white">2025</span> LifeLink
+
+        </p>
+        <p class="mb-0 text-light">
+            <i class="fas fa-envelope me-2"></i>
+            <a href="mailto:info@lifelink.com" class="text-white text-decoration-none">info@lifelink.com</a> |
+            <i class="fas fa-phone me-2 ms-3"></i>+977 9800000000
+        </p>
+    </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* -------- WORD SPLIT SETUP -------- */
+    const revealHeadings = document.querySelectorAll(".reveal");
+
+    revealHeadings.forEach(heading => {
+        const text = heading.innerText.trim();
+        const words = text.split(" ");
+
+        heading.innerHTML = "";
+
+        const wrapper = document.createElement("span");
+        wrapper.classList.add("word-split");
+
+        words.forEach((word, i) => {
+            const span = document.createElement("span");
+            span.textContent = word;
+            span.style.animationDelay = `${i * 0.12}s`;
+            wrapper.appendChild(span);
+        });
+
+        heading.appendChild(wrapper);
+    });
+
+    /* -------- INTERSECTION OBSERVER -------- */
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const split = entry.target.querySelector(".word-split");
+                if (split) split.classList.add("active");
+
+                observer.unobserve(entry.target); // animate once
+            }
+        });
+    }, {
+        threshold: 0.4
+    });
+
+    revealHeadings.forEach(el => observer.observe(el));
+
+});
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        /* -------- WORD SPLIT SETUP -------- */
+        const revealHeadings = document.querySelectorAll(".reveal");
+
+        revealHeadings.forEach(heading => {
+            const text = heading.innerText.trim();
+            const words = text.split(" ");
+
+            heading.innerHTML = "";
+
+            const wrapper = document.createElement("span");
+            wrapper.classList.add("word-split");
+
+            words.forEach((word, i) => {
+                const span = document.createElement("span");
+                span.textContent = word;
+                span.style.animationDelay = `${i * 0.12}s`;
+                wrapper.appendChild(span);
+            });
+
+            heading.appendChild(wrapper);
+        });
+
+        /* -------- INTERSECTION OBSERVER -------- */
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.4 });
+
+        revealHeadings.forEach(el => observer.observe(el));
+    });
+</script>
+
+
+
+
+
+</script>
+
 </body>
 </html>
