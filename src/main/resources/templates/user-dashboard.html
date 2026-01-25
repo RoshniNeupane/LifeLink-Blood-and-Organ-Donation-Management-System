@@ -4,153 +4,367 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard - LifeLink</title>
-    <link rel="icon" type="image/png" href="/uploads/favicon.png"/>
+    <link rel="icon" type="image/ico" sizes="180x180" href="/uploads/favicon.ico">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-        body {
+
+
+        /* Base navbar */
+.navbar {
+    background: #ffffff;
+    padding: 0.1rem 1rem;
+    border-bottom: 0.75px solid #e5e7eb;
+    border-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #e11d48;
+}
+
+.navbar-brand img {
+    height: 34px;
+}
+
+/* Right-side user block */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item.dropdown {
+    display: flex;
+    align-items: center;
+}
+
+/* Avatar + username inline */
+.nav-link {
+    display: flex !important;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.25rem 0.75rem;
+}
+
+.profile-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e5e7eb;
+}
+
+.nav-item .fw-medium {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #111827;
+    white-space: nowrap;
+}
+
+/* ===============================
+   MOBILE FIX (IMPORTANT)
+=============================== */
+@media (max-width: 991px) {
+
+    /* Keep navbar one-line */
+    .navbar > .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* Disable center stacking */
+    .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        right: 1rem;
+        width: auto;
+        background: #ffffff;
+        padding: 0.75rem;
+        border-radius: 12px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    /* Dropdown avatar stays inline */
+    .navbar-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .nav-link {
+        flex-direction: row !important;
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .profile-avatar {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* ===============================
+   DROPDOWN MENU POLISH
+=============================== */
+.dropdown-menu {
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    border:none;
+    padding: 0.5rem;
+}
+
+.dropdown-item {
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.dropdown-item:hover {
+    background: #f1f5f9;
+}
+
+
+/* ===============================
+   MATERIAL UI STYLE DROPDOWN
+=============================== */
+
+.dropdown-menu {
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.12);
+    padding: 0.5rem;
+    background: #ffffff;
+}
+
+/* Username (top text) */
+.dropdown-item-text {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #111827;
+    padding: 0.75rem;
+}
+
+/* All dropdown items */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500; /* semi-bold */
+    font-size: 0.9rem;
+    color: #374151;
+    border-radius: 10px;
+    padding: 0.6rem 0.75rem;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+/* Material hover */
+.dropdown-item:hover {
+    background: #f3f4f6;
+    transform: translateX(2px);
+}
+
+/* ICON CIRCLE (Material style) */
+.dropdown-item i,
+.dropdown-item-text i {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    color: #374151;
+
+    /* IMPORTANT: no stroke / no border */
+    border: none;
+    box-shadow: none;
+}
+
+/* Accent colors per action */
+.dropdown-item i.fa-user {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.dropdown-item i.fa-gear {
+    background: #ede9fe;
+    color: black;
+}
+
+.dropdown-item i.fa-right-from-bracket {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+  body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
+            background: light;
             color: #fff;
             min-height: 100vh;
         }
 
         .frosted-section {
-            background: rgba(22, 33, 62, 0.85);
-            border: 2px solid rgba(233, 69, 96, 0.3);
+            background: #e9f2ff;
+    border: 2px solid #e8f2ff;
             backdrop-filter: blur(25px);
             border-radius: 24px;
             padding: 3rem 2.5rem;
             margin-bottom: 3rem;
         }
 
-        h1, h2, h3, h4, h5, h6 { color: #fff; }
-        p, label { color: rgba(255,255,255,0.85); }
+       h5{
+       color:#0e4be9;
+       }
 
-        .navbar { 
-            background: rgba(22,33,62,0.95) !important; 
-            border-bottom: 1px solid rgba(233,69,96,0.3); 
-            padding: 1rem 0;
+        span.user{
+        color:#0e4be9;
         }
-        .navbar-brand {
-            font-size: 1.75rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-        }
-        .navbar-brand img {
-            height: 50px;
-            margin-right: 10px;
-        }
-        .nav-link {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: #fff !important;
-        }
-        .nav-link:hover, .nav-link.active { color: #e94560 !important; }
+        p, label { color: #5a6064; }
 
-        .profile-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .nav-item .fw-medium {
-            font-size: 1rem;
-            font-weight: 500;
-            margin-top: 2px;
+        span.welcome{
+        color:#4a4545;
         }
 
-        .navbar-toggler { border-color: rgba(233,69,96,0.5); }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28233,69,96,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-        }
-        
         .card {
-            background: rgba(22, 33, 62, 0.8) !important;
-            border: 1px solid rgba(233, 69, 96, 0.2) !important;
+               background: rgb(231 235 244 / 80%) !important;
+    border: 1px solid rgb(212 222 255) !important;
             color: #fff;
         }
-        
-        .btn-primary { 
-		    background: linear-gradient(135deg, #e94560 0%, #533483 100%); 
-		    border: none; 
-		    border-radius: 14px; 
+
+        .btn-primary {
+		    background: #0b84ee;;
+		    border: none;
+		    border-radius: 14px;
 		}
 		.btn-primary:hover {
-		    background: linear-gradient(135deg, #ff5571 0%, #6a3f90 100%);
+		    background-color:white;
+		    color:navy;
 		}
 
-        footer { text-align:center; padding:2rem; border-top: 2px solid rgba(233,69,96,0.3); color:rgba(255,255,255,0.7); }
+       footer {
+
+    background:#1e40af;
+    color: var(--color-white);
+    padding: var(--space-lg) 0;
+    text-align: center;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.py-5 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+}
+
+.mt-5 {
+    margin-top: 8rem !important;
+}
+
+/* Mobile spacing */
+@media (max-width: 576px) {
+    footer {
+        padding: 2rem 1rem;
+    }
+
+    footer p {
+        font-size: 0.85rem;
+    }
+}
     </style>
 </head>
 <body>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo"/>
-      LifeLink
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto align-items-center">
-        <!-- Profile Dropdown -->
-          <li class="nav-item dropdown ms-3 text-center">
-              <a class="nav-link d-flex flex-column align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-                  <img th:src="@{${profilePicUrl}}" alt="Profile" class="profile-avatar mb-1"
-                       onerror="this.src='/uploads/blank_profile.jpg'"
-                       style="object-fit: cover;"/>
-                  <span th:text="${#httpServletRequest.remoteUser}" class="fw-medium">Username</span>
-              </a>
-          <ul class="dropdown-menu dropdown-menu-end p-2" style="min-width:180px;">
-            <li><a th:href="@{/dashboard}" class="dropdown-item"><i class="fa-solid fa-user me-2"></i>Dashboard</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <form th:action="@{/logout}" method="post">
-                <button type="submit" class="dropdown-item"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</button>
-              </form>
-            </li>
-          </ul>
-        </li>
-      </ul>
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo"/>
+            LifeLink
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <!-- Profile Dropdown -->
+                <li class="nav-item dropdown ms-3 text-center">
+                    <a class="nav-link d-flex flex-column align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                        <img th:src="@{${profilePicUrl}}" alt="Profile" class="profile-avatar mb-1"
+                             onerror="this.src='/uploads/blank_profile.jpg'"
+                             style="object-fit: cover;"/>
+                        <span th:text="${#httpServletRequest.remoteUser}" class="fw-medium">Username</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end p-2" style="min-width:180px;">
+                        <li><a th:href="@{/dashboard}" class="dropdown-item"><i class="fa-solid fa-user me-2"></i>Dashboard</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post">
+                                <button type="submit" class="dropdown-item"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
 
 <div class="container mt-5">
-<section class="frosted-section">
-  <h2>Welcome, <span th:text="${#httpServletRequest.remoteUser}">User</span>!</h2>
-  <p>View your profile, appointments, and donations here.</p>
+    <section class="frosted-section">
+        <h2><span class="welcome">Welcome,</span> <span class="user"><span th:text="${#httpServletRequest.remoteUser}" >User</span>!</span>
+        </h2>
+        <p>View your profile, appointments, and donations here.</p>
 
-  <div class="row mt-4">
-    <div class="col-md-6">
-      <div class="card text-center p-3">
-        <h5>Profile</h5>
-        <p>View & edit your personal information</p>
-        <a href="/user/profile" class="btn btn-primary">Go</a>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card text-center p-3">
-        <h5>My Appointments</h5>
-        <p>Check your appointments or bookings</p>
-        <a href="/user/appointments" class="btn btn-primary">Go</a>
-      </div>
-    </div>
-  </div>
-</section>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card text-center p-3">
+                    <h5>Profile</h5>
+                    <p>View & edit your personal information</p>
+                    <a href="/user/profile" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card text-center p-3">
+                    <h5>My Appointments</h5>
+                    <p>Check your appointments or bookings</p>
+                    <a href="/user/appointments" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 
 <!-- Footer -->
-<footer>
-    <p>© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> LifeLink. All rights reserved.</p>
-    <p>Contact: info@lifelink.com | +977 9800000000</p>
+<footer class="text-center  py-5 mt-5">
+    <div class="container">
+        <p class="mb-2 fs-5 fw-semibold text-light ">
+            © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')} text-white">2025</span> LifeLink
+
+        </p>
+        <p class="mb-0 text-light">
+            <i class="fas fa-envelope me-2"></i>
+            <a href="mailto:info@lifelink.com" class="text-white text-decoration-none">info@lifelink.com</a> |
+            <i class="fas fa-phone me-2 ms-3"></i>+977 9800000000
+        </p>
+    </div>
 </footer>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>

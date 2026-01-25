@@ -1,144 +1,386 @@
-<!-- MainPage.html (COMPLETE FIXED VERSION) -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{app.title}">LifeLink</title>
-    <link rel="icon" type="image/png" href="/uploads/favicon.png"/>
+    <link rel="icon" type="image/ico" sizes="180x180" href="/uploads/favicon.ico">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
-            color: #fff;
-            min-height: 100vh;
+        :root {
+            --font-body: 'Inter', sans-serif;
+            --font-heading: 'Poppins', sans-serif;
+            --color-primary: #e11d48;
+            --color-primary-dark: #be123c;
+            --color-primary-soft: #fff1f2;
+            --color-secondary: #1e3a8a;
+            --color-secondary-soft: #eff6ff;
+            --color-success: #22c55e;
+            --color-warning: #f59e0b;
+            --color-danger: #dc2626;
+            --color-white: #ffffff;
+            --color-text: #111827;
+            --color-muted: #6b7280;
+            --color-bg: #f9fafb;
+            --color-card: #ffffff;
+            --color-border: #e5e7eb;
+            --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .frosted-section {
-            background: rgba(22, 33, 62, 0.85);
-            border: 2px solid rgba(233, 69, 96, 0.3);
-            backdrop-filter: blur(25px);
-            border-radius: 24px;
-            padding: 3rem 2.5rem;
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(180deg, #ffffff 0%, #fff1f2 45%, #ffffff 100%);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #ffffff;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--color-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-brand img { height: 36px; }
+
+        .profile-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2.5px solid #e5e7eb;
+        }
+
+        .dropdown-menu {
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.12);
+            padding: 0.75rem;
+            min-width: 200px;
+        }
+
+        .dropdown-item {
+            border-radius: 10px;
+            padding: 0.65rem 1rem;
+            font-size: 0.925rem;
+        }
+
+        .dropdown-item:hover {
+            background: #f3f4f6;
+        }
+
+        .dropdown-item i {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 6rem 0;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .fw-500 {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            max-width: 560px;
+            margin-bottom: 2rem;
+        }
+
+        .hero .btn {
+            min-width: 180px;
+            padding: 0.9rem 1.8rem;
+            font-weight: 600;
+            border-radius: 12px;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .hero .btn-secondary {
+            background: var(--color-primary);
+            border: none;
+            color: white;
+        }
+
+        .hero .btn-secondary:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-4px);
+        }
+
+        .hero .btn-primary {
+            background: #eef2ff;
+            color: #1e40af;
+        }
+
+        .hero .btn-primary:hover {
+            background: #dbeafe;
+            transform: translateY(-4px);
+        }
+
+        .image-stack {
+            position: relative;
+            width: 500px;
+            height: 420px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .image-stack img {
+            position: absolute;
+            width: 78%;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            animation: floatImg 7s ease-in-out infinite;
+        }
+
+        .img-back { top: 10%; left: 5%; }
+        .img-front { bottom: 10%; right: 5%; animation-delay: 1.5s; }
+
+        @keyframes floatImg {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-16px) rotate(1deg); }
+        }
+
+        /* Stats */
+        .stats {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .stats h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 4rem;
+        }
+
+        .stats h3 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            color: var(--color-primary);
+        }
+
+        /* Charts */
+        .chart-box {
+            background: white;
+            border-radius: 18px;
+            padding: 2rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            height: 100%;
+        }
+
+        /* Donation Section */
+        .donation-section {
+            background: #f9fafb;
+            padding: 80px 0;
+        }
+
+        .donation-section h1 {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: #1e40af;
             margin-bottom: 3rem;
         }
 
-        h1, h2, h3, h4, h5 { color: #fff; }
-        p { color: rgba(255,255,255,0.85); }
-
-        .navbar {
-            background: rgba(22,33,62,0.95) !important;
-            border-bottom: 1px solid rgba(233,69,96,0.3);
-            padding: 1rem 0;
+        .custom-card {
+            border-radius: 18px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            height: 100%;
         }
-        .navbar-brand {
-            font-size: 1.75rem;
-            font-weight: 600;
+
+        .custom-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.16);
+        }
+
+        .donation-card {
+            padding: 1.2rem;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            margin-bottom: 0.75rem;
+        }
+
+        .donation-card:hover {
+            background: #f1f5f9;
+            transform: translateX(6px);
+        }
+
+        .icon-container {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
-        .navbar-brand img {
-            height: 50px;
-            margin-right: 10px;
-        }
-        .nav-link { font-size: 1.2rem; font-weight: 500; color: #fff !important; }
-        .nav-link:hover, .nav-link.active { color: #e94560 !important; }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #e94560 0%, #533483 100%);
-            border: none;
-            border-radius: 14px;
+        .icon-container.organ { background: var(--color-secondary-soft); }
+        .icon-container.blood { background: var(--color-primary-soft); }
+        .icon-container .material-icons {
+            font-size: 24px;
+            color: var(--color-primary);
         }
-        .btn-primary:hover { background: linear-gradient(135deg, #ff5571 0%, #6a3f90 100%); }
-        .btn-secondary {
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(233,69,96,0.2);
-            color: #fff;
-        }
-        .btn-secondary:hover { background: rgba(233,69,96,0.15); }
 
-        .hero { text-align:center; padding:5rem 1rem; }
-        .hero h1 { font-size:3rem; font-weight:700; margin-bottom:1rem; }
-        .hero h1 span { background: linear-gradient(to right,#e94560,#533483); -webkit-background-clip: text; color: transparent; }
-        .hero p { font-size:1.2rem; max-width:600px; margin:0 auto 2rem; }
-        .hero .btn { min-width: 180px; margin:0.5rem; }
-
-        .stats, .donation-section, .testimonials { text-align:center; margin-bottom:2rem; }
-        .stats h3 { color:#e94560; font-weight:700; margin-bottom:0.5rem; }
-        .stats p { color: rgba(255,255,255,0.7); }
-
-        .donation-grid {
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-            gap:2rem;
-            max-width:1200px;
-            margin:0 auto;
+        .donor-badge {
+            background: #ecfeff;
+            color: #0891b2;
+            font-size: 0.75rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
         }
-        .donation-card {
-            background: rgba(22,33,62,0.8);
-            border:2px solid rgba(233,69,96,0.2);
-            border-radius:20px;
-            padding:2rem 1rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .donation-card:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(233,69,96,0.4); }
-        .icon-container {
-            font-size:3rem;
-            width:70px; height:70px;
-            margin:0 auto 1rem;
-            display:flex; align-items:center; justify-content:center;
-            background: rgba(233,69,96,0.2);
-            border-radius:50%;
-        }
-        .donation-card h3 { color:#e94560; margin-bottom:0.5rem; }
-        .donation-card p { color:#fff; }
 
-        .profile-avatar {
-            width: 45px;
-            height: 45px;
+        .request-badge {
+            background: #dbeafe;
+            color: #4338ca;
+            font-size: 0.75rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            position: relative;
+            height: 100%;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(30,58,138,0.15);
+        }
+
+        .testimonial-avatar-img {
+            width: 80px;
+            height: 80px;
+            background: #e0e7ff;
             border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid rgba(233,69,96,0.3);
-        }
-        .nav-item .fw-medium {
-            font-size: 1rem;
-            font-weight: 500;
-            margin-top: 2px;
-        }
-
-        .navbar-toggler { border-color: rgba(233,69,96,0.5); }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28233,69,96,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: -90px auto 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4f46e5;
+            border: 5px solid white;
         }
 
-        .testimonials .card {
-            background: rgba(22,33,62,0.85);
-            border: 1px solid rgba(233,69,96,0.2);
-            border-radius:20px;
-            color:#fff;
-        }
-
+        /* Footer */
         footer {
-            text-align:center;
-            padding:2rem;
-            border-top: 2px solid rgba(233,69,96,0.3);
-            color:rgba(255,255,255,0.7);
+            background: #1e40af;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
         }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .hero p { font-size: 1rem; max-width: 90%; }
-            .hero .btn { width: 100%; margin-bottom: 0.5rem; }
+        /* Word Split Animation */
+        .word-wrapper {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+        }
+
+        .word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%);
+            animation: revealWord 0.8s var(--ease-smooth) forwards;
+        }
+
+        @keyframes revealWord {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal-active .word {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero .row {
+                text-align: center;
+            }
+            .image-stack {
+                width: 350px;
+                height: 300px;
+                margin: 3rem auto 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero .btn {
+                width: 100%;
+                max-width: 280px;
+                margin: 0.5rem auto;
+                display: block;
+            }
         }
     </style>
 </head>
 <body>
 
-<!-- Navbar (FIXED - NO LOOP) -->
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="/">
@@ -150,26 +392,22 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item dropdown ms-3 text-center">
-                    <a class="nav-link d-flex flex-column align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-
+                <li class="nav-item dropdown">
+                    <a class="nav-link d-flex align-items-center gap-3" href="#" role="button" data-bs-toggle="dropdown">
                         <img th:src="@{${profilePicUrl} ?: '/uploads/blank_profile.jpg'}"
-                             th:alt="${username ?: 'Profile'}"
-                             class="profile-avatar mb-1"/>
-                        <span th:text="${username ?: 'Guest'}" class="fw-medium">Username</span>
+                             class="profile-avatar"
+                             th:alt="${username}">
+                        <span th:text="${username ?: 'Guest'}" class="fw-medium d-none d-lg-block">Guest</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end p-2" style="min-width:180px;">
-                        <li class="dropdown-item-text">
-                            <i class="fa-solid fa-user me-2"></i>
-                            <span th:text="${username ?: 'Guest'}">Username</span>
-                        </li>
-                        <li><a th:href="@{/profile}" class="dropdown-item"><i class="fa-solid fa-user me-2"></i>Profile</a></li>
-                        <li><a th:href="@{/settings}" class="dropdown-item"><i class="fa-solid fa-gear me-2"></i>Settings</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><h6 class="dropdown-header" th:text="${username}">User</h6></li>
+                        <li><a class="dropdown-item" th:href="@{/profile}"><i class="fa-solid fa-user text-primary"></i> Profile</a></li>
+                        <li><a class="dropdown-item" th:href="@{/settings}"><i class="fa-solid fa-gear text-secondary"></i> Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <form th:action="@{/logout}" method="post">
-                                <button type="submit" class="dropdown-item">
-                                    <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+                            <form th:action="@{/logout}" method="post" class="m-0">
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="fa-solid fa-right-from-bracket"></i> Logout
                                 </button>
                             </form>
                         </li>
@@ -180,108 +418,158 @@
     </div>
 </nav>
 
-<!-- Hero -->
-<section class="hero frosted-section">
-    <h1>Make a Difference & <span>Save Lives</span></h1>
-    <p>Choose an action below to donate or request blood/organs.</p>
-    <div class="d-flex justify-content-center gap-3 flex-wrap">
-        <a th:href="@{/donate-blood}" class="btn btn-primary">Donate Blood</a>
-        <a th:href="@{/donate-organ}" class="btn btn-primary">Donate Organ</a>
-        <a th:href="@{/request-blood}" class="btn btn-secondary">Request Blood</a>
-        <a th:href="@{/request-organ}" class="btn btn-secondary">Request Organ</a>
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 text-lg-start text-center">
+                <h1 class="reveal">
+                    <span class="word-wrapper">Make a Difference &amp;</span>
+                    <span class="word-wrapper fw-500">Save Lives</span>
+                </h1>
+                <p class="reveal">Choose an action below to donate or request blood/organs.</p>
+                <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3 reveal">
+                    <a th:href="@{/donate-blood}" class="btn btn-secondary">Donate Blood</a>
+                    <a th:href="@{/donate-organ}" class="btn btn-primary">Donate Organ</a>
+                    <a th:href="@{/request-blood}" class="btn btn-secondary">Request Blood</a>
+                    <a th:href="@{/request-organ}" class="btn btn-primary">Request Organ</a>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="image-stack mx-auto">
+                    <img src="/uploads/dashboard-hero2.png" alt="Medical" class="img-back">
+                    <img src="/uploads/dashboard-hero.png" alt="Team" class="img-front">
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- Stats -->
-<section class="stats frosted-section">
-    <div class="row">
-        <div class="col-md-4">
-            <h3 th:text="${totalDonors ?: 0}">0</h3>
-            <p>Registered Donors</p>
-        </div>
-        <div class="col-md-4">
-            <h3 th:text="${totalBloodUnits ?: 0}">0</h3>
-            <p>Blood Units Collected</p>
-        </div>
-        <div class="col-md-4">
-            <h3 th:text="${totalOrgansDonated ?: 0}">0</h3>
-            <p>Organs Donated</p>
+<section class="stats bg-white">
+    <div class="container">
+        <h1 class="reveal">Our Impact</h1>
+        <div class="row text-center">
+            <div class="col-md-4 mb-5">
+                <h3 th:text="${totalDonors ?: '1,248'}">1,248</h3>
+                <p>Registered Donors</p>
+            </div>
+            <div class="col-md-4 mb-5">
+                <h3 th:text="${totalBloodUnits ?: '892'}">892</h3>
+                <p>Blood Units Collected</p>
+            </div>
+            <div class="col-md-4 mb-5">
+                <h3 th:text="${totalOrgansDonated ?: '47'}">47</h3>
+                <p>Organs Donated</p>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Free Organ Donors -->
-<section class="donation-section frosted-section">
-    <h2>Free Organ Donors</h2>
-    <div class="donation-grid" th:if="${freeOrganDonors != null and !freeOrganDonors.isEmpty()}">
-        <div class="donation-card" th:each="donor : ${freeOrganDonors}">
-            <div class="icon-container">🫀</div>
-            <h3 th:text="${donor.donorName ?: 'Anonymous'}">Donor Name</h3>
-            <p th:text="${donor.organType ?: 'Organ'}">Kidney</p>
-            <p class="text-success">Free Donor</p>
+<!-- Live Analytics -->
+<section class="container my-5 py-5">
+    <h2 class="text-center fw-bold mb-5" style="color:#1e40af;">Live Platform Analytics</h2>
+    <div class="row g-5 justify-content-center">
+        <div class="col-lg-7">
+            <div class="chart-box">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="chart-box">
+                <canvas id="pieChart"></canvas>
+            </div>
         </div>
     </div>
-    <p th:if="${freeOrganDonors == null or freeOrganDonors.isEmpty()}" class="text-muted">No free organ donors available</p>
 </section>
 
-<!-- Free Requests -->
-<section class="donation-section frosted-section">
-    <h2>Free Requests</h2>
-    <div class="donation-grid" th:if="${freeBloodDonors != null and !freeBloodDonors.isEmpty()}">
-        <div class="donation-card" th:each="request : ${freeBloodDonors}">
-            <div class="icon-container">🙏</div>
-            <h3 th:text="${request.donorName ?: 'Patient'}">Patient Name</h3>
-            <p th:text="${request.bloodGroup ?: 'Blood Group'}">B+</p>
-            <p class="text-info">Free Request</p>
+<!-- Donation Section -->
+<section class="donation-section">
+    <div class="container">
+        <h1>How can we help?</h1>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4"><i class="material-icons text-primary me-2">favorite</i> Free Organ Donors</h5>
+                        <div th:if="${freeOrganDonors != null and !freeOrganDonors.isEmpty()}">
+                            <div class="donation-card d-flex align-items-center" th:each="donor : ${freeOrganDonors}">
+                                <div class="icon-container organ me-3">
+                                    <span class="material-icons">favorite</span>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1" th:text="${donor.donorName}">Anonymous</h6>
+                                    <p class="small text-muted mb-1" th:text="${donor.organType}">Kidney</p>
+                                    <span class="donor-badge">Free Donor</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p th:if="${freeOrganDonors == null or freeOrganDonors.isEmpty()}" class="text-muted text-center py-4">
+                            No free organ donors available at the moment.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4"><i class="material-icons text-danger me-2">bloodtype</i> Urgent Blood Requests</h5>
+                        <div th:if="${freeBloodDonors != null and !freeBloodDonors.isEmpty()}">
+                            <div class="donation-card d-flex align-items-center" th:each="req : ${freeBloodDonors}">
+                                <div class="icon-container blood me-3">
+                                    <span class="material-icons">bloodtype</span>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1" th:text="${req.donorName}">Patient</h6>
+                                    <p class="small text-muted mb-1" th:text="${req.bloodGroup}">O+</p>
+                                    <span class="request-badge">Needs Help</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p th:if="${freeBloodDonors == null or freeBloodDonors.isEmpty()}" class="text-muted text-center py-4">
+                            No urgent blood requests right now.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <p th:if="${freeBloodDonors == null or freeBloodDonors.isEmpty()}" class="text-muted">No free requests available</p>
 </section>
 
 <!-- Testimonials -->
-<section class="testimonials frosted-section">
-    <h2>What Our Donors Say</h2>
-    <p>Stories from our amazing community</p>
-    <div class="row mt-4">
-        <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <p>"Donating blood through LifeLink was incredibly easy. I received a notification about a matching request, and within hours, I was able to help save someone's life."</p>
-                    <div class="d-flex align-items-center">
-                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:40px;height:40px;font-weight:bold;">R</div>
-                        <div>
-                            <strong>Rajesh Kumar</strong>
-                            <p class="mb-0 small text-muted">15 donations</p>
-                        </div>
-                    </div>
+<section class="testimonials bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="reveal">What Our Donors Say</h2>
+            <p class="reveal text-muted">Real stories from real heroes</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-img"><span>R</span></div>
+                    <h5>Rajesh Kumar</h5>
+                    <p class="text-muted small">15 Donations</p>
+                    <p class="testimonial-text">"LifeLink made donating blood so simple and fast. I got matched within minutes!"</p>
+                    <div class="text-warning">★★★★★</div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <p>"As a doctor, I've seen firsthand how critical blood donations are. LifeLink makes it so convenient to connect donors with patients."</p>
-                    <div class="d-flex align-items-center">
-                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:40px;height:40px;font-weight:bold;">S</div>
-                        <div>
-                            <strong>Dr. Sita Sharma</strong>
-                            <p class="mb-0 small text-muted">Medical Professional</p>
-                        </div>
-                    </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-img"><span>S</span></div>
+                    <h5>Dr. Sita Sharma</h5>
+                    <p class="text-muted small">Medical Partner</p>
+                    <p class="testimonial-text">"A reliable platform that truly saves lives. Highly recommended for hospitals."</p>
+                    <div class="text-warning">★★★★☆</div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <p>"My father needed blood urgently, and thanks to LifeLink, we found a donor within 30 minutes. I'm forever grateful."</p>
-                    <div class="d-flex align-items-center">
-                        <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:40px;height:40px;font-weight:bold;">A</div>
-                        <div>
-                            <strong>Arun Thapa</strong>
-                            <p class="mb-0 small text-muted">Family Member</p>
-                        </div>
-                    </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar-img"><span>A</span></div>
+                    <h5>Arun Thapa</h5>
+                    <p class="text-muted small">Grateful Family</p>
+                    <p class="testimonial-text">"Found a donor in 25 minutes when my father needed blood urgently. Thank you!"</p>
+                    <div class="text-warning">★★★★★</div>
                 </div>
             </div>
         </div>
@@ -290,10 +578,111 @@
 
 <!-- Footer -->
 <footer>
-    <p>© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> LifeLink. All rights reserved.</p>
-    <p>Contact: <a href="mailto:info@lifelink.com" style="color: #e94560;">info@lifelink.com</a> | +977 9800000000</p>
+    <div class="container">
+        <p class="mb-2 fs-5 fw-semibold">
+            © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2024</span> LifeLink. All rights reserved.
+        </p>
+        <p>
+            <i class="fas fa-envelope"></i> info@lifelink.com |
+            <i class="fas fa-phone"></i> +977 9800000000
+        </p>
+    </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Word Reveal Animation on Scroll
+    document.addEventListener("DOMContentLoaded", function () {
+        const reveals = document.querySelectorAll(".reveal");
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("reveal-active");
+                    // Split words and animate
+                    const text = entry.target.textContent.trim();
+                    if (!entry.target.dataset.processed) {
+                        const words = text.split(/\s+/);
+                        entry.target.innerHTML = words.map((word, i) =>
+                            `<span class="word-wrapper"><span class="word" style="animation-delay:${i * 0.1}s">${word}</span></span>`
+                        ).join(' ');
+                        entry.target.dataset.processed = "true";
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        reveals.forEach(el => observer.observe(el));
+    });
+</script>
+<script th:inline="javascript">
+    const dashboardData = {
+        donors: [[${totalDonors}]],
+        bloodUnits: [[${totalBloodUnits}]],
+        organs: [[${totalOrgansDonated}]],
+        bloodRequests: [[${totalBloodRequests}]],
+        organRequests: [[${totalOrganRequests}]]
+    };
+
+    console.log("Dashboard Data:", dashboardData);
+
+    // Bar Chart
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Donors', 'Blood Units', 'Organs', 'Blood Requests', 'Organ Requests'],
+            datasets: [{
+                data: [
+                    dashboardData.donors || 0,
+                    dashboardData.bloodUnits || 0,
+                    dashboardData.organs || 0,
+                    dashboardData.bloodRequests || 0,
+                    dashboardData.organRequests || 0
+                ],
+                backgroundColor: ['#e11d48', '#2563eb', '#22c55e', '#f59e0b', '#7c3aed'],
+                borderRadius: 12,
+                barThickness: 40
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, grid: { display: false } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // Pie Chart
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    new Chart(pieCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Donors', 'Blood Units', 'Organs', 'Requests'],
+            datasets: [{
+                data: [
+                    dashboardData.donors || 0,
+                    dashboardData.bloodUnits || 0,
+                    dashboardData.organs || 0,
+                    (dashboardData.bloodRequests || 0) + (dashboardData.organRequests || 0)
+                ],
+                backgroundColor: ['#e11d48', '#2563eb', '#22c55e', '#8b5cf6'],
+                borderWidth: 4,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom', labels: { padding: 20, font: { size: 14 } } }
+            }
+        }
+    });
+</script>
+
 </body>
 </html>

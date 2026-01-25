@@ -1,113 +1,354 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to LifeLink</title>
-    <link rel="icon" type="image/png" href="/uploads/favicon.png"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>LifeLink – Saving Lives Together</title>
+    <link rel="icon" type="image/ico" sizes="180x180" href="/uploads/favicon.ico">
+    <!-- Bootstrap & Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        :root {
+          --color-primary: #1E4E96;
+          --color-primary-dark: #163d78;
+          --color-success: #22c55e;
+          --color-warning: #f59e0b;
+          --color-danger: #D12020;
+
+          --color-white: #ffffff;
+          --color-text: #1A1A1A;
+          --color-muted: #717182;
+
+          --color-bg: #F4F6FA;
+          --color-card: #ffffff;
+          --color-border: #cfd6e4;
+
+          --primary: #2563eb;
+          --primary-soft: #eff6ff;
+        }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
-            color: #fff;
-            min-height: 100vh;
+          font-family: 'Poppins', sans-serif;
+          background: var(--color-bg);
+          color: var(--color-text);
         }
 
-        .frosted-section {
-            background: rgba(22, 33, 62, 0.85);
-            border: 2px solid rgba(233, 69, 96, 0.3);
-            backdrop-filter: blur(25px);
-            border-radius: 24px;
-            padding: 3rem 2.5rem;
-            margin-bottom: 3rem;
+        /* Navbar */
+        .navbar {
+          background: var(--color-white);
+          border-bottom: 1px solid var(--color-border);
+          padding: 1rem 0;
         }
 
-        h1, h2, h3, h4, h5 { color: #fff; }
-        p { color: rgba(255,255,255,0.85); }
-
-        .navbar { 
-            background: rgba(22,33,62,0.95) !important; 
-            border-bottom: 1px solid rgba(233,69,96,0.3); 
-            padding: 1rem 0;
-        }
         .navbar-brand {
-            font-size: 1.75rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
+          font-weight: 600;
+          font-size: 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 10px;
         }
+
         .navbar-brand img {
-            height: 50px;
-            margin-right: 10px;
+          height: 42px;
         }
+
         .nav-link {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: #fff !important;
+          font-weight: 500;
+          color: var(--color-text);
         }
-        .nav-link:hover, .nav-link.active { color: #e94560 !important; }
-        
-        .btn-primary { 
-		    background: linear-gradient(135deg, #e94560 0%, #533483 100%); 
-		    border: none; 
-		    border-radius: 14px; 
-		}
-		.btn-primary:hover {
-		    background: linear-gradient(135deg, #ff5571 0%, #6a3f90 100%);
-		}
 
-        .hero { text-align:center; padding:5rem 1rem; }
-        .hero h1 { font-size:3rem; font-weight:700; margin-bottom:1rem; }
-        .hero h1 span { background: linear-gradient(to right,#e94560,#533483); -webkit-background-clip: text; color: transparent; }
-        .hero p { font-size:1.2rem; max-width:600px; margin:0 auto 2rem; }
+        .nav-link:hover {
+          color: var(--color-primary);
+        }
 
-        .hero .btn { min-width: 180px; margin:0.5rem; }
+        /* Buttons */
+        .btn-primary {
+          background: var(--color-primary);
+          border: none;
+          border-radius: 10px;
+          padding: 0.6rem 1.4rem;
+        }
 
-        footer { text-align:center; padding:2rem; border-top: 2px solid rgba(233,69,96,0.3); color:rgba(255,255,255,0.7); }
+        .btn-primary:hover {
+          background: var(--color-primary-dark);
+        }
+
+        .btn-outline-primary {
+          border-radius: 10px;
+          border-color: var(--color-primary);
+          color: var(--color-primary);
+        }
+
+        /* Hero */
+        .hero {
+          padding: 5rem 1rem;
+          text-align: center;
+        }
+
+        .hero h1 {
+          font-size: 3rem;
+          font-weight: 700;
+          margin-bottom: 1rem;
+        }
+
+        .hero h1 span {
+          color: var(--color-primary);
+        }
+
+        .hero p {
+          font-size: 1.1rem;
+          color: var(--color-muted);
+          max-width: 640px;
+          margin: 0 auto 2rem;
+        }
+
+        /* Info Cards */
+        .info-card {
+          background: var(--color-card);
+          border-radius: 18px;
+          padding: 1.5rem;
+          border: 1px solid var(--color-border);
+          height: 100%;
+        }
+
+        .info-card h5 {
+          font-weight: 600;
+          margin-top: 1rem;
+        }
+
+        .info-icon {
+          width: 48px;
+          height: 48px;
+          border-radius: 12px;
+          background: var(--primary-soft);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--primary);
+          font-size: 1.3rem;
+        }
+
+      footer {
+    background:#1e40af;
+    color: var(--color-white);
+    padding: var(--space-lg) 0;
+    text-align: center;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}  footer {
+          border-top: 1px solid var(--color-border);
+          padding: 2rem 1rem;
+          text-align: center;
+          color: var(--color-muted);
+          margin-top: 4rem;
+        }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .hero p { font-size: 1rem; max-width: 90%; }
-            .hero .btn { width: 100%; margin-bottom: 0.5rem; }
+          .hero h1 {
+            font-size: 2.1rem;
+          }
         }
+        /* ===============================
+   GLOBAL ANIMATIONS
+================================ */
+
+/* Fade + slide up */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Soft scale pulse */
+@keyframes softPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+/* ===============================
+   HERO ANIMATION
+================================ */
+.hero {
+  animation: fadeUp 0.9s ease-out both;
+}
+
+.hero h1 {
+  animation: fadeUp 0.9s ease-out both;
+  animation-delay: 0.1s;
+}
+
+.hero p {
+  animation: fadeUp 0.9s ease-out both;
+  animation-delay: 0.25s;
+}
+
+.hero .btn {
+  animation: fadeUp 0.9s ease-out both;
+  animation-delay: 0.4s;
+}
+
+/* ===============================
+   BUTTON INTERACTIONS
+================================ */
+.btn {
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+/* ===============================
+   INFO CARD ANIMATION
+================================ */
+.info-card {
+  animation: fadeUp 0.8s ease-out both;
+  transition: all 0.35s ease;
+}
+
+.info-card:nth-child(1) { animation-delay: 0.1s; }
+.info-card:nth-child(2) { animation-delay: 0.25s; }
+.info-card:nth-child(3) { animation-delay: 0.4s; }
+
+.info-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+  border-color: var(--primary);
+}
+
+/* ===============================
+   ICON ANIMATION
+================================ */
+.info-icon {
+  animation: softPulse 2.5s ease-in-out infinite;
+}
+
+/* ===============================
+   NAVBAR SMOOTHNESS
+================================ */
+.navbar {
+  animation: fadeUp 0.6s ease-out both;
+}
+
+/* ===============================
+   FOOTER FADE
+================================ */
+footer {
+  animation: fadeUp 0.8s ease-out both;
+}
+
     </style>
 </head>
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo"/>
-      LifeLink
-    </a>
-    <div class="ms-auto">
-        <a th:href="@{/login}" class="btn btn-outline-light me-2">Login</a>
-        <a th:href="@{/register}" class="btn btn-primary">Register</a>
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo">
+            LifeLink
+        </a>
+
+        <div class="ms-auto d-flex gap-2">
+            <a th:href="@{/login}" class="btn btn-outline-primary">Login</a>
+            <a th:href="@{/register}" class="btn btn-primary">Register</a>
+        </div>
     </div>
-  </div>
 </nav>
 
 <!-- Hero Section -->
-<div class="container">
-    <section class="hero">
-      <h1>Welcome to <span>LifeLink</span></h1>
-      <p>A centralized platform for blood and organ donation management. Connect with donors and hospitals, and save lives.</p>
-      <div class="d-flex justify-content-center gap-3 flex-wrap">
-        <a th:href="@{/login}" class="btn btn-primary">Get Started</a>
-      </div>
-    </section>
-</div>
+<section class="hero">
+    <div class="container">
+        <h1>Connecting <span>Donors</span>, Hospitals & Hope</h1>
+        <p>
+            LifeLink is a centralized blood and organ donation platform helping
+            hospitals and donors save lives efficiently and transparently.
+        </p>
+
+        <a th:href="@{/login}" class="btn btn-primary btn-lg">
+            Get Started
+        </a>
+    </div>
+</section>
+
+<!-- Info Cards -->
+<section class="container mb-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="info-card">
+                <div class="info-icon">
+                    <i class="fa-solid fa-droplet"></i>
+                </div>
+                <h5>Blood Donation</h5>
+                <p class="text-muted">
+                    Quickly find blood donors and manage urgent requests in real time.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="info-card">
+                <div class="info-icon">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <h5>Organ Matching</h5>
+                <p class="text-muted">
+                    Secure organ donor registration and hospital coordination.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="info-card">
+                <div class="info-icon">
+                    <i class="fa-solid fa-hospital"></i>
+                </div>
+                <h5>Hospital Network</h5>
+                <p class="text-muted">
+                    Trusted hospitals connected through a single platform.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Footer -->
-<footer>
-  <p>© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> LifeLink. All rights reserved.</p>
-  <p>Contact: info@lifelink.com | +977 9800000000</p>
+<footer class="text-center  py-5 mt-5">
+    <div class="container">
+        <p class="mb-2 fs-5 fw-semibold text-light">
+            © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')} text-white">2025</span> LifeLink
+
+        </p>
+        <p class="mb-0 text-light">
+            <i class="fas fa-envelope me-2"></i>
+            <a href="mailto:info@lifelink.com" class="text-white text-decoration-none">info@lifelink.com</a> |
+            <i class="fas fa-phone me-2 ms-3"></i>+977 9800000000
+        </p>
+    </div>
 </footer>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>

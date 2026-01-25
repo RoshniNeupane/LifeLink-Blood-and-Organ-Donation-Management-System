@@ -1,484 +1,951 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title th:text="#{app.title}">LifeLink</title>
-<link rel="icon" type="image/png" href="/uploads/favicon.png"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #0a0a1a 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
-    background-attachment: fixed;
-    color: #fff;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
-/* Animated background particles */
-.particles {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.particle {
-    position: absolute;
-    background: rgba(233, 69, 96, 0.3);
-    border-radius: 50%;
-    animation: float 20s infinite;
-}
-
-.particle:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-delay: 0s; }
-.particle:nth-child(2) { width: 60px; height: 60px; left: 20%; animation-delay: 2s; }
-.particle:nth-child(3) { width: 100px; height: 100px; left: 60%; animation-delay: 4s; }
-.particle:nth-child(4) { width: 70px; height: 70px; left: 80%; animation-delay: 6s; }
-.particle:nth-child(5) { width: 90px; height: 90px; left: 40%; animation-delay: 8s; }
-
-@keyframes float {
-    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
-    50% { transform: translateY(-100vh) rotate(360deg); opacity: 0.5; }
-}
-
-.content-wrapper {
-    position: relative;
-    z-index: 1;
-}
-
-.frosted-section {
-    background: rgba(22, 33, 62, 0.7);
-    border: 2px solid rgba(233, 69, 96, 0.25);
-    backdrop-filter: blur(30px);
-    border-radius: 28px;
-    padding: 3.5rem 2.5rem;
-    margin-bottom: 3rem;
-    box-shadow: 0 8px 32px rgba(233, 69, 96, 0.15);
-    transition: all 0.3s ease;
-}
-
-.frosted-section:hover {
-    border-color: rgba(233, 69, 96, 0.4);
-    box-shadow: 0 12px 48px rgba(233, 69, 96, 0.25);
-}
-
-h1, h2, h3, h4, h5 { color: #fff; font-weight: 700; }
-p { color: rgba(255,255,255,0.85); line-height: 1.7; }
-
-.navbar { 
-    background: rgba(10, 10, 26, 0.95) !important; 
-    border-bottom: 2px solid rgba(233,69,96,0.3);
-    backdrop-filter: blur(20px);
-    padding: 1rem 0;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-}
-
-.navbar-brand { 
-    color: #fff !important; 
-    font-size: 1.5rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.navbar-brand img {
-    height: 40px;
-    width: auto;
-}
-
-.nav-link { 
-    color: rgba(255,255,255,0.8) !important;
-    transition: all 0.3s ease;
-    padding: 0.5rem 1rem !important;
-    border-radius: 10px;
-}
-
-.nav-link:hover, .nav-link.active { 
-    color: #e94560 !important;
-    background: rgba(233, 69, 96, 0.1);
-}
-
-.btn-primary { 
-    background: linear-gradient(135deg, #e94560 0%, #533483 100%); 
-    border: none; 
-    border-radius: 16px;
-    padding: 0.75rem 2rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #ff5571 0%, #6a3f90 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(233, 69, 96, 0.5);
-}
-
-.btn-secondary {
-    background: rgba(255,255,255,0.05);
-    border: 2px solid rgba(233,69,96,0.3);
-    color: #fff;
-    border-radius: 16px;
-    padding: 0.75rem 2rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.btn-secondary:hover { 
-    background: rgba(233,69,96,0.15);
-    border-color: rgba(233,69,96,0.5);
-    transform: translateY(-2px);
-}
-
-.hero { 
-    text-align: center; 
-    padding: 6rem 1rem 5rem;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(233, 69, 96, 0.1) 0%, transparent 70%);
-    animation: pulse 8s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.1); opacity: 0.8; }
-}
-
-.hero h1 { 
-    font-size: 3.5rem; 
-    font-weight: 800; 
-    margin-bottom: 1.5rem;
-    animation: fadeInUp 0.8s ease;
-}
-
-.hero h1 span { 
-    background: linear-gradient(135deg, #e94560 0%, #ff8a9a 50%, #533483 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.hero p { 
-    font-size: 1.3rem; 
-    max-width: 650px; 
-    margin: 0 auto 2.5rem;
-    animation: fadeInUp 0.8s ease 0.2s both;
-}
-
-.hero .btn-group {
-    animation: fadeInUp 0.8s ease 0.4s both;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.stats { 
-    text-align: center; 
-    margin-bottom: 2rem;
-}
-
-.stats .row > div {
-    padding: 2rem 1rem;
-    position: relative;
-}
-
-.stats h3 { 
-    color: #e94560; 
-    font-weight: 800; 
-    margin-bottom: 0.5rem;
-    font-size: 3rem;
-    text-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
-}
-
-.stats p { 
-    color: rgba(255,255,255,0.7);
-    font-size: 1.1rem;
-}
-
-.stats .counter {
-    display: inline-block;
-}
-
-.donation-section, .final-cta, .testimonials, .how-it-works { 
-    text-align: center; 
-    margin-bottom: 2rem;
-}
-
-.donation-section h2, .final-cta h2, .how-it-works h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, #fff 0%, #e94560 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.donation-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
-    gap: 2rem; 
-    max-width: 1200px; 
-    margin: 2rem auto 0;
-}
-
-.donation-card {
-    background: linear-gradient(145deg, rgba(22,33,62,0.9), rgba(15,52,96,0.8));
-    border: 2px solid rgba(233,69,96,0.25);
-    border-radius: 24px;
-    padding: 2.5rem 1.5rem;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    overflow: hidden;
-}
-
-.donation-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(233, 69, 96, 0.1) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.donation-card:hover::before {
-    opacity: 1;
-}
-
-.donation-card:hover { 
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 20px 50px rgba(233,69,96,0.4);
-    border-color: rgba(233, 69, 96, 0.6);
-}
-
-.icon-container { 
-    font-size: 3.5rem; 
-    width: 90px; 
-    height: 90px; 
-    margin: 0 auto 1.5rem; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    background: linear-gradient(135deg, rgba(233,69,96,0.3), rgba(83,52,131,0.3));
-    border-radius: 50%;
-    border: 3px solid rgba(233, 69, 96, 0.4);
-    transition: all 0.3s ease;
-}
-
-.donation-card:hover .icon-container {
-    transform: rotateY(360deg);
-    background: linear-gradient(135deg, rgba(233,69,96,0.5), rgba(83,52,131,0.5));
-}
-
-.donation-card h3 { 
-    color: #e94560; 
-    margin-bottom: 0.8rem;
-    font-size: 1.5rem;
-}
-
-.donation-card p { 
-    color: rgba(255,255,255,0.85);
-    font-size: 1rem;
-}
-
-.how-it-works .steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-}
-
-.step {
-    background: rgba(22, 33, 62, 0.6);
-    border: 2px solid rgba(233, 69, 96, 0.2);
-    border-radius: 20px;
-    padding: 2rem;
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-.step:hover {
-    border-color: rgba(233, 69, 96, 0.5);
-    transform: translateY(-5px);
-}
-
-.step-number {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #e94560, #533483);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 700;
-    box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
-}
-
-.step h4 {
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-    color: #e94560;
-}
-
-.impact-section {
-    background: linear-gradient(135deg, rgba(233, 69, 96, 0.1), rgba(83, 52, 131, 0.1));
-    border: 2px solid rgba(233, 69, 96, 0.3);
-    border-radius: 28px;
-    padding: 4rem 2rem;
-    margin-bottom: 3rem;
-    text-align: center;
-}
-
-.impact-section h2 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-}
-
-.impact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.impact-stat {
-    padding: 1.5rem;
-}
-
-.impact-stat .icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.impact-stat h3 {
-    color: #e94560;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-}
-
-.testimonials .card { 
-    background: rgba(22,33,62,0.85); 
-    border: 2px solid rgba(233,69,96,0.25); 
-    border-radius: 24px; 
-    color: #fff;
-    padding: 2rem;
-    transition: all 0.3s ease;
-}
-
-.testimonials .card:hover {
-    border-color: rgba(233, 69, 96, 0.5);
-    transform: translateY(-5px);
-}
-
-.testimonial-author {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
-.testimonial-avatar {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #e94560, #533483);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.final-cta { 
-    background: linear-gradient(135deg, rgba(233, 69, 96, 0.2), rgba(83, 52, 131, 0.2));
-    border: 2px solid rgba(233, 69, 96, 0.4);
-}
-
-.final-cta h2 { 
-    font-size: 2.8rem; 
-    margin-bottom: 1.5rem;
-}
-
-.final-cta p { 
-    color: rgba(255,255,255,0.9);
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-}
-
-footer { 
-    text-align: center; 
-    padding: 3rem 2rem; 
-    border-top: 2px solid rgba(233,69,96,0.3); 
-    background: rgba(10, 10, 26, 0.8);
-    backdrop-filter: blur(20px);
-}
-
-footer p { 
-    color: rgba(255,255,255,0.6);
-    margin-bottom: 0.5rem;
-}
-
-footer .social-links {
-    margin-top: 1.5rem;
-}
-
-footer .social-links a {
-    color: rgba(255,255,255,0.6);
-    font-size: 1.5rem;
-    margin: 0 0.75rem;
-    transition: all 0.3s ease;
-}
-
-footer .social-links a:hover {
-    color: #e94560;
-    transform: translateY(-3px);
-}
-
-@media (max-width: 768px) {
-    .hero h1 { font-size: 2.5rem; }
-    .hero p { font-size: 1.1rem; }
-    .stats h3 { font-size: 2rem; }
-    .donation-grid { grid-template-columns: 1fr; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{app.title}">LifeLink</title>
+    <link rel="icon" type="image/ico" sizes="180x180" href="/uploads/favicon.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        :root {
+          --bg-main: #f6f8fb;
+          --bg-card: #ffffff;
+          --border-light: #e5e7eb;
+
+          --primary: #2563eb;        /* Material blue */
+          --primary-soft: #eff6ff;
+
+          --danger: #dc2626;         /* Blood */
+          --danger-soft: #fee2e2;
+
+          --success: #16a34a;
+          --warning: #d97706;
+
+          --text-main: #111827;
+          --text-muted: #6b7280;
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+             background: var(--bg-main);
+          color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+        .particles,
+        .hero::before {
+          display: none !important;
+        }
+
+        //
+
+
+
+        h2 {
+          font-size: 2rem;
+          font-weight: 600;
+        }
+
+        h3 {
+          font-size: 1.4rem;
+          font-weight: 600;
+        }
+
+        p {
+          font-size: 0.95rem;
+          line-height: 1.7;
+              color: #323334;
+        }
+
+
+
+        .particle:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 60px; height: 60px; left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { width: 100px; height: 100px; left: 60%; animation-delay: 4s; }
+        .particle:nth-child(4) { width: 70px; height: 70px; left: 80%; animation-delay: 6s; }
+        .particle:nth-child(5) { width: 90px; height: 90px; left: 40%; animation-delay: 8s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
+            50% { transform: translateY(-100vh) rotate(360deg); opacity: 0.5; }
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+
+        html, body {
+          overflow-x: hidden;
+        }
+
+
+
+
+
+        /* Base navbar */
+        /* ===============================
+           MATERIAL UI STYLE NAVBAR
+        ================================ */
+
+
+                /* Base navbar */
+        .navbar {
+            background: #ffffff;
+            padding: 1.1rem 1rem;
+
+            border-bottom: 0.75px solid #e5e7eb;
+            border-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #e11d48;
+        }
+
+        .navbar-brand img {
+            height: 34px;
+        }
+
+        /* Right-side user block */
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item.dropdown {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Avatar + username inline */
+        .nav-link {
+            display: flex !important;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.25rem 0.75rem;
+        }
+
+        .profile-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e5e7eb;
+        }
+
+        .nav-item .fw-medium {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #111827;
+            white-space: nowrap;
+        }
+
+        /* ===============================
+           MOBILE FIX (IMPORTANT)
+        =============================== */
+        @media (max-width: 991px) {
+
+            /* Keep navbar one-line */
+            .navbar > .container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            /* Disable center stacking */
+            .navbar-collapse {
+                position: absolute;
+                top: 100%;
+                right: 1rem;
+                width: auto;
+                background: #ffffff;
+                padding: 0.75rem;
+                border-radius: 12px;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            }
+
+            /* Dropdown avatar stays inline */
+            .navbar-nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .nav-link {
+                flex-direction: row !important;
+                justify-content: flex-start;
+                width: 100%;
+            }
+
+            .profile-avatar {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        /* ===============================
+           DROPDOWN MENU POLISH
+        =============================== */
+        .dropdown-menu {
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            border:none;
+            padding: 0.5rem;
+        }
+
+        .dropdown-item {
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-item:hover {
+            background: #f1f5f9;
+        }
+
+
+        /* ===============================
+           MATERIAL UI STYLE DROPDOWN
+        =============================== */
+
+        .dropdown-menu {
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.12);
+            padding: 0.5rem;
+            background: #ffffff;
+        }
+
+        /* Username (top text) */
+        .dropdown-item-text {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #111827;
+            padding: 0.75rem;
+        }
+
+        /* All dropdown items */
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500; /* semi-bold */
+            font-size: 0.9rem;
+            color: #374151;
+            border-radius: 10px;
+            padding: 0.6rem 0.75rem;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        /* Material hover */
+        .dropdown-item:hover {
+            background: #f3f4f6;
+            transform: translateX(2px);
+        }
+
+        /* ICON CIRCLE (Material style) */
+        .dropdown-item i,
+        .dropdown-item-text i {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            color: #374151;
+
+            /* IMPORTANT: no stroke / no border */
+            border: none;
+            box-shadow: none;
+        }
+
+
+
+
+        /* ===============================
+           MOBILE FIX (IMPORTANT)
+        =============================== */
+        @media (max-width: 991px) {
+
+            /* Keep navbar one-line */
+            .navbar > .container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            /* Disable center stacking */
+            .navbar-collapse {
+                position: absolute;
+                top: 100%;
+                right: 1rem;
+                width: auto;
+                background: #ffffff;
+                padding: 0.75rem;
+                border-radius: 12px;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            }
+
+            /* Dropdown avatar stays inline */
+            .navbar-nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .nav-link {
+                flex-direction: row !important;
+                justify-content: flex-start;
+                width: 100%;
+            }
+
+            .profile-avatar {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+
+        .nav-link:hover, .nav-link.active {
+            color: #e94560 !important;
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+
+        .btn-primary {
+            background: lightred;
+            border: none;
+            border-radius: 16px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+
+        }
+        .btn btn-primary ms-3 login{
+            padding: 0 0;
+            height: 1rem;
+
+            font-weight: 400;
+            width: 3.8rem;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+                background: linear-gradient(256deg, #174aa9 0%, #242ad7 100%);
+            transform: translateY(-2px);
+
+        }
+
+        .btn-secondary {
+            background: white;
+            border: 1px solid rgba(233,69,96,0.3);
+            color: red;
+            border-radius: 16px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+
+        .btn-secondary:hover {
+            background: red;
+            border:none;
+            transform: translateY(-2px);
+        }
+
+
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(233, 69, 96, 0.1) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+
+
+        .how-it-works h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color:#174aa9;
+
+        }
+
+
+
+        /* Material UI style hero without frosted box */
+        .hero {
+             position: relative;
+          background:
+            linear-gradient(
+              135deg,
+              rgba(255, 255, 255, 0.85),
+              rgba(255, 245, 248, 0.85)
+            ),
+            url("https://plus.unsplash.com/premium_photo-1661670219639-2ea9af8e9d88?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;                 /* Remove border */
+            border-radius: 0;              /* No rounded corners */
+            padding: 9rem 2rem;            /* Add vertical spacing */
+            text-align: center;
+            margin-bottom: 3rem;           /* Space below hero */
+        }
+
+        .stats.frosted-section{
+            background: white;       /* Remove frosted background */
+            border: none;                  /* Remove border */
+            border-radius: 0;              /* No rounded corners */
+            padding: 8rem 2rem;            /* Add vertical spacing */
+            text-align: center;
+            margin-bottom: 3rem;
+
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #d70426 0%, #f30021 50%, #de0328 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stats {
+            text-align: center;
+           margin: 4rem 0;
+        }
+
+        .stats .row > div {
+            padding: 2rem 1rem;
+            position: relative;
+        }
+
+        .stats {
+          text-align: center;
+
+        }
+
+        .stats .counter {
+          font-size: 2.6rem;
+          font-weight: 700;
+          color: #d12020; /* blood red */
+          letter-spacing: -0.5px;
+          transition: transform 0.3s ease;
+        }
+
+        .stats .counter:hover {
+          transform: scale(1.05);
+        }
+
+
+
+        .stats h3 {
+            margin-bottom: 0.5rem;
+            text-shadow: soft-glow 0 0 8px rgba(233,69,96,0.6);
+             font-size: 2.6rem;
+          font-weight: 700;
+          color: #d12020; /* blood red */
+          letter-spacing: -0.5px;
+
+        }
+
+        .stats p {
+
+              font-size: 0.95rem;
+          color: #6b7280;
+          margin-top: 0.25rem;
+        }
+
+        .stats .counter {
+            display: inline-block;
+        }
+        .donation-section{
+        margin-top: 6rem;
+
+         background: white;       /* Remove frosted background */
+            border: none;                  /* Remove border */
+            border-radius: 0;              /* No rounded corners */
+            padding: 9rem 2rem;
+
+                      /* Add vertical spacing */
+            text-align: center;
+            margin-bottom: 3rem;
+              /* Remove frosted background */
+
+        }
+
+        .donation-section, .final-cta, .testimonials, .how-it-works {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .donation-section h2{
+         font-size: 2.5rem;
+         margin-bottom: 1rem;
+
+             color: #0445a6;
+
+        }
+
+         .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color:crimson;
+        }
+
+        .donation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto 0;
+        }
+
+        .donation-card {
+            background: linear-gradient(145deg, rgb(178 209 255 / 15%), #e5e7eb);
+            border: 2px solid #e4edf9;
+            border-radius: 24px;
+            padding: 2.5rem 1.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .donation-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #f0f6ff 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .donation-card:hover::before {
+            opacity: 1;
+        }
+
+        .donation-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: linear-gradient(145deg, rgb(178 209 255 / 15%), #e5e7eb);
+            border: 2px solid #e4edf9;
+        }
+
+        .icon-container {
+           font-size: 3.5rem;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background: linear-gradient(17deg, #155fcb, #f8f9fa);
+            border-radius: 50%;
+            /* border: 3px solid rgb(0 0 0 / 40%); */
+            transition: all 0.3s ease;
+        }
+
+        .donation-card:hover .icon-container {
+            transform: rotateY(360deg);
+            background: linear-gradient(17deg, #155fcb, #f8f9fa);
+        }
+
+        .donation-card h3 {
+            color: #0558aa;
+            margin-bottom: 0.8rem;
+            font-size: 1.5rem;
+        }
+
+        .donation-card p {
+             color: rgb(51 48 48 / 85%);
+            font-size: 1rem;
+        }
+
+        .how-it-works .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            background: #ffffff;
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            border-color: rgba(233, 69, 96, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+
+            position: absolute;
+            top: -20px;
+            color: crimson;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+
+
+            background: rgb(255 215 222);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .step h4 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            color:#f10028
+        }
+
+        .impact-section {
+
+            border-radius: 28px;
+            padding: 4rem 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .impact-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0rem;
+            color:#d80303;
+        }
+        .impact-section p {
+
+            margin-bottom: 2rem;
+
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .impact-stat .icon {
+            font-size: 44px;
+            margin-bottom: 0.75rem;
+        }
+
+        .material-icons-outlined {
+            font-size: 44px;
+        }
+
+        /* Improve text contrast */
+        .impact-stat h3 {
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .impact-stat p {
+            color: #6b7280;
+        }
+
+        /* =========================
+           MATERIAL UI TESTIMONIALS
+        ========================= */
+
+        .testimonial-card {
+          background: #ffffff;
+          border-radius: 16px;
+          padding: 2.5rem 1.8rem 2rem;
+          text-align: center;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+          transition: all 0.3s ease;
+          height: 100%;
+        }
+
+        .testimonial-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 16px 40px rgba(38,74,168,0.18);
+        }
+
+        .testimonial-avatar-img {
+          width: 72px;
+          height: 72px;
+          margin: -80px auto 1rem;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #ffffff, #e6e8ee);;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .testimonial-avatar-img span {
+          color: #0b67ef;
+          font-size: 1.8rem;
+          font-weight: 700;
+        }
+
+        .testimonial-name {
+          font-weight: 600;
+          margin-bottom: 2px;
+          color: #111827;
+        }
+
+        .testimonial-role {
+          font-size: 0.85rem;
+          color: #6b7280;
+          margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+          font-size: 0.95rem;
+          line-height: 1.7;
+          color: #374151;
+          margin-bottom: 1.2rem;
+        }
+
+        .testimonial-rating {
+          color: #f59e0b;
+          font-size: 0.9rem;
+        }
+
+
+        /* =========================
+           PREMIUM FINAL CTA
+        ========================= */
+
+        /* =========================
+           SOFT GRADIENT FINAL CTA
+        ========================= */
+
+        .final-cta {
+          position: relative;
+          margin: 6rem auto;
+          padding: 5rem 2rem;
+          border-radius: 28px;
+
+          /* Soft, calm gradient */
+          background: linear-gradient(
+            135deg,
+            #eff6ff 0%,
+            #fdf2f8 50%,
+            #fff1f2 100%
+          );
+
+          border: 1px solid var(--border-light);
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+          overflow: hidden;
+        }
+
+        /* Subtle light overlay (Apple style) */
+        .final-cta::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(
+            circle at top,
+            rgba(255, 255, 255, 0.9),
+            transparent 65%
+          );
+          pointer-events: none;
+        }
+
+        .cta-inner {
+          position: relative;
+          max-width: 820px;
+          margin: 0 auto;
+          z-index: 1;
+          text-align: center;
+        }
+
+        /* Headline */
+        .final-cta h2 {
+          font-size: 3rem;
+          font-weight: 800;
+          letter-spacing: -0.03em;
+          color: var(--text-main);
+          margin-bottom: 1.2rem;
+        }
+
+        /* Subtitle */
+        .final-cta p {
+          font-size: 1.1rem;
+          line-height: 1.7;
+          max-width: 680px;
+          margin: 0 auto 2.5rem;
+          color: var(--text-muted);
+        }
+
+        /* Buttons – Material UI feel */
+        .final-cta .btn-primary {
+          background: var(--primary);
+          color: #ffffff;
+          border-radius: 999px;
+          padding: 0.85rem 2.4rem;
+          font-weight: 600;
+          border: none;
+          box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
+          transition: all 0.3s ease;
+        }
+
+        .final-cta .btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 16px 36px rgba(37, 99, 235, 0.35);
+        }
+
+        /* Secondary button */
+        .final-cta .btn-secondary {
+          background: #ffffff;
+          color: var(--primary);
+          border: 1px solid var(--border-light);
+          border-radius: 999px;
+          padding: 0.85rem 2.4rem;
+          font-weight: 600;
+          transition: all 0.3s ease;
+        }
+
+        .final-cta .btn-secondary:hover {
+          background: var(--primary-soft);
+          transform: translateY(-2px);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+          .final-cta {
+            padding: 4rem 1.5rem;
+          }
+
+          .final-cta h2 {
+            font-size: 2.2rem;
+          }
+
+          .final-cta p {
+            font-size: 1rem;
+          }
+        }
+
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 2px solid rgba(233,69,96,0.3);
+            background:#1e40af;
+            backdrop-filter: blur(20px);
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+        }
+
+        footer .social-links {
+            margin-top: 1.5rem;
+        }
+
+        footer .social-links a {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.5rem;
+            margin: 0 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        footer .social-links a:hover {
+            color: #e94560;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.1rem; }
+            .stats h3 { font-size: 2rem; }
+            .donation-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
@@ -491,241 +958,398 @@ footer .social-links a:hover {
     <div class="particle"></div>
 </div>
 
-<div class="content-wrapper container-fluid">
-    <div class="container-fluid px-5  ">
+<div class="content-wrapper container">
+    <div class="container   ">
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container">
-   <a class="navbar-brand" href="/">
-      <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo"/>
-      LifeLink
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a th:href="@{/dashboard}" class="nav-link" th:classappend="${activeTab=='dashboard'} ? 'active' : ''">Dashboard</a></li>
-        <li class="nav-item"><a th:href="@{/register}" class="nav-link" th:classappend="${activeTab=='register-donor'} ? 'active' : ''">Register</a></li>
-        <li class="nav-item"><a th:href="@{/find-donor}" class="nav-link" th:classappend="${activeTab=='find-donor'} ? 'active' : ''">Find Donor</a></li>
-        <li class="nav-item"><a th:href="@{/login}" class="btn btn-primary ms-3">Login</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- Hero -->
-<section class="hero frosted-section">
-  <h1>Donate Blood & <span>Save Lives</span></h1>
-  <p>Join our community of life savers. Track your donations, find donors, and contribute to saving lives every single day.</p>
-  <div class="d-flex justify-content-center gap-3 flex-wrap btn-group">
-    <a th:href="@{/register-donor}" class="btn btn-primary">Register as Donor</a>
-    <a th:href="@{/about}" class="btn btn-secondary">Learn More</a>
-  </div>
-</section>
-
-<!-- Stats -->
-<section class="stats frosted-section">
-  <div class="row">
-    <div class="col-md-4">
-      <h3 class="counter" th:text="${(totalDonors != null ? totalDonors : 0) + (totalFreeDonors != null ? totalFreeDonors : 0)}">1,247</h3>
-      <p>Registered Donors</p>
-    </div>
-    <div class="col-md-4">
-      <h3 class="counter" th:text="${totalBloodUnits != null ? totalBloodUnits : 0}">3,892</h3>
-      <p>Blood Units Collected</p>
-    </div>
-    <div class="col-md-4">
-      <h3 class="counter" th:text="${(totalOrgansDonated != null ? totalOrgansDonated : 0) + (totalFreeOrgans != null ? totalFreeOrgans : 0)}">156</h3>
-      <p>Organs Donated</p>
-    </div>
-  </div>
-</section>
-
-<!-- How It Works -->
-<section class="how-it-works frosted-section">
-  <h2>How It Works</h2>
-  <p>Getting started is simple. Follow these easy steps to become a life saver.</p>
-  <div class="steps">
-    <div class="step">
-      <div class="step-number">1</div>
-      <h4>Register</h4>
-      <p>Create your donor profile with your blood type and contact information</p>
-    </div>
-    <div class="step">
-      <div class="step-number">2</div>
-      <h4>Get Verified</h4>
-      <p>Complete a simple verification process to ensure safety and authenticity</p>
-    </div>
-    <div class="step">
-      <div class="step-number">3</div>
-      <h4>Donate</h4>
-      <p>Receive notifications when your blood type is needed and save lives</p>
-    </div>
-    <div class="step">
-      <div class="step-number">4</div>
-      <h4>Track Impact</h4>
-      <p>Monitor your donation history and see the lives you've helped save</p>
-    </div>
-  </div>
-</section>
-
-<!-- Donation Types -->
-<section class="donation-section frosted-section">
-  <h2>Types of Donations</h2>
-  <p>Contribute in the way you can. Every donation saves a life.</p>
-  <div class="donation-grid">
-    <div class="donation-card">
-      <div class="icon-container">🩸</div>
-      <h3>Blood Donation</h3>
-      <p>Whole blood, platelets, and plasma donations to help patients in need</p>
-    </div>
-    <div class="donation-card">
-      <div class="icon-container">🫀</div>
-      <h3>Organ Donation</h3>
-      <p>Kidney, liver, heart, and lung donations for transplant patients</p>
-    </div>
-    <div class="donation-card">
-      <div class="icon-container">🫁</div>
-      <h3>Bone Marrow</h3>
-      <p>Help patients with leukemia, lymphoma, and other blood cancers</p>
-    </div>
-    <div class="donation-card">
-      <div class="icon-container">💉</div>
-      <h3>Plasma Donation</h3>
-      <p>Convalescent plasma to help COVID-19 and other patients recover</p>
-    </div>
-  </div>
-</section>
-
-<!-- Impact Section -->
-<section class="impact-section">
-  <h2>Your Impact Matters</h2>
-  <p>See the difference our community makes every day</p>
-  <div class="impact-grid">
-    <div class="impact-stat">
-      <div class="icon">❤️</div>
-      <h3>5,000+</h3>
-      <p>Lives Saved</p>
-    </div>
-    <div class="impact-stat">
-      <div class="icon">🏥</div>
-      <h3>200+</h3>
-      <p>Partner Hospitals</p>
-    </div>
-    <div class="impact-stat">
-      <div class="icon">⏱️</div>
-      <h3>&lt; 2hrs</h3>
-      <p>Avg. Response Time</p>
-    </div>
-    <div class="impact-stat">
-      <div class="icon">🌟</div>
-      <h3>98%</h3>
-      <p>Satisfaction Rate</p>
-    </div>
-  </div>
-</section>
-
-<!-- Free Donors -->
-<section class="donation-section frosted-section" th:if="${freeDonors != null and !freeDonors.isEmpty()} or ${freeRequests != null and !freeRequests.isEmpty()}">
-  <h2>Our Free Donors & Active Requests</h2>
-  <p>Generous volunteers ready to help save lives</p>
-  <div class="donation-grid">
-    <div class="donation-card" th:each="donor : ${freeDonors}">
-      <div class="icon-container">🩸</div>
-      <h3 th:text="${donor.username}">Donor Name</h3>
-      <p th:text="${donor.bloodGroup + (donor.organType != null ? ' | ' + donor.organType : '')}">A+ | Kidney</p>
-      <p class="text-success fw-bold">✓ Verified Free Donor</p>
-    </div>
-    <div class="donation-card" th:each="request : ${freeRequests}">
-      <div class="icon-container">🙏</div>
-      <h3 th:text="${request.patientName}">Patient Name</h3>
-      <p th:text="${request.bloodGroup + (request.organType != null ? ' | ' + request.organType : '')}">B+ | Liver</p>
-      <p class="text-info fw-bold">🚨 Urgent Request</p>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials -->
-<section class="testimonials frosted-section">
-  <h2>What Our Donors Say</h2>
-  <p>Stories from our amazing community</p>
-  <div class="row mt-4">
-    <div class="col-md-4 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <p class="mb-3">"Donating blood through LifeLink was incredibly easy. I received a notification about a matching request, and within hours, I was able to help save someone's life. This platform is truly amazing!"</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">R</div>
-            <div>
-              <strong>Rajesh Kumar</strong>
-              <p class="mb-0 small text-muted">15 donations</p>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top ">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <img src="/uploads/LifelineLogo.png" alt="LifeLink Logo"/>
+                    LifeLink
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a th:href="@{/dashboard}" class="nav-link" th:classappend="${activeTab=='dashboard'} ? 'active' : ''">Dashboard</a></li>
+                        <li class="nav-item"><a th:href="@{/register}" class="nav-link" th:classappend="${activeTab=='register-donor'} ? 'active' : ''">Register</a></li>
+                        <li class="nav-item"><a th:href="@{/find-donor}" class="nav-link" th:classappend="${activeTab=='find-donor'} ? 'active' : ''">Find Donor</a></li>
+                        <li class="nav-item"><a th:href="@{/login}" class="btn btn-primary ms-3 login">Login</a></li>
+                    </ul>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <p class="mb-3">"As a doctor, I've seen firsthand how critical blood donations are. LifeLink makes it so convenient to connect donors with patients. It's a lifesaving service that every community needs."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">S</div>
-            <div>
-              <strong>Dr. Sita Sharma</strong>
-              <p class="mb-0 small text-muted">Medical Professional</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <p class="mb-3">"My father needed blood urgently, and thanks to LifeLink, we found a donor within 30 minutes. I'm forever grateful to this platform and the generous donors who make it possible."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">A</div>
-            <div>
-              <strong>Arun Thapa</strong>
-              <p class="mb-0 small text-muted">Family Member</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        </nav>
 
-<!-- Final CTA -->
-<section class="final-cta frosted-section">
-  <h2>Ready to Save a Life?</h2>
-  <p>Join thousands of donors making a difference today. Your contribution can give someone a second chance at life.</p>
-  <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
-    <a th:href="@{/register-donor}" class="btn btn-primary btn-lg">Register Now</a>
-    <a th:href="@{/find-donor}" class="btn btn-secondary btn-lg">Find Donor</a>
-  </div>
-</section>
+        <!-- Hero -->
+        <section class="hero frosted-section">
+            <h1>Donate Blood & <br><span>Save Lives</span></h1>
+            <p>Join our community of life savers. Track your donations, find donors, and contribute to saving lives every single day.</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap btn-group">
+                <a th:href="@{/register-donor}" class="btn btn-primary">Register as Donor</a>
+                <a th:href="@{/about}" class="btn btn-secondary">Learn More</a>
+            </div>
+        </section>
 
-<!-- Footer -->
-<footer>
-  <div class="container">
-    <h4 class="mb-3" style="color: #e94560;">LifeLink</h4>
-    <p>© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> LifeLink. All rights reserved.</p>
-    <p>Connecting donors with those in need. Saving lives, one donation at a time.</p>
-    <p class="mt-3">Contact: info@lifelink.com | +977 9800000000</p>
-    <div class="social-links">
-      <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-    </div>
-  </div>
-</footer>
+        <!-- Stats -->
+        <section class="stats frosted-section">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 class="counter" th:text="${(totalDonors != null ? totalDonors : 0) + (totalFreeDonors != null ? totalFreeDonors : 0)}">1,247</h3>
+                    <p>Registered Donors</p>
+                </div>
+                <div class="col-md-4">
+                    <h3 class="counter" th:text="${totalBloodUnits != null ? totalBloodUnits : 0}">3,892</h3>
+                    <p>Blood Units Collected</p>
+                </div>
+                <div class="col-md-4">
+                    <h3 class="counter" th:text="${(totalOrgansDonated != null ? totalOrgansDonated : 0) + (totalFreeOrgans != null ? totalFreeOrgans : 0)}">156</h3>
+                    <p>Organs Donated</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="how-it-works frosted-section">
+            <h2>How It Works</h2>
+            <p>Getting started is simple. Follow these easy steps to become a life saver.</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Register</h4>
+                    <p>Create your donor profile with your blood type and contact information</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Get Verified</h4>
+                    <p>Complete a simple verification process to ensure safety and authenticity</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Donate</h4>
+                    <p>Receive notifications when your blood type is needed and save lives</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Track Impact</h4>
+                    <p>Monitor your donation history and see the lives you've helped save</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Donation Types -->
+        <!-- Donation Types -->
+        <section class="donation-section frosted-section">
+            <h2>Types of Donations</h2>
+            <p>Contribute in the way you can. Every donation saves a life.</p>
+
+            <div class="donation-grid">
+                <div class="donation-card">
+                    <div class="icon-container">
+                        <span class="material-icons-outlined">bloodtype</span>
+                    </div>
+                    <h3>Blood Donation</h3>
+                    <p>Whole blood, platelets, and plasma donations to help patients in need</p>
+                </div>
+
+                <div class="donation-card">
+                    <div class="icon-container">
+                        <span class="material-icons-outlined">favorite</span>
+                    </div>
+                    <h3>Organ Donation</h3>
+                    <p>Kidney, liver, heart, and lung donations for transplant patients</p>
+                </div>
+
+                <div class="donation-card">
+                    <div class="icon-container">
+                        <span class="material-icons-outlined">healing</span>
+                    </div>
+                    <h3>Bone Marrow</h3>
+                    <p>Help patients with leukemia, lymphoma, and other blood cancers</p>
+                </div>
+
+                <div class="donation-card">
+                    <div class="icon-container">
+                        <span class="material-icons-outlined">vaccines</span>
+                    </div>
+                    <h3>Plasma Donation</h3>
+                    <p>Convalescent plasma to help COVID-19 and other patients recover</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Impact Section -->
+        <section class="impact-section frosted-section">
+            <h2>Your Impact Matters</h2>
+            <p>See the difference our community makes every day</p>
+
+            <div class="impact-grid">
+
+                <!-- Lives Saved -->
+                <div class="impact-stat">
+                    <div class="icon text-danger">
+                        <span class="material-icons-outlined">favorite</span>
+                    </div>
+                    <h3 th:text="${livesSaved}">5,000+</h3>
+                    <p>Lives Saved</p>
+                </div>
+
+                <!-- Partner Hospitals -->
+                <div class="impact-stat">
+                    <div class="icon text-primary">
+                        <span class="material-icons-outlined">local_hospital</span>
+                    </div>
+                    <h3 th:text="${partnerHospitals}">200+</h3>
+                    <p>Partner Hospitals</p>
+                </div>
+
+                <!-- Avg Response Time -->
+                <div class="impact-stat">
+                    <div class="icon text-warning">
+                        <span class="material-icons-outlined">schedule</span>
+                    </div>
+                    <h3 th:text="${avgResponseTime}">2hrs</h3>
+                    <p>Avg. Response Time</p>
+                </div>
+
+                <!-- Satisfaction Rate -->
+                <div class="impact-stat">
+                    <div class="icon text-success">
+                        <span class="material-icons-outlined">verified</span>
+                    </div>
+                    <h3>
+                        <span th:text="${satisfactionRate}">98</span>%
+                    </h3>
+                    <p>Satisfaction Rate</p>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Free Donors -->
+        <!-- Free Donors -->
+        <!-- Free Donors -->
+        <section class="donation-section frosted-section"
+                 th:if="${freeDonors != null and !freeDonors.isEmpty()} or ${freeRequests != null and !freeRequests.isEmpty()}">
+
+            <h2>Our Free Donors & Active Requests</h2>
+            <p>Generous volunteers ready to help save lives</p>
+
+            <div class="donation-grid">
+
+                <!-- Free Donors -->
+                <div class="donation-card" th:each="donor : ${freeDonors}">
+                    <div class="icon-container">
+        <span class="material-icons-outlined text-white">
+          bloodtype
+        </span>
+                    </div>
+
+                    <h3 th:text="${donor.username}">Donor Name</h3>
+
+                    <p th:text="${donor.bloodGroup + (donor.organType != null ? ' | ' + donor.organType : '')}">
+                        A+ | Kidney
+                    </p>
+
+                    <p class="text-success fw-bold">
+        <span class="material-icons-outlined me-1" style="vertical-align: middle;">
+          verified
+        </span>
+                        Verified Free Donor
+                    </p>
+                </div>
+
+                <!-- Free Requests -->
+                <div class="donation-card" th:each="request : ${freeRequests}">
+                    <div class="icon-container">
+        <span class="material-icons-outlined text-white">
+          volunteer_activism
+        </span>
+                    </div>
+
+                    <h3 th:text="${request.patientName}">Patient Name</h3>
+
+                    <p th:text="${request.bloodGroup + (request.organType != null ? ' | ' + request.organType : '')}">
+                        B+ | Liver
+                    </p>
+
+                    <p class="text-info fw-bold">
+        <span class="material-icons-outlined me-1" style="vertical-align: middle;">
+          emergency
+        </span>
+                        Urgent Request
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+
+
+        <section class="testimonials frosted-section">
+            <div class="section-header mb-5">
+                <h2 class="text-center mb-2" style="color:#264aa8;">What Our Donors Say</h2>
+                <p class="text-center text-muted mb-4">Stories from our amazing community</p>
+            </div>
+
+
+            <div class="row justify-content-center g-4">
+
+                <!-- Testimonial 1 -->
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar-img">
+                            <span>R</span>
+                        </div>
+
+                        <h5 class="testimonial-name">Rajesh Kumar</h5>
+                        <p class="testimonial-role">15 Donations</p>
+
+                        <p class="testimonial-text">
+                            “Donating blood through LifeLink was incredibly easy. I received a match notification and helped save a life within hours.”
+                        </p>
+
+                        <div class="testimonial-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar-img">
+                            <span>S</span>
+                        </div>
+
+                        <h5 class="testimonial-name">Dr. Sita Sharma</h5>
+                        <p class="testimonial-role">Medical Professional</p>
+
+                        <p class="testimonial-text">
+                            “LifeLink makes it extremely simple to connect donors with patients. A reliable and life-saving platform.”
+                        </p>
+
+                        <div class="testimonial-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar-img">
+                            <span>A</span>
+                        </div>
+
+                        <h5 class="testimonial-name">Arun Thapa</h5>
+                        <p class="testimonial-role">Family Member</p>
+
+                        <p class="testimonial-text">
+                            “My father needed blood urgently, and LifeLink helped us find a donor in under 30 minutes. Forever grateful.”
+                        </p>
+
+                        <div class="testimonial-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Final CTA -->
+        <section class="final-cta frosted-section">
+            <div class="cta-inner text-center">
+                <h2>Ready to Save a Life?</h2>
+                <p>
+                    Join thousands of verified donors making a real difference.
+                    Your one decision today can give someone a second chance at life.
+                </p>
+
+                <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+                    <a th:href="@{/register-donor}" class="btn btn-primary btn-lg">Register Now
+                    </a>
+                    <a th:href="@{/find-donor}" class="btn btn-secondary btn-lg">
+                        Find a Donor
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Footer -->
+        <footer class="text-center  py-5 mt-5">
+            <div class="container">
+                <p class="mb-2 fs-5 fw-semibold text-light ">
+                    © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')} text-white">2025</span> LifeLink
+
+                </p>
+                <p class="mb-0 text-light">
+                    <i class="fas fa-envelope me-2"></i>
+                    <a href="mailto:info@lifelink.com" class="text-white text-decoration-none">info@lifelink.com</a> |
+                    <i class="fas fa-phone me-2 ms-3"></i>+977 9800000000
+                </p>
+            </div>
+        </footer>
+
 
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    function animateCounter(element, target, duration = 2000) {
+      let start = 0;
+      let startTime = null;
+
+      function update(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const value = Math.floor(progress * target);
+
+        element.textContent = value.toLocaleString();
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    function startLiveCounters() {
+      document.querySelectorAll(".counter").forEach(counter => {
+        const target = parseInt(counter.textContent.replace(/,/g, ""), 10) || 0;
+        animateCounter(counter, target);
+      });
+    }
+
+    // First run
+    startLiveCounters();
+
+    // 🔁 RESTART animation every 5 seconds (LIVE effect)
+    setInterval(() => {
+      startLiveCounters();
+    }, 5000);
+</script>
+
+
 </body>
 </html>
